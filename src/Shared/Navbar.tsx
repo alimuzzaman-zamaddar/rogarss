@@ -24,6 +24,8 @@ import {
 import Image from "next/image";
 import { PopupResponse } from "@/types/api";
 import DynamicServiceContentProducts from "@/Components/commonComponents/DynamicServiceContentProducts";
+import { useGetServiceContentsQuery } from "@/redux/slices/cms/homeSlice";
+import DynamicServiceContentForService from "@/Components/commonComponents/DynamicServiceContentForService";
 const popupMenu: PopupResponse[] = [
   {
     id: 1,
@@ -64,7 +66,8 @@ export const Navbar = () => {
   const PatientResources = MenuPatientResources;
   const beforeAfter = MenuBeforeAfter;
   const isHome = pathname === "/";
-
+    const { data, isLoading, error } = useGetServiceContentsQuery();
+// console.log(data, "from data");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("Service");
   const [open, setOpen] = useState(false);
@@ -143,25 +146,22 @@ export const Navbar = () => {
               </div>
 
               <div>
-                {/* Menu Button (this toggles between Menu and Close icons) */}
                 <p
                   className="flex gap-2 font-family-gilmer leading-[164%] cursor-pointer"
                   onClick={() => {
                     toggleModal();
-                    setOpen(!open); // Toggle the open state
+                    setOpen(!open);
                   }}
                 >
                   {isModalOpen ? (
-                    <RiCloseLargeLine className="text-3xl text-[#C98575]" /> // Show Close Icon
+                    <RiCloseLargeLine className="text-3xl text-[#C98575]" />
                   ) : (
-                    <MenuSvg /> // Show Menu Icon
+                    <MenuSvg />
                   )}
                   <span>Menu</span>
                 </p>
               </div>
             </div>
-
-            {/* Mobile menu btn */}
             <button
               onClick={() => setOpen(!open)}
               className="xl:hidden w-9 md:w-10 h-8.5 md:h-9.5 cursor-pointer grid place-items-center rounded text-white bg-pink-border"
@@ -172,25 +172,22 @@ export const Navbar = () => {
         </div>
       </Container>
 
-      {/* Blur Overlay */}
       <div
         onClick={() => setOpen(false)}
         className={`fixed inset-0 bg-black/30 backdrop-blur-[3px] transition-opacity duration-300 xl:hidden z-50 ${
           open ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       />
-      {/* Mobile Sidebar */}
+
       <div
         className={`${
           open ? "translate-x-0" : "-translate-x-full"
         } duration-500 transition-transform fixed top-0 z-[999] left-0 bg-[#fff] text-[#E08D81] p-5 lg:p-7 shadow-lg overflow-y-auto max-h-screen min-h-screen w-[250px] lg:w-[270px] xl:hidden`}
       >
-        {/* Logo */}
         <Link href="/" className="block mx-auto w-[150px] h-[100px]">
           <LogoSvg />
         </Link>
 
-        {/* Others */}
         <div className="flex flex-col gap-10 mt-10">
           <div>
             <p className="font-family-gilmer leading-[164%] ">702 609-5915</p>
@@ -209,12 +206,11 @@ export const Navbar = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            {/* Menu Button (this toggles between Menu and Close icons) */}
             <p
               className="flex gap-2 font-family-gilmer leading-[164%] cursor-pointer"
               onClick={() => {
                 toggleModal();
-                setOpen(!open); // Toggle the open state
+                setOpen(!open);
               }}
             >
               {isModalOpen ? (
@@ -235,7 +231,6 @@ export const Navbar = () => {
           </Link>
         </div>
 
-        {/* Cancel btn */}
         <button
           onClick={() => setOpen(false)}
           className="absolute top-3 right-3 cursor-pointer"
@@ -244,19 +239,16 @@ export const Navbar = () => {
         </button>
       </div>
 
-      {/* ======================= Modal for Menu ====================== */}
       {isModalOpen && (
         <div
           data-aos="fade-up"
           className="absolute w-screen h-[100vh] top-0 left-0 overflow-y-scroll bg-black z-50"
         >
           <div className="bg-white p-6">
-            {/* Modal Content with Tabs */}
             <div>
               <div className="hidden xl:block bg-transparent text-[#C98575] py-4 z-50 w-full transition-all duration-300">
                 <div className="w-full relative">
                   <div className="flex justify-between items-center">
-                    {/* Left side - "Book an appointment" */}
                     <Link
                       href="/book-appointment"
                       className="footer_text hidden xl:flex items-center space-x-5 flex-1"
@@ -265,7 +257,6 @@ export const Navbar = () => {
                       <IoArrowForward />
                     </Link>
 
-                    {/* Center - Logo */}
                     <div className="flex-1 flex justify-center items-center">
                       <Link
                         href="/"
@@ -275,7 +266,6 @@ export const Navbar = () => {
                       </Link>
                     </div>
 
-                    {/* Right side - Contact, Language, Store, Menu */}
                     <div className="hidden xl:flex justify-end flex-1 items-center gap-10 3xl:gap-14 3xl:text-lg">
                       <div>
                         <p className="font-family-gilmer font-normal leading-[164%]">
@@ -296,12 +286,11 @@ export const Navbar = () => {
                       </div>
 
                       <div>
-                        {/* Menu Button (this toggles between Menu and Close icons) */}
                         <p
                           className="flex items-center gap-2 font-family-gilmer leading-[164%] cursor-pointer"
                           onClick={() => {
                             toggleModal();
-                            setOpen(!open); // Toggle the open state
+                            setOpen(!open);
                           }}
                         >
                           {isModalOpen ? (
@@ -318,7 +307,6 @@ export const Navbar = () => {
                       </div>
                     </div>
 
-                    {/* Mobile menu btn */}
                     <button
                       onClick={() => setOpen(!open)}
                       className="xl:hidden w-9 md:w-10 h-8.5 md:h-9.5 cursor-pointer grid place-items-center rounded text-white bg-pink-border"
@@ -345,23 +333,18 @@ export const Navbar = () => {
                     )}
                   </p>
                 </div>
-                {/* Tab Indicator */}
                 <div className="tabs mb-4 flex flex-wrap justify-between bg-white 2xl:flex-row gap-4 xl:gap-8 cursor-pointer">
-                  {popupMenu?.map(item => (
+                  {popupMenu?.map((item) => (
                     <button
                       key={item.id}
                       onClick={() => {
                         if (item.label === "Contact") {
-                          // Redirect to the contact page
                           window.location.href = "/contact";
                         } else if (item.label === "About us") {
-                          // Redirect to the contact page
                           window.location.href = "/about";
                         } else if (item.label === "Conditions Treated") {
-                          // Redirect to the contact page
                           window.location.href = "/conditionstreated";
                         } else if (item.label === "Patient Resources") {
-                          // Redirect to the contact page
                           window.location.href = "/patientresources";
                         } else {
                           setActiveTab(item?.label);
@@ -379,12 +362,15 @@ export const Navbar = () => {
                   ))}
                 </div>
 
-                {/* Tab Content */}
                 <div className="tab-content cursor-pointer">
                   {activeTab === "About us" && <Link href="/contact"></Link>}
                   {activeTab === "Service" && (
                     <div className="w-full">
-                      <DynamicServiceContent categories={aboutData1} />
+                      {isLoading && <p>Loading services...</p>}
+                      {error && <p>Failed to load services</p>}
+                      {!isLoading && data && (
+                        <DynamicServiceContentForService services={data} />
+                      )}
                     </div>
                   )}
                   {activeTab === "Conditions Treated" && (

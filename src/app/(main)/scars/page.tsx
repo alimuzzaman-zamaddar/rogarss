@@ -1,5 +1,5 @@
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
-import bgImg from "@/assets/products/flower.png";
+import bgImg from "@/assets/service/imagesecion.png";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import image from "../../../assets/contact/contact.png";
 import DynamicImageSection from "@/Components/commonComponents/DynamicImageSecion";
@@ -39,7 +39,7 @@ export default function ContactPage() {
         <div className="bg-bg-pink py-4 mt-10 3xl:mt-20">
           <Container>
             <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
-              {sectionBars?.map(bar => (
+              {sectionBars?.map((bar) => (
                 <Link
                   key={bar?.id}
                   href={`#${bar?.path}`}

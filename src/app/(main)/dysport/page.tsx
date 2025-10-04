@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
-import bgImg from "@/assets/products/flower.png";
+import bgImg from "@/assets/service/imagesecion.png";
 import bgImg2 from "@/assets/service/Dysport.png";
 import image from "@/assets/contact/contact.png";
 import image3 from "@/assets/service/Dysport2.png";

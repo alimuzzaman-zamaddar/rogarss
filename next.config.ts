@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
-let domain = "example.com"; // Fallback domain
+let domain = "example.com"; 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 if (siteUrl) {
   try {
-    domain = new URL(siteUrl).hostname;
-  } catch (error) {
+    domain = new URL(siteUrl).hostname; 
+  } catch {
     console.warn("Invalid NEXT_PUBLIC_SITE_URL, using fallback domain.");
   }
 } else {
@@ -16,13 +16,12 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: domain,
-        port: "",
+        protocol: "http", 
+        hostname: domain, 
         pathname: "/**",
       },
     ],
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

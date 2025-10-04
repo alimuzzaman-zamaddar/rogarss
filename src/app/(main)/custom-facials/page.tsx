@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
-// import bgImg from "@/assets/products/flower.png";
+// import bgImg from "@/assets/service/imagesecion.png";
 import bgImg1 from "@/assets/products/Facial-Balancing.png";
 import image from "@/assets/contact/contact.png";
 import IMG from "@/assets/service/imagesecion.png";
@@ -11,7 +11,12 @@ import FaqSection from "@/Components/PageComponents/home/FaqSection";
 import TreatmentTechnologySection from "@/Components/commonComponents/TreatmentTechnologySection";
 import { IoArrowForward } from "react-icons/io5";
 import Container from "@/Components/commonComponents/Container";
-import { dynamicCardData, facialBalancingInfo, infoTextSections, sectionBars } from "@/Components/Data/data";
+import {
+  dynamicCardData,
+  facialBalancingInfo,
+  infoTextSections,
+  sectionBars,
+} from "@/Components/Data/data";
 import InfoTextSection from "@/Components/common/InfoTextSection";
 import InfoGridSection from "@/Components/common/InfoGridSection";
 import InjectableServicesCardPink from "@/Components/commonComponents/InjectableServicesCardPink";
@@ -26,7 +31,6 @@ import ReusableInfoCard from "@/Components/commonComponents/ReusableInfoCard";
 import FAQ from "@/Components/ServicesPage/FAQ";
 
 export default function ContactPage() {
- 
   return (
     <>
       {/* Banner  */}
@@ -65,7 +69,7 @@ export default function ContactPage() {
             data-aos="fade-up"
             className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base"
           >
-            {sectionBars?.map(bar => (
+            {sectionBars?.map((bar) => (
               <Link
                 key={bar?.id}
                 href={`#${bar?.path}`}

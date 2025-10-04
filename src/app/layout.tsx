@@ -8,6 +8,7 @@ import ReduxProvider from "@/Provider/ReduxProvider/ReduxProvider";
 import AuthChecker from "@/Provider/AuthChecker/AuthChecker";
 
 
+
 const gloock = Gloock({
   weight: "400", 
   subsets: ["latin"],
