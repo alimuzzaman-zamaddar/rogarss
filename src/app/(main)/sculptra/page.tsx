@@ -82,8 +82,7 @@ export default function page() {
       </div>
 
       <DynamicCardSection
-        image1={image4}
-        image2={image10}
+        image={image10}
         title="Smooth and Easy-Flowing Lip Fillers"
         description="Sculptra is an FDA-approved injectable made of poly-L-lactic acid (PLLA), a biocompatible material that works beneath the skin to stimulate your body’s natural collagen production. Unlike traditional fillers that deliver immediate volume, Sculptra works gradually, building a foundation of collagen that enhances facial structure and skin quality over several months.The result? A subtle, natural rejuvenation that develops over time and can last up to two years or more.
      "

@@ -1,3 +1,4 @@
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const homeApi = createApi({
@@ -7,9 +8,22 @@ export const homeApi = createApi({
   }),
   endpoints: (builder) => ({
     getServiceContents: builder.query<any, void>({
-      query: () => "/services", 
+      query: () => "/services",
+    }),
+
+    getHomeContents: builder.query<any, void>({
+      query: () => "/cms/home",
+    }),
+
+    getSubServiceDetails: builder.query<any, string>({
+      query: (slug) => `/sub-service-details/${slug}`,
     }),
   }),
 });
 
-export const { useGetServiceContentsQuery } = homeApi;
+
+export const {
+  useGetServiceContentsQuery,
+  useGetHomeContentsQuery,
+  useGetSubServiceDetailsQuery,
+} = homeApi;

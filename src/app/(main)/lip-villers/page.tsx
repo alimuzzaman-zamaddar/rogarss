@@ -83,8 +83,7 @@ export default function page() {
       </div>
 
       <DynamicCardSection
-        image1={image4}
-        image2={image10}
+        image={image10}
         title="Smooth and Easy-Flowing Lip Fillers"
         description="Enhance your lips with natural-looking volume and shape using smooth, easy-flowing fillers. These hyaluronic acid-based fillers glide effortlessly for even, soft results, improving symmetry, smoothing fine lines, and adding hydration. Ideal for anyone seeking fuller, youthful lips with minimal discomfort and immediate results. Effects typically last 6–12 months, and treatments are fully customizable to your desired look.
      "

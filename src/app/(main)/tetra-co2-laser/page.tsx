@@ -85,8 +85,7 @@ const page = () => {
       </Container>
 
       <DynamicCardSection
-        image1={img11}
-        image2={img22}
+        image={img22}
         title="Key Benefits of the Tetra PRO CO₂ Laser at Estevez Aesthetics"
         description="Botox is an injectable treatment to temporarily relax muscles in the face, thereby reducing fine lines and wrinkles. By blocking nerve signals, it prevents muscles to contract, smoothing the skin and giving it a more youthful appearance. Commonly treated areas include forehead lines, crow’s feet, and frown lines. Botox is popular for those seeking a more refreshed and youthful look without surgery."
         buttonText="Book Now"

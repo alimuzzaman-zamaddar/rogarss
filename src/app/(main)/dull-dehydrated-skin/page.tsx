@@ -61,8 +61,7 @@ export default function ContactPage() {
         <div key={index}>
           <DynamicCardSection
             id={item?.id}
-            image1={item?.image1}
-            image2={item?.image2}
+            image={item?.image2}
             title={item?.title}
             description={item?.description}
             buttonText={item?.buttonText}

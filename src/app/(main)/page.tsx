@@ -18,10 +18,19 @@ import DynamicCardSection from "@/Components/commonComponents/DynamicCardSection
 
 import image2 from "../../assets/home/Image (3).png"
 import image1 from "../../assets/home/why.png"
+import { useGetHomeContentsQuery } from "@/redux/slices/cms/homeSlice";
+import Loader from "@/Components/Tags/Loader/loader";
 
 export default function LandingPage() {
+
+  const { data, error, isLoading } = useGetHomeContentsQuery();
+  console.log(data?.data?.banner ,"from home");
+  
+
   return (
-    <>
+  <>
+    { isLoading?<Loader    /> :
+  (<>
       <BannerSection
         bgImages={[
           banner.src,
@@ -30,8 +39,8 @@ export default function LandingPage() {
           banner4.src,
           banner5.src,
         ]}
-        heading="Aesthetic & Wellness in Perfect Harmony"
-        description="Estevez Aesthetics Medical Spa, Las Vegas, NV."
+        heading={data?.data?.banner?.title}
+        description={data?.data?.banner?.description}
       />
       <ServicesSection />
       <AeshteticsSection />
@@ -40,8 +49,7 @@ export default function LandingPage() {
       <div className="mb-0 xl:mb-25">
         <DynamicCardSection
           sectionSubTitle="Nothing Basic About Esteves Aesthetics"
-          image1={image2}
-          image2={image1}
+          image={image1}
           title="Why choose us?"
           description="At Esteves Aesthetics, your beauty journey is our priority. We combine cutting-edge technology, proven techniques, and a personalized approach to deliver results that are both natural and transformative. Our commitment to safety, comfort, and excellence ensures every treatment is tailored to your unique needs. With a team of highly trained experts and a passion for helping you feel confident in your own skin, we’re not just enhancing your appearance we’re elevating your entire self-care experience. "
           titleClassName="card_title_black"
@@ -61,6 +69,8 @@ export default function LandingPage() {
       </div>
       {/* <FAQSection /> */}
       <DynamicContactUs image={img} />;
-    </>
+    </>)
+    }
+</>
   );
 }

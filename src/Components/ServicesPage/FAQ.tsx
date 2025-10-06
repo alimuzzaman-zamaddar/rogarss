@@ -6,7 +6,8 @@ import Paragraph from "@/Components/Tags/Paragraph/Paragraph";
 import { accordionData } from "@/Components/Data/data";
 import Container from "../commonComponents/Container";
 
-const FAQ = () => {
+const FAQ = (data: any) => {
+  console.log(data, "from faq");
   const accordionDatas = accordionData;
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const handleToggle = (index: number) => {
@@ -25,12 +26,11 @@ const FAQ = () => {
         </div>
 
         <div className="grid xl:grid-cols-2 items-start gap-5">
-          {accordionDatas.map((item, index) => (
+          {data?.data.map((item:any, index:any) => (
             <div
               key={index}
               className="bg-white px-4 md:px-7 py-3 md:py-5 border rounded border-gray-100 shadow-[0_2px_22.1px_-6px_rgba(0, 0, 0, 0.15)]"
             >
-              {/* Accordion Header */}
               <div
                 className={`flex justify-between items-center cursor-pointer transition-all duration-1000`}
                 onClick={() => handleToggle(index)}
@@ -46,7 +46,6 @@ const FAQ = () => {
                   <IoIosArrowDown />
                 </span>
               </div>
-              {/* Accordion Content .. */}
               <div
                 className={`transition-all duration-500 ease-in-out overflow-hidden ${
                   activeIndex === index

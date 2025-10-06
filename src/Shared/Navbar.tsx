@@ -67,7 +67,7 @@ export const Navbar = () => {
   const beforeAfter = MenuBeforeAfter;
   const isHome = pathname === "/";
     const { data, isLoading, error } = useGetServiceContentsQuery();
-// console.log(data, "from data");
+console.log(data, "from data");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("Service");
   const [open, setOpen] = useState(false);
@@ -369,7 +369,10 @@ export const Navbar = () => {
                       {isLoading && <p>Loading services...</p>}
                       {error && <p>Failed to load services</p>}
                       {!isLoading && data && (
-                        <DynamicServiceContentForService services={data} />
+                        <DynamicServiceContentForService
+                          services={data}
+                          onLinkClick={() => setIsModalOpen(false)}
+                        />
                       )}
                     </div>
                   )}

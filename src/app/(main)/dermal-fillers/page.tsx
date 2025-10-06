@@ -79,8 +79,7 @@ export default function page() {
       </div>
 
       <DynamicCardSection
-        image1={image4}
-        image2={image10}
+   image={image10}
         title="Restoring Volume and Fullness"
         description="Aging often leads to hollow or sunken areas in the face, particularly around the cheeks, lips, and under the eyes. Dermal fillers are carefully placed to restore fullness, improve facial balance, and create a more vibrant, youthful look. From subtle touch-ups to more defined enhancements, our treatments are designed to lift and smooth while maintaining your natural expressions.
      "

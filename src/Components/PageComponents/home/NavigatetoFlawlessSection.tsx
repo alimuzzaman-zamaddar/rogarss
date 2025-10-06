@@ -54,8 +54,7 @@ export const NavigatetoFlawlessSection = () => {
       </div>
 
       <DynamicCardSection
-        image1={image2}
-        image2={image1}
+        image={image1}
         title="Morpheus8"
         description="Reveal smoother, firmer, and more youthful-looking skin with Morpheus8 at Estevez Aesthetics. Our skilled providers use this cutting-edge treatment to help you regain confidence in your skin without surgery. "
         buttonText="Learn More"

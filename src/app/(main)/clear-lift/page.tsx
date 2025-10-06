@@ -79,8 +79,7 @@ const page = () => {
       </Container>
 
       <DynamicCardSection
-        image1={img11}
-        image2={img22}
+        image={img22}
         title="Silky to the Touch"
         description="Laser Hair Removal offers a safe, long-lasting solution for reducing unwanted hair on virtually any area of the body. Unlike shaving or waxing, which provide only temporary results, laser treatments target the hair follicle to significantly reduce regrowth over time. This means smoother skin with fewer ingrown hairs, less irritation, and no more daily maintenance. The treatment is precise, fast, and increasingly comfortable thanks to advanced laser technology — making it ideal even for sensitive areas. With each session, you'll notice your skin becoming softer, more even-toned, and virtually hair-free. Whether you're looking to simplify your beauty routine or enhance your confidence, Laser Hair Removal is a convenient, effective choice that delivers lasting results you can both see and feel."
         buttonText="Book Now"
@@ -92,8 +91,7 @@ const page = () => {
       />
 
       <RemovalCard
-        image1={img11}
-        image2={img22}
+        image={img22}
         title="Tailored Hair Removal Coverage"
         description="Laser Hair Removal offers a safe, long-lasting solution for reducing unwanted hair on virtually any area of the body. Unlike shaving or waxing, which provide only temporary results, laser treatments target the hair follicle to significantly reduce regrowth over time. This means smoother skin with fewer ingrown hairs, less irritation, and no more daily maintenance. The treatment is precise, fast, and increasingly comfortable thanks to advanced laser technology — making it ideal even for sensitive areas. With each session, you'll notice your skin becoming softer, more even-toned."
         buttonText="Book Now"
@@ -112,8 +110,7 @@ const page = () => {
 
       <div className="mb-20">
         <DynamicCardSection
-          image1={img11}
-          image2={img22}
+     image={img22}
           title="Silky to the Touch"
           description="Laser Hair Removal offers a safe, long-lasting solution for reducing unwanted hair on virtually any area of the body. Unlike shaving or waxing, which provide only temporary results, laser treatments target the hair follicle to significantly reduce regrowth over time. This means smoother skin with fewer ingrown hairs, less irritation, and no more daily maintenance. The treatment is precise, fast, and increasingly comfortable thanks to advanced laser technology — making it ideal even for sensitive areas. With each session, you'll notice your skin becoming softer, more even-toned, and virtually hair-free. Whether you're looking to simplify your beauty routine or enhance your confidence, Laser Hair Removal is a convenient, effective choice that delivers lasting results you can both see and feel."
           buttonText="Book Now"

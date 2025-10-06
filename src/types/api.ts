@@ -46,8 +46,7 @@ export interface PopupResponse {
 
 export type DynamicCardSectionProps = {
   id?: string;
-  image1: StaticImageData | string;
-  image2: StaticImageData | string;
+  image: StaticImageData | string;
   sectionSubTitle?: string;
   title: string;
   description: string;

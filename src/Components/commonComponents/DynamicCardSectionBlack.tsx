@@ -6,8 +6,7 @@ import { DynamicCardSectionProps } from "@/types/api";
 
 const DynamicCardSection = ({
   id,
-  image1,
-  image2,
+  image,
   title,
   description,
   buttonText,
@@ -19,6 +18,7 @@ const DynamicCardSection = ({
   index,
   isBox,
 }: DynamicCardSectionProps) => {
+  console.log(image ,"forn dysport");
   return (
     <section
       className={`py-10 md:py-14 xl:py-20 2xl:py-24 
@@ -33,8 +33,15 @@ const DynamicCardSection = ({
           }`}
         >
           {/* Left */}
-          <div className="flex-1 w-full 3xl:w-[45%] flex relative">
-            <div
+          <div className="w-full 3xl:w-[35%] flex relative">
+            <Image
+              className="h-[300px] md:h-[400px] lg:h-[500px] 2xl:h-[650px] w-full object-cover"
+              src={image}
+              alt="image"
+              height={700}
+              width={500}
+            />
+            {/* <div
               data-aos="fade-up"
               className={`absolute top-0 ${
                 index % 2 !== 0 ? "right-0" : "left-0"
@@ -59,11 +66,11 @@ const DynamicCardSection = ({
                 src={image2}
                 alt="contact image 2"
               />
-            </div>
+            </div> */}
           </div>
 
           {/* Right */}
-          <div className="flex-1 3xl:w-[55%]">
+          <div className="w-full 3xl:w-[65%]">
             {sectionSubTitle && (
               <h5 className="section_sub-title">{sectionSubTitle}</h5>
             )}
