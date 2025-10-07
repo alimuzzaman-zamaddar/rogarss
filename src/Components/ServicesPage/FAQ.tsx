@@ -26,7 +26,7 @@ const FAQ = (data: any) => {
         </div>
 
         <div className="grid xl:grid-cols-2 items-start gap-5">
-          {data?.data.map((item:any, index:any) => (
+          {data?.data?.map((item:any, index:any) => (
             <div
               key={index}
               className="bg-white px-4 md:px-7 py-3 md:py-5 border rounded border-gray-100 shadow-[0_2px_22.1px_-6px_rgba(0, 0, 0, 0.15)]"

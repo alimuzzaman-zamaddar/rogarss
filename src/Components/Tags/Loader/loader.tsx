@@ -11,7 +11,7 @@ const Loader: React.FC = () => {
       <style jsx>{`
         .loader {
           border: 6px solid #fafaf8;
-          border-top: 6px solid #fbe0da;
+          border-top: 6px solid #c98575;
           border-radius: 50%;
           width: 48px;
           height: 48px;

@@ -17,7 +17,6 @@ const DynamicCardSection = ({
           id={id}
           className={`flex flex-col xl:flex-row justify-center items-center gap-5 xl:gap-10 3xl:gap-20 xl:px-10 xl:py-20 xl:bg-white xl:shadow-[0_2px_47px_11px_rgba(0,0,0,0.1)]`}
         >
-          {/* Left */}
           <div className=" w-full 3xl:w-[45%] flex ">
 
             <div data-aos="fade-up" className={`xl:pt-25 z-20 w-full xl:pr-14`}>
@@ -28,8 +27,6 @@ const DynamicCardSection = ({
               />
             </div>
           </div>
-
-          {/* Right */}
           <div className="w-full 3xl:w-[55%]">
             <h2 data-aos="fade-up" className={titleClassName}>
               {title}

@@ -20,7 +20,7 @@ export default function ContactPage() {
           bgImages={[
             "https://i.ibb.co.com/hxXPNNKG/about.png",
             "https://i.ibb.co.com/hxXPNNKG/about.png",
-            "https://i.ibb.co.com/hxXPNNKG/about.png",
+            "https://i.ibb.co.com/hxXPNNKG/about.png", 
           ]}
           heading="About"
           description="About in las vegas, nv"

@@ -17,21 +17,20 @@ import { accordionData } from "@/Components/Data/data";
 import Loader from "@/Components/Tags/Loader/loader";
 
 const sectionBarss = [
-  { id: 1, path: "/botox", label: "What Botox?" },
-  { id: 2, path: "/dsport", label: "Benefits" },
-  { id: 3, path: "/dermal", label: "Botox Candidates" },
-  { id: 4, path: "/morpheus8", label: "Procedure" },
-  { id: 5, path: "/plasma", label: "Result" },
-  { id: 6, path: "/tetra", label: "FAQ" },
-  { id: 7, path: "/botox", label: "Consultation" },
+  { id: 1, path: "botox", label: "What Botox?" },
+  { id: 2, path: "benefits", label: "Benefits" },
+  { id: 3, path: "candidates", label: "Botox Candidates" },
+  { id: 4, path: "procedure", label: "Procedure" },
+  { id: 6, path: "faq", label: "FAQ" },
+  { id: 7, path: "contact", label: "Consultation" },
 ];
 
 export default function page() {
   const { data, isLoading } = useGetSubServiceDetailsQuery("botox");
   console.log(data, "botox");
 
+  const accordionDatas = accordionData;
 
-    const accordionDatas = accordionData;
   return (
     <>
       {isLoading ? (
@@ -48,30 +47,36 @@ export default function page() {
               description="Smooth, Firm, and Restore Your Skin’s Youthful Glow"
             />
           </Container>
-          <div className="pt-10 lg:pt-14 2xl:pt-20 3xl:pt-30 pb-5 xl:pb-8 2xl:pb-10">
+
+          {/* Top Section */}
+          <div className="pt-6 sm:pt-8 lg:pt-14 2xl:pt-20 3xl:pt-30 pb-5 xl:pb-8 2xl:pb-10">
             <Container>
               <h4
                 data-aos="fade-up"
-                className="text-center font-['Gloock'] text-[62px]  [font-style:normal] leading-[132%] capitalize text-[color:var(--black,#1F1B1A)] mb-10"
+                className="text-center font-['Gloock'] text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[62px] leading-[132%] capitalize text-black mb-6 sm:mb-10"
               >
                 {data?.title}
               </h4>
+
               <p
                 data-aos="fade-up"
-                className="text-center font-family-gilmer  text-[24px]  [font-style:normal] leading-[164%] capitalize text-black w-[80%] mx-auto mb-10"
+                className="text-center font-family-gilmer text-base sm:text-lg md:text-xl xl:text-[24px] leading-[164%] capitalize text-black w-[90%] sm:w-[80%] mx-auto mb-6 sm:mb-10"
               >
                 {data?.sub_title}
               </p>
+
               <p
                 data-aos="fade-up"
-                className="text-center  font-family-gilmer text-[24px]  [font-style:normal] leading-[164%] capitalize text-[color:var(--sub-text-colour,#7D7B79)] w-[80%] mx-auto "
+                className="text-center font-family-gilmer text-sm sm:text-base md:text-lg xl:text-[24px] leading-[164%] capitalize text-[#7D7B79] w-[90%] sm:w-[80%] mx-auto"
               >
                 {data?.description}
               </p>
             </Container>
-            <div className="bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
+
+            {/* Section Tabs */}
+            <div className="bg-[#FBFBFB] py-3 sm:py-4 mt-6 sm:mt-10 3xl:mt-20">
               <Container>
-                <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
+                <div className="flex flex-wrap gap-3 sm:gap-4 items-center justify-center xl:justify-between text-xs sm:text-sm xl:text-base">
                   {sectionBarss?.map((bar, index) => (
                     <Link
                       key={bar?.id}
@@ -87,180 +92,99 @@ export default function page() {
               </Container>
             </div>
           </div>
-          <DynamicCardSection
-            image={image3}
-            title="The Science Behind Botox"
-            description="Botox is a popular, non-surgical cosmetic treatment that uses a purified form of botulinum toxin to temporarily relax targeted facial muscles, reducing the appearance of fine lines and wrinkles. It works by blocking nerve signals that cause muscles to contract, resulting in smoother, more youthful-looking skin. Commonly used to treat areas such as forehead lines, frown lines, and crow’s feet, Botox is a quick, minimally invasive procedure with little to no downtime. In addition to its aesthetic benefits, Botox is also used for various medical purposes, including treating migraines, excessive sweating, and muscle spasms. The results typically become visible within a few days and can last for several months, making it a highly sought-after solution for both cosmetic enhancement and therapeutic relief. "
-            sectionSubTitle="What Is Botox"
-            titleClassName="card_title_black !text-[52px]"
-            descriptionClassName="card_description"
-            buttonLink="#"
-            index={3}
-          />
+
+          {/* Dynamic Card Section */}
+          <div className="" id="botox">
+            <DynamicCardSection
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.definition_image}`}
+              title={data?.sub_service_details?.definition_title}
+              description={data?.sub_service_details?.definition_description}
+              sectionSubTitle={data?.sub_service_details?.definition_sub_title}
+              titleClassName="card_title_black xl:text-[52px]"
+              descriptionClassName="card_description"
+              buttonLink="#"
+              index={3}
+            />
+          </div>
+
+          {/* Benefits Section */}
           <Container>
-            <section className="py-16 bg-white shadow-[0_2px_47px_11px_rgba(0,0,0,0.15)] my-25">
-              <div className="text-center font-family-gloock text-[62px] font-normal [font-style:normal] leading-[132%] capitalize text-[color:var(--black,#1F1B1A)] mb-10 ">
-                <h2 className="section_Title mb-10">
-                  The Transformative Benefits of Botox
+            <section
+              id="benefits"
+              className="py-10 sm:py-16 bg-white shadow-[0_2px_47px_11px_rgba(0,0,0,0.15)] my-10 sm:my-25"
+            >
+              <div className="text-center">
+                <h2 className="section_Title text-3xl sm:text-4xl xl:text-[62px] mb-6 sm:mb-10">
+                  {data?.sub_service_details?.benefits_title}
                 </h2>
 
-                <p className="section_description mb-8 w-[60%] mx-auto">
-                  Experience the power of advanced aesthetic science to smooth
-                  fine lines, refresh tired features, and restore a youthful,
-                  natural-looking radiance that enhances your confidence every
-                  day.
+                <p className="section_description text-sm sm:text-base md:text-lg xl:text-[20px] mb-8 w-[90%] sm:w-[60%] mx-auto">
+                  {data?.sub_service_details?.benefits_description}
                 </p>
 
-                <div className="flex justify-center items-center  ">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-4 text-center">
-                    {[
-                      "Fine lines and wrinkles are reduced",
-                      "Non-surgical and minimally invasive",
-                      "Quick treatment sessions",
-                      "Little to no downtime",
-                      "Results are visible within days",
-                      "Long-lasting effects",
-                      "Can prevent the formation of new wrinkles",
-                      "Customizable to individual needs",
-                      "Enhances the overall facial appearance",
-                      "Safe and FDA-approved",
-                      "Fine lines and wrinkles are reduced",
-                      "Non-surgical and minimally invasive",
-                      "Quick treatment sessions",
-                      "Little to no downtime",
-                      "Results are visible within days",
-                      "Long-lasting effects",
-                      "Can prevent the formation of new wrinkles",
-                      "Customizable to individual needs",
-                      "Enhances the overall facial appearance",
-                      "Safe and FDA-approved",
-                    ].map((benefit, index) => (
-                      <div
-                        key={index}
-                        className="flex items-start space-x-2 text-gray-700"
-                      >
-                        <span className="text-base">
-                          <BoltSvg />
-                        </span>
-                        <span className="section_description">{benefit}</span>
-                      </div>
-                    ))}
+                <div className="flex justify-center items-center">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 sm:gap-x-20 gap-y-4 text-center">
+                    {data?.sub_service_benefits.map(
+                      (benefit: any, index: number) => (
+                        <div
+                          key={index}
+                          className="flex items-start space-x-2 text-gray-700"
+                        >
+                          <span className="text-sm sm:text-base">
+                            <BoltSvg />
+                          </span>
+                          <span className="section_description text-sm sm:text-base">
+                            {benefit.benefit_title}
+                          </span>
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
               </div>
             </section>
           </Container>
-          <Container>
-            <div className="my-35">
-              <h4
-                data-aos="fade-up"
-                className="text-center font-['Gloock'] text-[62px] font-[400] [font-style:normal] leading-[132%] capitalize text-[color:var(--black,#1F1B1A)] mb-10"
-              >
-                Botox Candidates
-              </h4>
-              <p
-                data-aos="fade-up"
-                className="section_description w-[70%] mx-auto text-center"
-              >
-                Botox is an excellent option for individuals looking to reduce
-                the appearance of fine lines and wrinkles caused by repetitive
-                facial expressions, such as frowning, squinting, or smiling.
-                Ideal candidates are generally healthy adults who wish to
-                achieve a smoother, more refreshed look without surgery or
-                extensive downtime. It is particularly effective for treating
-                crow’s feet, forehead lines, and frown lines between the brows.
-                Botox may also be suitable for those seeking to prevent the
-                early signs of aging before wrinkles become deeply set. However,
-                individuals who are pregnant, breastfeeding, or have certain
-                neurological conditions should avoid Botox.
-              </p>
-            </div>
-          </Container>
-          <DynamicCardSection
-            image={image7}
-            title="What to Expect Before Your Botox Treatment"
-            description="Before receiving Botox, a thorough consultation is essential to ensure the treatment is safe, effective, and tailored to your needs. During your appointment, your provider will discuss your aesthetic goals, review your medical history, and assess your facial anatomy to determine the best injection sites and dosage for optimal results. This is also the time to address any questions or concerns you may have about the procedure, recovery, and expected outcomes. In preparation for Botox, you may be advised to avoid certain medications or supplements that can increase bruising such as aspirin, ibuprofen, vitamin E, and fish oil for about a week prior to your treatment.  "
-            sectionSubTitle="Procedure"
-            titleClassName="card_title_pink"
-            descriptionClassName="card_description"
-            buttonLink="#"
-            index={0}
-          />
-          <Container>
-            <div className="my-35 flex gap-10 px-30">
-              <h4
-                data-aos="fade-up"
-                className="text-right font-family-gloock text-[62px] font-[400] [font-style:normal] leading-[132%] capitalize text-[color:var(--black,#1F1B1A)] mb-10 flex-1"
-              >
-                What to Expect During Botox
-              </h4>
-              <p data-aos="fade-up" className="section_description  flex-1">
-                At Esteves Aesthetics, the Botox procedure is quick, precise,
-                and designed for your comfort. After a brief consultation to
-                confirm your treatment plan, your provider will cleanse the area
-                and may apply a topical numbing cream if desired. Using an
-                ultra-fine needle, small amounts of Botox are carefully injected
-                into the targeted muscles.
-              </p>
-            </div>
-          </Container>
-          <DynamicCardSection
-            image={image3}
-            title="The Science Behind Botox"
-            description="Botox is a popular, non-surgical cosmetic treatment that uses a purified form of botulinum toxin to temporarily relax targeted facial muscles, reducing the appearance of fine lines and wrinkles. It works by blocking nerve signals that cause muscles to contract, resulting in smoother, more youthful-looking skin. Commonly used to treat areas such as forehead lines, frown lines, and crow’s feet, Botox is a quick, minimally invasive procedure with little to no downtime. In addition to its aesthetic benefits, Botox is also used for various medical purposes, including treating migraines, excessive sweating, and muscle spasms. The results typically become visible within a few days and can last for several months, making it a highly sought-after solution for both cosmetic enhancement and therapeutic relief. "
-            sectionSubTitle="What Is Botox"
-            titleClassName="card_title_black !text-[52px]"
-            descriptionClassName="card_description"
-            buttonLink="#"
-            index={3}
-          />
-          <Container>
-            <div className="my-35 flex gap-10 px-30">
-              <h4
-                data-aos="fade-up"
-                className="text-right font-family-gloock text-[62px] font-[400] [font-style:normal] leading-[132%] capitalize text-[#C98575] mb-10 flex-1"
-              >
-                What to Expect During Botox
-              </h4>
-              <p data-aos="fade-up" className="section_description  flex-1">
-                At Esteves Aesthetics, the Botox procedure is quick, precise,
-                and designed for your comfort. After a brief consultation to
-                confirm your treatment plan, your provider will cleanse the area
-                and may apply a topical numbing cream if desired. Using an
-                ultra-fine needle, small amounts of Botox are carefully injected
-                into the targeted muscles.
-              </p>
-            </div>
-          </Container>
-          <Container>
-            <div className="my-35 px-20 py-30 bg-[#FBE0DA]">
-              <h4
-                data-aos="fade-up"
-                className="text-center font-['Gloock'] text-[62px] font-[400] [font-style:normal] leading-[132%] capitalize text-primary-black mb-10"
-              >
-                Schedule Your Lubbock Botox Consultation at Esteves Aesthetics
-                Today
-              </h4>
-              <p
-                data-aos="fade-up"
-                className="section_description w-[70%] mx-auto text-center"
-              >
-                Experience the art of timeless beauty with a personalized Botox
-                treatment plan designed just for you. Our expert team at Esteves
-                Aesthetics is here to help you refresh your look, smooth fine
-                lines, and restore youthful confidence because you deserve to
-                feel as vibrant as you look.
-              </p>
 
-              <div className="flex justify-center items-center">
-                <Button Txt="Book Now" className="card_button_black  mt-10" />
-              </div>
+          {/* Botox Candidates */}
+          <Container>
+            <div id="candidates" className="my-10 sm:my-35">
+              <h4
+                data-aos="fade-up"
+                className="text-center font-['Gloock'] text-3xl sm:text-4xl md:text-5xl xl:text-[62px] leading-[132%] capitalize text-black mb-6 sm:mb-10"
+              >
+                {data?.sub_service_details?.candidate_title}
+              </h4>
+
+              <p
+                data-aos="fade-up"
+                className="section_description text-sm sm:text-base md:text-lg w-[90%] sm:w-[70%] mx-auto text-center"
+              >
+                {data?.sub_service_details?.candidate_description}
+              </p>
             </div>
           </Container>
-          <div className="py-30">
+
+          {/* Other Sections remain unchanged */}
+          <div id="procedure" className="">
+            <DynamicCardSection
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.procedure_image}`}
+              title={data?.sub_service_details?.procedure_title}
+              description={data?.sub_service_details?.procedure_description}
+              sectionSubTitle={data?.sub_service_details?.procedure_sub_title}
+              titleClassName="card_title_pink"
+              descriptionClassName="card_description"
+              buttonLink="#"
+              index={0}
+            />
+          </div>
+
+          {/* FAQ & Contact */}
+          <div id="faq" className="py-10 sm:py-30">
             <FAQ data={data?.service_faqs} />
           </div>
-          <DynamicContactUs image={image} />
+          <div id="contact" className="">
+            <DynamicContactUs image={image} />
+          </div>
         </>
       )}
     </>

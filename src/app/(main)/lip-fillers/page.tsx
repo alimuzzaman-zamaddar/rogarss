@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
@@ -19,27 +21,37 @@ import Button from "@/Components/Tags/Button/Button";
 import FAQ from "@/Components/ServicesPage/FAQ";
 import Image from "next/image";
 import { IoArrowForward } from "react-icons/io5";
+import { useGetSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 
 const sectionBars = [
-  { id: 1, path: "/botox", label: "What Is Lip Villers?" },
-  { id: 2, path: "/dsport", label: "Before & After" },
-  { id: 3, path: "/dermal", label: "Your Options for Lip " },
-  { id: 4, path: "/morpheus8", label: "Benefits" },
-  { id: 4, path: "/morpheus8", label: "Result" },
-  { id: 4, path: "/morpheus8", label: "Recovery" },
-  { id: 6, path: "/tetra", label: "FAQ" },
-  { id: 7, path: "/botox", label: "Consultation" },
+  { id: 1, path: "what-is-lip", label: "What Is Lip Fillers?" },
+  { id: 2, path: "before-after", label: "Before & After" },
+  { id: 3, path: "options", label: "Your Options for Lip" },
+  { id: 4, path: "benefits", label: "Benefits" },
+  { id: 5, path: "result", label: "Result" },
+  { id: 6, path: "recovery", label: "Recovery" },
+  { id: 7, path: "faq", label: "FAQ" },
+  { id: 8, path: "consultation", label: "Consultation" },
 ];
 
+
+
+
+
+
 export default function page() {
+  const { data, isLoading } = useGetSubServiceDetailsQuery("lip-fillers");
+  console.log(data,"forn lip");
   return (
     <>
       {/* Banner  */}
       <Container>
         <BannerSection
-          bgImages={[bgImg2.src, bgImg2.src, bgImg2.src]}
-          heading="lip Villers"
-          description="Restore Youthful Contours and Natural Balance"
+          bgImages={[1, 2, 3].map(
+            () => `${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.banner_image}`
+          )}
+          heading={data?.name}
+          description="Smooth away wrinkles with natural, lasting results"
         />
       </Container>
 
@@ -48,18 +60,16 @@ export default function page() {
         <Container>
           <h4
             data-aos="fade-up"
-            className="text-center font-['Gloock'] text-[62px] font-[400] [font-style:normal] leading-[132%] capitalize text-secondary-black mb-10"
+            className="text-center font-['Gloock'] text-3xl sm:text-4xl md:text-5xl xl:text-[62px] leading-[132%] capitalize text-black mb-6 sm:mb-10"
           >
-            The Secret to Luscious Lips
+            {data?.title}
           </h4>
+
           <p
             data-aos="fade-up"
-            className="text-center card_description w-[80%] mx-auto mb-10"
+            className="text-center card_description text-sm sm:text-base md:text-lg xl:text-[20px] w-[90%] sm:w-[80%] mx-auto mb-6 sm:mb-10"
           >
-            Enhance your natural beauty with smooth and easy-flowing lip fillers
-            designed to give your lips a soft, plump, and youthful appearance.
-            Our advanced lip filler treatments are tailored to create a natural
-            look while ensuring comfort and precision.
+            {data?.description}
           </p>
         </Container>
         <div className="bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
@@ -74,7 +84,6 @@ export default function page() {
                 >
                   {bar?.label}
                   {index === 0 && <LineSvg />}
-                  {/* Only show LineSvg for the first child */}
                 </Link>
               ))}
             </div>
@@ -574,10 +583,13 @@ export default function page() {
         </div>
       </Container>
 
-      <div className="py-30">
-        <FAQ />
+      {/* FAQ Section */}
+      <div id="faq" className="py-10 sm:py-30">
+        <FAQ data={data?.service_faqs} />
       </div>
-      <DynamicContactUs image={image} />
+      <div id="contact" className="">
+        <DynamicContactUs image={image} />
+      </div>
     </>
   );
 }
