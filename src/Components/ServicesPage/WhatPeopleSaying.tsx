@@ -5,9 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import { testimonials } from "@/Components/Data/data";
+import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 
 const WhatPeopleSaying = () => {
+      const { data, isLoading } = useSubServiceDetailsQuery("tetra-c02-laser");
   return (
     <section className="mb-5 mt-16 2xl:my-24 3xl:my-32 py-20 bg-white shadow-[0_2px_47px_11px_rgba(0,0,0,0.07)]">
       <Container>
@@ -26,7 +27,7 @@ const WhatPeopleSaying = () => {
               modules={[Pagination]}
               className="co2-swiper"
             >
-              {testimonials.map((t, index) => (
+              {data?.sub_service_testimonials.map((t: any, index: number) => (
                 <SwiperSlide key={index}>
                   <div className="flex flex-col lg:flex-row gap-5 lg:gap-10 3xl:gap-20">
                     {/* Left */}
@@ -43,19 +44,19 @@ const WhatPeopleSaying = () => {
                         data-aos="fade-up"
                         className="xl:text-lg 2xl:text-xl leading-[164%] text-primary-black mb-5 2xl:mb-10 3xl:mb-12"
                       >
-                        {t.message}
+                        {t.testimonial}
                       </p>
                       <h5
                         data-aos="fade-up"
                         className="text-xl xl:text-2xl 2xl:text-3xl font-normal leading-[164%] font-family-gloock tracking-[1.28px] text-primary-black"
                       >
-                        {t.name}
+                        {t.customer_name}
                       </h5>
                       <h5
                         data-aos="fade-up"
                         className="text-sub-text section_description"
                       >
-                        {t.role}
+                        {t.service_name}
                       </h5>
                     </div>
                   </div>

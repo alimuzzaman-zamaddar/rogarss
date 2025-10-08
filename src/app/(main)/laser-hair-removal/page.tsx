@@ -1,3 +1,5 @@
+"use client";
+
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import Container from "@/Components/commonComponents/Container";
 import React from "react";
@@ -15,6 +17,7 @@ import FAQ from "@/Components/ServicesPage/FAQ";
 import Results from "@/Components/ServicesPage/Results";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import image from "@/assets/contact/contact.png";
+import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 
 const sectionBars = [
   { id: 1, path: "botox-treatment", label: "What is Tetra C02 Laser" },
@@ -24,34 +27,32 @@ const sectionBars = [
 ];
 
 const page = () => {
+  const { data, isLoading } = useSubServiceDetailsQuery("laser-hair-removal");
+  console.log(data, "laser-hair-removal");
+
   return (
     <>
       <Container>
         <BannerSection
-          heading="Laser Hair Removal"
+          bgImages={[1, 2, 3].map(
+            () => `${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.banner_image}`
+          )}
+          heading={data?.name}
           description="Explore the Science Behind Laser Hair Removal and Why It’s One of the Most Popular Hair Reduction Methods Today"
-          bgImages={[bgImg.src, bgImg.src, bgImg.src]}
         />
 
         <DynamicLaserBox
-          title="Advanced Laser Hair Removal for Silky Skin Without the Hassle"
-          sub_title="Laser Hair Removal with Esteves Aesthetics "
-          description="Soprano ICE is a state-of-the-art laser hair removal system that offers
-        a comprehensive and effective solution for unwanted hair. Available at
-        Estevez Aesthetics Medical Spa in Las Vegas, NV, this advanced
-        technology combines three distinct laser wavelengths in a single
-        handpiece, allowing for the treatment of a wide range of patients and
-        hair types. The system is designed to administer treatments quickly and
-        comfortably, ensuring optimal clinical outcomes. Whether you want to
-        remove hair from your face, arms, legs, or more intimate areas, Soprano
-        ICE has you covered."
+          title={data?.title}
+          sub_title={data?.sub_title}
+          description={data?.description}
+          buttonText="Book now"
         />
       </Container>
 
       <div className="bg-bg-pink py-4">
         <Container>
           <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
-            {sectionBars?.map(bar => (
+            {sectionBars?.map((bar) => (
               <Link
                 key={bar?.id}
                 href={`#${bar?.path}`}
@@ -68,26 +69,35 @@ const page = () => {
 
       <Container>
         <DynamicHairRemoval
-          title="Experience the Beauty of Smooth Skin"
-          sub_title="What is Laser Hair Removal?"
-          description={` Laser Hair Removal is a safe, effective treatment designed to reduce
-          unwanted hair by targeting the hair follicles with concentrated light
-          energy. This light is absorbed by the pigment in the hair, damaging
-          the follicle to prevent future growth. Over a series of sessions,
-          you'll enjoy smoother skin with significantly reduced hair regrowth.`}
+          title={data?.sub_service_details?.definition_title}
+          sub_title={data?.sub_service_details?.definition_sub_title}
+          description={` ${data?.sub_service_details?.definition_description}`}
         />
       </Container>
 
       <DynamicCardSection
-        image={img22}
-        title="Silky to the Touch"
-        description="Laser Hair Removal offers a safe, long-lasting solution for reducing unwanted hair on virtually any area of the body. Unlike shaving or waxing, which provide only temporary results, laser treatments target the hair follicle to significantly reduce regrowth over time. This means smoother skin with fewer ingrown hairs, less irritation, and no more daily maintenance. The treatment is precise, fast, and increasingly comfortable thanks to advanced laser technology — making it ideal even for sensitive areas. With each session, you'll notice your skin becoming softer, more even-toned, and virtually hair-free. Whether you're looking to simplify your beauty routine or enhance your confidence, Laser Hair Removal is a convenient, effective choice that delivers lasting results you can both see and feel."
+        image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.definition_image}`}
+        title={data?.sub_service_details?.definition_title}
+        description={data?.sub_service_details?.definition_description}
+        sectionSubTitle={data?.sub_service_details?.definition_sub_title}
         buttonText="Book Now"
         buttonClassName="card_button_black"
         titleClassName="card_title_black"
         descriptionClassName="card_description"
         buttonLink="#"
         index={1}
+      />
+      <DynamicCardSection
+        image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.definition_image}`}
+        title={data?.sub_service_details?.definition_title}
+        description={data?.sub_service_details?.definition_description}
+        sectionSubTitle={data?.sub_service_details?.definition_sub_title}
+        buttonText="Book Now"
+        buttonClassName="card_button_black"
+        titleClassName="card_title_black"
+        descriptionClassName="card_description"
+        buttonLink="#"
+        index={0}
       />
 
       <RemovalCard

@@ -1,5 +1,6 @@
+"use client";
+
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
-import bgImg from "@/assets/cards/leserhero.png";
 import React from "react";
 import Container from "@/Components/commonComponents/Container";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
@@ -7,52 +8,55 @@ import contact from "@/assets/contact/contact.png";
 import { IoArrowForward } from "react-icons/io5";
 import Link from "next/link";
 import DynamicTextSection from "@/Components/commonComponents/DynamicTextSection";
-import img11 from "@/assets/cards/image6.png";
-import img22 from "@/assets/cards/botox1.png";
 import poster from "@/assets/cards/videoThumnail.png";
 import VideoSection from "@/Components/commonComponents/VideoSection";
 import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
 import KeyBenefit from "@/Components/ServicesPage/KeyBenefit";
 import WhatPeopleSaying from "@/Components/ServicesPage/WhatPeopleSaying";
+import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 
 const page = () => {
   const sectionBars = [
     { id: 1, path: "botox-treatment", label: "What is Tetra C02 Laser" },
-    { id: 2, path: "botox-benefits", label: "Benefits" },
-    { id: 3, path: "botox-faq", label: "Testimonial" },
-    { id: 3, path: "botox-faq", label: "Contact us" },
+    { id: 2, path: "choose", label: "Benefits" },
+    { id: 3, path: "testimonial", label: "Testimonial" },
+    { id: 3, path: "contact", label: "Contact us" },
   ];
+
+    const { data, isLoading } = useSubServiceDetailsQuery("tetra-c02-laser");
 
   return (
     <>
       <Container>
         <BannerSection
-          heading="Tetra C02 Laser"
-          description="A Revolutionary Laser Treatment for Skin Resurfacing, Wrinkle Reduction, and Total Rejuvenation"
-          bgImages={[bgImg.src, bgImg.src, bgImg.src]}
+          bgImages={[1, 2, 3].map(
+            () => `${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.banner_image}`
+          )}
+          heading={data?.name}
+          description={data?.banner_text}
         />
       </Container>
 
       <Container>
-        <DynamicTextSection
-          id="tetra-co2-laser"
-          bgColor="bg-[#ebebeb]"
-          title="Award-Winning CO2 Treatment & Technology at Estevez Aesthetics"
-          description={[
-            "At Estevez Aesthetics, we understand that today’s patients want transformative skin rejuvenation without the extended downtime. That’s why we offer the Tetra PRO CO2 laser, an advanced device delivering powerful 40W fractional resurfacing with precision and versatility. Featuring the award-winning Cool Peel treatment and the innovative Move technology for smooth, in-motion application, Tetra PRO sets a new standard in skin renewal. Ideal for all ages, it’s the perfect choice for brighter, smoother skin faster.",
-          ]}
-          buttonText="Speak With Esteves Aesthetics"
-          buttonLink="#tetra-co2-laser"
-          titleClassName="card_title_black"
-          descriptionClassName="card_description"
-          buttonClassName="card_button_black"
-        />
+        <div id="botox-treatment" className="">
+          <DynamicTextSection
+            id="tetra-co2-laser"
+            bgColor="bg-[#ebebeb]"
+            title={data?.title}
+            description={[`${data?.description}`]}
+            buttonText="Speak With Esteves Aesthetics"
+            buttonLink="#tetra-co2-laser"
+            titleClassName="card_title_black"
+            descriptionClassName="card_description"
+            buttonClassName="card_button_black"
+          />
+        </div>
       </Container>
 
       <div className="bg-bg-pink py-4 3xl:mt-20">
         <Container>
           <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
-            {sectionBars?.map(bar => (
+            {sectionBars?.map((bar) => (
               <Link
                 key={bar?.id}
                 href={`#${bar?.path}`}
@@ -84,21 +88,29 @@ const page = () => {
         />
       </Container>
 
-      <DynamicCardSection
-        image={img22}
-        title="Key Benefits of the Tetra PRO CO₂ Laser at Estevez Aesthetics"
-        description="Botox is an injectable treatment to temporarily relax muscles in the face, thereby reducing fine lines and wrinkles. By blocking nerve signals, it prevents muscles to contract, smoothing the skin and giving it a more youthful appearance. Commonly treated areas include forehead lines, crow’s feet, and frown lines. Botox is popular for those seeking a more refreshed and youthful look without surgery."
-        buttonText="Book Now"
-        buttonClassName="card_button_black"
-        titleClassName="card_title_black"
-        descriptionClassName="card_description"
-        buttonLink="#"
-        index={1}
-      />
+      <div id="choose" className="">
+        <DynamicCardSection
+          image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.choose_image}`}
+          title={data?.sub_service_details?.choose_title}
+          description={data?.sub_service_details?.choose_description}
+          buttonText="Book Now"
+          buttonClassName="card_button_black"
+          titleClassName="card_title_black"
+          descriptionClassName="card_description"
+          buttonLink="#"
+          index={1}
+        />
+      </div>
 
       <KeyBenefit />
-      <WhatPeopleSaying />
-      <DynamicContactUs image={contact} />
+      <div id="testimonial" className="">
+        <WhatPeopleSaying />
+      </div>
+
+      {/* Contact */}
+      <div id="contact">
+        <DynamicContactUs image={contact} />
+      </div>
     </>
   );
 };

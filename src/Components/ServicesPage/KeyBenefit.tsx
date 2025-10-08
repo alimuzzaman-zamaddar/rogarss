@@ -1,37 +1,11 @@
+import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 import Container from "../commonComponents/Container";
 import { S1Svg, S2Svg } from "../SvgContainer/SvgContainer";
-const data = [
-  {
-    id: 1,
-    icon: <S1Svg />,
-    title: "Precision with Versatility",
-    description:
-      "Tetra PRO offers full control over energy and depth, allowing us to treat everything from fine lines to deep wrinkles with unmatched accuracy and safety.",
-  },
-  {
-    id: 2,
-    icon: <S2Svg />,
-    title: "Advanced Emission Modes",
-    description:
-      "Tetra PRO offers full control over energy and depth, allowing us to treat everything from fine lines to deep wrinkles with unmatched accuracy and safety.",
-  },
-  {
-    id: 3,
-    icon: <S1Svg />,
-    title: "Faster, More Comfortable Treatments",
-    description:
-      "With large spot sizes, feathering techniques, and SmartTrack cooling, we treat larger areas quickly while keeping you relaxed throughout.",
-  },
-  {
-    id: 4,
-    icon: <S1Svg />,
-    title: "Cool Peel® Technology with Minimal Downtime",
-    description:
-      "Tetra PRO offers full control over energy and depth, allowing us to treat everything from fine lines to deep wrinkles with unmatched accuracy and safety.",
-  },
-];
+import Image from "next/image";
+
 
 const KeyBenefit = () => {
+      const { data, isLoading } = useSubServiceDetailsQuery("tetra-c02-laser");
   return (
     <section className="pt-16 2xl:pt-28">
       <Container>
@@ -40,16 +14,22 @@ const KeyBenefit = () => {
         </h3>
 
         <div className="grid lg:grid-cols-2 gap-5 2xl:gap-8">
-          {data?.map(({ id, icon, title, description }) => (
-            <div key={id} className="bg-[#F8F8F8] p-6 xl:p-7 2xl:p-10">
-              <p className="w-12 xl:w-16 2xl:w-20 h-12 xl:h-16 2xl:h-20">
-                {icon}
-              </p>
+          {data?.sub_service_benefits.map((item: any, index: number) => (
+            <div key={index} className="bg-[#F8F8F8] p-6 xl:p-7 2xl:p-10">
+              <Image
+                className=" object-cover w-10 h-10 xl:h-20 xl:w-20"
+                src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${item.benefit_icon}`}
+                alt="contact image 2"
+                height={700}
+                width={700}
+              />
 
               <h3 className="text-primary-black text-lg xl:text-xl 2xl:text-2xl font-semibold my-3 2xl:my-5">
-                {title}
+                {item.benefit_title}
               </h3>
-              <p className="text-primary-black xl:text-lg">{description}</p>
+              <p className="text-primary-black xl:text-lg">
+                {item.benefit_description}
+              </p>
             </div>
           ))}
         </div>
