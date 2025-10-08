@@ -9,7 +9,7 @@ import Container from "@/Components/commonComponents/Container";
 import { BoltSvg, LineSvg } from "@/Components/SvgContainer/SvgContainer";
 import Button from "@/Components/Tags/Button/Button";
 import FAQ from "@/Components/ServicesPage/FAQ";
-import { useGetSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
+import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 import Loader from "@/Components/Tags/Loader/loader";
 
 const sectionBars = [
@@ -23,7 +23,7 @@ const sectionBars = [
 ];
 
 export default function Page() {
-  const { data, isLoading } = useGetSubServiceDetailsQuery("dysport");
+  const { data, isLoading } = useSubServiceDetailsQuery("dysport");
 
   return (
     <>

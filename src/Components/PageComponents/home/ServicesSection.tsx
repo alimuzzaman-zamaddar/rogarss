@@ -3,7 +3,7 @@
 import Image, { StaticImageData } from "next/image";
 import { service } from "@/Components/Data/data";
 import Container from "@/Components/commonComponents/Container";
-import { useGetHomeContentsQuery } from "@/redux/slices/cms/homeSlice";
+import { useHomeContentsQuery } from "@/redux/slices/cms/homeSlice";
 export interface SubService {
   id: number;
   name: string;
@@ -21,7 +21,7 @@ export interface HomeResponse {
   services: Service[];
 }
 export default function ServicesSection() {
-  const { data, error, isLoading } = useGetHomeContentsQuery();
+  const { data, error, isLoading } = useHomeContentsQuery();
 
 
   return (

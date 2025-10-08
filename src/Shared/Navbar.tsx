@@ -24,7 +24,7 @@ import {
 import Image from "next/image";
 import { PopupResponse } from "@/types/api";
 import DynamicServiceContentProducts from "@/Components/commonComponents/DynamicServiceContentProducts";
-import { useGetServiceContentsQuery } from "@/redux/slices/cms/homeSlice";
+import { useServiceContentsQuery } from "@/redux/slices/cms/homeSlice";
 import DynamicServiceContentForService from "@/Components/commonComponents/DynamicServiceContentForService";
 const popupMenu: PopupResponse[] = [
   {
@@ -66,8 +66,8 @@ export const Navbar = () => {
   const PatientResources = MenuPatientResources;
   const beforeAfter = MenuBeforeAfter;
   const isHome = pathname === "/";
-    const { data, isLoading, error } = useGetServiceContentsQuery();
-console.log(data, "from data");
+  const { data, isLoading, error } = useServiceContentsQuery();
+  console.log(data, "from data");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("Service");
   const [open, setOpen] = useState(false);

@@ -12,7 +12,7 @@ import FAQ from "@/Components/ServicesPage/FAQ";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Loader from "@/Components/Tags/Loader/loader";
-import { useGetSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
+import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 
 
 const sectionBars = [
@@ -25,7 +25,7 @@ const sectionBars = [
 ];
 
 export default function Page() {
-const { data, isLoading } = useGetSubServiceDetailsQuery("dermal-fillers");
+const { data, isLoading } = useSubServiceDetailsQuery("dermal-fillers");
 
   return (
     <>
@@ -111,12 +111,14 @@ const { data, isLoading } = useGetSubServiceDetailsQuery("dermal-fillers");
                   {data?.sub_service_details?.option_description}
                 </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 items-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 items-stretch">
                   {data?.sub_service_options?.map(
                     (item: any, index: number) => (
                       <div
                         key={index}
-                        className={`bg-white shadow-[0_2px_47px_-12px_rgba(0,0,0,0.15)] p-5 sm:p-8 lg:p-10 
+                        className={`bg-white shadow-[0_2px_47px_-12px_rgba(0,0,0,0.15)] 
+                  p-5 sm:p-8 lg:p-10 
+                  h-full flex flex-col justify-center items-center text-center
                   ${
                     index === data.sub_service_options.length - 1 &&
                     data.sub_service_options.length % 2 !== 0
@@ -126,13 +128,16 @@ const { data, isLoading } = useGetSubServiceDetailsQuery("dermal-fillers");
                       >
                         <h4
                           data-aos="fade-up"
-                          className="text-center text-secondary-black font-family-gloock text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-normal leading-[132%] mb-4 sm:mb-6"
+                          className="text-secondary-black font-family-gloock 
+                   text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-normal 
+                   leading-[132%] mb-4 sm:mb-6"
                         >
                           {item?.option_name}
                         </h4>
                         <p
                           data-aos="fade-up"
-                          className="text-center card_description w-full sm:w-[85%] lg:w-[80%] mx-auto text-sm sm:text-base lg:text-lg"
+                          className="card_description w-full sm:w-[85%] lg:w-[80%] 
+                   text-sm sm:text-base lg:text-lg"
                         >
                           {item?.option_description}
                         </p>

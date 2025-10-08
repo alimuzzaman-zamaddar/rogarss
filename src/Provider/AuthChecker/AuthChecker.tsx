@@ -82,7 +82,7 @@ export default function AuthChecker({ children }: { children: ReactNode }) {
         <style jsx>{`
           .loader {
             border: 6px solid #f3f3f3;
-            border-top: 6px solid #3498db;
+            border-top: 6px solid #c98575;
             border-radius: 50%;
             width: 48px;
             height: 48px;

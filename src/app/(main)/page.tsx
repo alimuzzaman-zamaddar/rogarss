@@ -18,12 +18,12 @@ import DynamicCardSection from "@/Components/commonComponents/DynamicCardSection
 
 import image2 from "../../assets/home/Image (3).png"
 import image1 from "../../assets/home/why.png"
-import { useGetHomeContentsQuery } from "@/redux/slices/cms/homeSlice";
+import { useHomeContentsQuery } from "@/redux/slices/cms/homeSlice";
 import Loader from "@/Components/Tags/Loader/loader";
 
 export default function LandingPage() {
 
-  const { data, error, isLoading } = useGetHomeContentsQuery();
+  const { data, error, isLoading } = useHomeContentsQuery();
   console.log(data?.data?.banner ,"from home");
   
 

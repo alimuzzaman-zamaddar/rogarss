@@ -12,7 +12,7 @@ import Container from "@/Components/commonComponents/Container";
 import { BoltSvg, LineSvg } from "@/Components/SvgContainer/SvgContainer";
 import Button from "@/Components/Tags/Button/Button";
 import FAQ from "@/Components/ServicesPage/FAQ";
-import { useGetSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
+import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 import { accordionData } from "@/Components/Data/data";
 import Loader from "@/Components/Tags/Loader/loader";
 
@@ -26,7 +26,7 @@ const sectionBarss = [
 ];
 
 export default function page() {
-  const { data, isLoading } = useGetSubServiceDetailsQuery("botox");
+  const { data, isLoading } = useSubServiceDetailsQuery("botox");
   console.log(data, "botox");
 
   const accordionDatas = accordionData;

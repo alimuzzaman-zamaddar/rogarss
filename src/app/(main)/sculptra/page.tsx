@@ -1,42 +1,41 @@
+
+"use client";
 import Link from "next/link";
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import image from "@/assets/contact/contact.png";
-import image10 from "@/assets/service/Image (9).png";
-import image4 from "@/assets/cards/image6.png";
-import image8 from "@/assets/service/Image (12).png";
-import image13 from "@/assets/service/Image (11).png";
-import image11 from "@/assets/service/Image (10).png";
 import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
 import Container from "@/Components/commonComponents/Container";
 import { BoltSvg, LineSvg } from "@/Components/SvgContainer/SvgContainer";
 import Button from "@/Components/Tags/Button/Button";
 import FAQ from "@/Components/ServicesPage/FAQ";
 import Image from "next/image";
+import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 
-const sectionBars = [
-  { id: 1, path: "/botox", label: "What Is Sculptra?" },
-  { id: 2, path: "/dsport", label: "Sculptra Procedure" },
-  { id: 4, path: "/morpheus8", label: "Benefits" },
-  { id: 4, path: "/morpheus8", label: "Candidate" },
-  { id: 4, path: "/morpheus8", label: "Result" },
-  { id: 4, path: "/morpheus8", label: "Why Choose us" },
-  { id: 6, path: "/tetra", label: "FAQ" },
-  { id: 7, path: "/botox", label: "Consultation" },
-];
+  const sectionBars = [
+    { id: 1, path: "what-is", label: "What Is Sculptra?" },
+    { id: 2, path: "procedure", label: "Sculptra Procedure" },
+    { id: 3, path: "benefits", label: "Benefits" },
+    { id: 4, path: "candidate", label: "Candidate" },
+    { id: 5, path: "result", label: "Result" },
+    { id: 6, path: "choose", label: "Why Choose us" },
+    { id: 7, path: "faq", label: "FAQ" },
+    { id: 8, path: "consultation", label: "Consultation" },
+  ];
+
 
 export default function page() {
+
+    const { data, isLoading } = useSubServiceDetailsQuery("sculptra");
   return (
     <>
       {/* Banner  */}
       <Container>
         <BannerSection
-          bgImages={[
-            "https://i.ibb.co.com/MyJx3DL5/scalpta-1.png",
-            "https://i.ibb.co.com/MyJx3DL5/scalpta-1.png",
-            "https://i.ibb.co.com/MyJx3DL5/scalpta-1.png",
-          ]}
-          heading="Sculptra"
+          bgImages={[1, 2, 3].map(
+            () => `${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.banner_image}`
+          )}
+          heading={data?.name}
           description="Restore Youthful Volume Naturally"
         />
       </Container>
@@ -44,21 +43,18 @@ export default function page() {
       {/* Tabs */}
       <div className="pt-10 lg:pt-14 2xl:pt-20 3xl:pt-30 pb-5 xl:pb-8 2xl:pb-10">
         <Container>
-          <h4 data-aos="fade-up" className="text-center card_title_black mb-10">
-            Sculptra in Lubbock, TX
+          <h4
+            data-aos="fade-up"
+            className="text-center font-['Gloock'] text-3xl sm:text-4xl md:text-5xl xl:text-[62px] leading-[132%] capitalize text-black mb-6 sm:mb-10"
+          >
+            {data?.title}
           </h4>
+
           <p
             data-aos="fade-up"
-            className="text-center card_description xl:w-[80%] mx-auto xl:mb-10"
+            className="text-center card_description text-sm sm:text-base md:text-lg xl:text-[20px] w-[90%] sm:w-[80%] mx-auto mb-6 sm:mb-10"
           >
-            As we age, our skin loses collagen the essential protein that keeps
-            it firm, smooth, and youthful. This gradual decline often leads to
-            sagging, hollow areas, and deep wrinkles. Sculptra is a
-            collagen-stimulating injectable treatment designed to restore volume
-            and improve skin quality over time, giving you results that are
-            natural-looking and long-lasting. At Glo & Spa-rkle Aesthetics & Med
-            Spa, we’re proud to offer some of the best Sculptra treatments in
-            Lubbock to help you refresh and rejuvenate your look.
+            {data?.description}
           </p>
         </Container>
         <div className="bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
@@ -81,42 +77,32 @@ export default function page() {
         </div>
       </div>
 
-      <DynamicCardSection
-        image={image10}
-        title="Smooth and Easy-Flowing Lip Fillers"
-        description="Sculptra is an FDA-approved injectable made of poly-L-lactic acid (PLLA), a biocompatible material that works beneath the skin to stimulate your body’s natural collagen production. Unlike traditional fillers that deliver immediate volume, Sculptra works gradually, building a foundation of collagen that enhances facial structure and skin quality over several months.The result? A subtle, natural rejuvenation that develops over time and can last up to two years or more.
-     "
-        sectionSubTitle="What is Sculptra"
-        titleClassName="card_title_black "
-        descriptionClassName="card_description"
-        buttonLink="#"
-        index={3}
-      />
+      <div id="what-is" className="">
+        <DynamicCardSection
+          image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.definition_image}`}
+          title={data?.sub_service_details?.definition_title}
+          description={data?.sub_service_details?.definition_description}
+          sectionSubTitle={data?.sub_service_details?.definition_sub_title}
+          titleClassName="card_title_black "
+          descriptionClassName="card_description"
+          buttonLink="#"
+          index={3}
+        />
+      </div>
 
-      <div className="bg-white py-10 xl:py-20 xl:my-35">
+      <div id="procedure" className="bg-white py-10 xl:py-20 xl:my-35">
         <Container>
           <h4
             data-aos="fade-up"
             className="text-center card_title_black mb-6 xl:mb-10"
           >
-            The Sculptra Procedure
+            {data?.sub_service_details?.procedure_title}
           </h4>
           <p
             data-aos="fade-up"
             className="text-center card_description xl:w-[70%] mx-auto"
           >
-            Your Sculptra treatment is performed in-office and typically takes
-            about 30–45 minutes. A series of small injections are placed in
-            targeted areas to stimulate collagen growth. For optimal results,
-            most patients benefit from a series of 2–3 sessions, spaced several
-            weeks apart.
-          </p>
-          <p
-            data-aos="fade-up"
-            className="text-center card_description xl:w-[70%] mx-auto"
-          >
-            Numbing cream or local anesthetic may be used to maximize comfort,
-            and you can return to your normal routine shortly after treatment.
+            {data?.sub_service_details?.procedure_description}
           </p>
         </Container>
       </div>
@@ -142,141 +128,98 @@ export default function page() {
         </Container>
       </div>
 
-      <section className="py-10 md:py-14 xl:py-20 2xl:py-24 bg-[#F8F8F8]">
+      <section
+        id="benefits"
+        className="py-10 md:py-14 xl:py-20 2xl:py-24 bg-[#F8F8F8]"
+      >
         <Container>
           <div className="flex flex-col justify-center items-center gap-5 xl:gap-10 3xl:gap-20 xl:flex-row">
             {/* Left */}
-            <div className="flex-1 w-full xl:w-[30%] flex relative">
-              <div className="absolute top-0 left-0">
-                <div className="hidden xl:block">
-                  <Image
-                    className="h-[500px] 2xl:h-[650px] w-[260px] object-cover"
-                    src={image4}
-                    alt="contact image 1"
-                  />
-                </div>
-              </div>
+            <div className="flex-1 w-full xl:w-[35%] flex relative">
               <div className="xl:pt-25 z-20 w-full xl:pl-14">
                 <Image
                   className="h-[300px] md:h-[400px] lg:h-[500px] 2xl:h-[650px] w-full object-cover"
-                  src={image8}
+                  src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.benefits_image}`}
                   alt="contact image 2"
+                  height={700}
+                  width={700}
                 />
               </div>
             </div>
 
             {/* Right */}
-            <div className="flex-1 xl:w-[70%]">
-              <h5 className="section_sub-title">Procedure</h5>
+            <div className="w-full xl:w-[65%]">
+              <h5 className="section_sub-title">
+                {data?.sub_service_details?.benefits_sub_title}
+              </h5>
               {/* Static subtitle */}
               <h2 className="card_title_black mb-10">
-                Lips worth a second glance
+                {data?.sub_service_details?.benefits_title}
               </h2>
-              <div className="space-y-5">
-                <div className="">
-                  <h4
-                    data-aos="fade-up"
-                    className="text-[24px]  font-normal leading-[132%] text-secondary-black"
-                  >
-                    Collagen Stimulation
+              {data?.sub_service_benefits?.map((benefit: any, i: number) => (
+                <div key={i} className="mb-4">
+                  <h4 className="text-lg sm:text-xl font-normal text-secondary-black mb-2">
+                    {benefit.benefit_title}
                   </h4>
-                  <p data-aos="fade-up" className="section_description">
-                    Encourages natural collagen growth for long-term
-                    improvement.
+                  <p className="section_description">
+                    {benefit.benefit_description}
                   </p>
                 </div>
-                <div className="">
-                  <h4
-                    data-aos="fade-up"
-                    className="text-[24px]  font-normal leading-[132%] text-secondary-black"
-                  >
-                    Gradual, Natural Results
-                  </h4>
-                  <p data-aos="fade-up" className="section_description">
-                    Enhances your appearance subtly, without looking “overdone.
-                  </p>
-                </div>
-                <div className="">
-                  <h4
-                    data-aos="fade-up"
-                    className="text-[24px] font-normal leading-[132%] text-secondary-black"
-                  >
-                    Long-Lasting Effects
-                  </h4>
-                  <p data-aos="fade-up" className="section_description">
-                    Results can last up to two years, longer than many fillers.
-                  </p>
-                </div>
-                <div className="">
-                  <h4
-                    data-aos="fade-up"
-                    className="text-[24px]  font-normal leading-[132%] text-secondary-black"
-                  >
-                    Restores Facial Volume
-                  </h4>
-                  <p data-aos="fade-up" className="section_description">
-                    Improves hollow cheeks, temples, and jawline definition.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </Container>
       </section>
 
-      <section className="py-10 md:py-14 xl:py-20 2xl:py-24 bg-[#F8F8F8]">
+      <section
+        id="candidate"
+        className="py-10 md:py-14 xl:py-20 2xl:py-24 bg-[#F8F8F8]"
+      >
         <Container>
           <div className="flex flex-col justify-center items-center gap-5 xl:gap-10 3xl:gap-20 xl:flex-row">
             {/* Right */}
-            <div className="flex-1 xl:w-[65%]">
-              <h5 className="section_sub-title">Candidate</h5>
+            <div className="w-full xl:w-[60%]">
+              <h5 className="section_sub-title">
+                {data?.sub_service_details?.candidate_sub_title}
+              </h5>
               {/* Static subtitle */}
               <h2 className="card_title_black mb-10">
-                Who is a Candidate for Sculptra?
+                {data?.sub_service_details?.candidate_title}
               </h2>
               <p
                 data-aos="fade-up"
                 className="section_description !font-semibold !text-secondary-black mb-8"
               >
-                Sculptra is an excellent option for men and women who want to
+                {data?.sub_service_details?.candidate_description}
               </p>
               <div className="grid grid-cols-1  gap-3">
-                {[
-                  "Restore lost volume caused by aging",
-                  "Improve skin firmness and elasticity",
-                  "Soften deep wrinkles and folds",
-                  "Achieve long-lasting, natural-looking rejuvenation",
-                  "Are in good overall health with realistic expectations",
-                ].map((benefit, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start space-x-2 text-gray-700"
-                  >
-                    <span className="text-base">
-                      <BoltSvg />
-                    </span>
-                    <span className="section_description">{benefit}</span>
-                  </div>
-                ))}
+                {data?.sub_service_candidates.map(
+                  (benefit: any, index: number) => (
+                    <div
+                      key={index}
+                      className="flex items-start space-x-2 text-gray-700"
+                    >
+                      <span className="text-base">
+                        <BoltSvg />
+                      </span>
+                      <span className="section_description">
+                        {benefit.candidate_name}
+                      </span>
+                    </div>
+                  )
+                )}
               </div>
             </div>
 
             {/* Left */}
-            <div className="flex-1 w-full xl:w-[35%] flex relative">
-              <div className="absolute top-0 right-0">
-                <div className="hidden xl:block">
-                  <Image
-                    className="h-[500px] 2xl:h-[650px] w-[260px] object-cover"
-                    src={image4}
-                    alt="contact image 1"
-                  />
-                </div>
-              </div>
+            <div className="flex-1 w-full xl:w-[40%] flex relative">
               <div className="xl:pt-25 xl:pb-20 z-20 w-full xl:pr-14">
                 <Image
                   className="h-[300px] md:h-[400px] lg:h-[500px] 2xl:h-[650px] w-full object-cover"
-                  src={image11}
+                  src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.candidate_image}`}
                   alt="contact image 2"
+                  height={700}
+                  width={700}
                 />
               </div>
             </div>
@@ -284,155 +227,119 @@ export default function page() {
         </Container>
       </section>
 
-      <section className="py-10 md:py-14 xl:py-20 2xl:py-24 bg-[#F8F8F8]">
+      <section
+        id="result"
+        className="py-10 md:py-14 xl:py-20 2xl:py-24 bg-[#F8F8F8]"
+      >
         <Container>
           <div className="flex flex-col justify-center items-center gap-5 xl:gap-10 3xl:gap-20 xl:flex-row">
             {/* Left */}
             <div className="flex-1 w-full xl:w-[30%] flex relative">
-              <div className="absolute top-0 left-0">
-                <div className="hidden xl:block">
-                  <Image
-                    className="h-[500px] 2xl:h-[650px] w-[260px] object-cover"
-                    src={image4}
-                    alt="contact image 1"
-                  />
-                </div>
-              </div>
               <div className="xl:pt-25 z-20 w-full xl:pl-14">
                 <Image
                   className="h-[300px] md:h-[400px] lg:h-[500px] 2xl:h-[650px] w-full object-cover"
-                  src={image13}
+                  src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.result_image}`}
                   alt="contact image 2"
+                  height={700}
+                  width={700}
                 />
               </div>
             </div>
 
             {/* Right */}
             <div className="flex-1 xl:w-[70%]">
-              <h5 className="section_sub-title">Procedure</h5>
+              <h5 className="section_sub-title">
+                {data?.sub_service_details?.result_sub_title}
+              </h5>
               {/* Static subtitle */}
               <h2 className="card_title_black mb-10">
-                Lips worth a second glance
+                {data?.sub_service_details?.result_title}
               </h2>
-              <div className="space-y-5">
-                <div className="">
-                  <h4
-                    data-aos="fade-up"
-                    className="text-[24px]  font-normal leading-[132%] text-secondary-black"
-                  >
-                    Collagen Stimulation
+              {data?.sub_service_results?.map((benefit: any, i: number) => (
+                <div key={i} className="mb-4">
+                  <h4 className="text-lg sm:text-xl font-normal text-secondary-black mb-2">
+                    {benefit.result_name}
                   </h4>
-                  <p data-aos="fade-up" className="section_description">
-                    Encourages natural collagen growth for long-term
-                    improvement.
+                  <p className="section_description">
+                    {benefit.result_description}
                   </p>
                 </div>
-                <div className="">
-                  <h4
-                    data-aos="fade-up"
-                    className="text-[24px]  font-normal leading-[132%] text-secondary-black"
-                  >
-                    Gradual, Natural Results
-                  </h4>
-                  <p data-aos="fade-up" className="section_description">
-                    Enhances your appearance subtly, without looking “overdone.
-                  </p>
-                </div>
-                <div className="">
-                  <h4
-                    data-aos="fade-up"
-                    className="text-[24px] font-normal leading-[132%] text-secondary-black"
-                  >
-                    Long-Lasting Effects
-                  </h4>
-                  <p data-aos="fade-up" className="section_description">
-                    Results can last up to two years, longer than many fillers.
-                  </p>
-                </div>
-                <div className="">
-                  <h4
-                    data-aos="fade-up"
-                    className="text-[24px]  font-normal leading-[132%] text-secondary-black"
-                  >
-                    Restores Facial Volume
-                  </h4>
-                  <p data-aos="fade-up" className="section_description">
-                    Improves hollow cheeks, temples, and jawline definition.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </Container>
       </section>
 
       <Container>
-        <div className="bg-white shadow-[0_2px_47px_11px_rgba(0,0,0,0.15)] p-4 xl:p-20 my-15 xl:my-35">
+        <div
+          id="choose"
+          className="bg-white shadow-[0_2px_47px_11px_rgba(0,0,0,0.15)] p-4 xl:p-20 my-15 xl:my-35"
+        >
           <h4
             data-aos="fade-up"
             className="text-center section_sub-title mb-10"
           >
-            Why Choose us
+            {data?.sub_service_details?.choose_sub_title}
           </h4>
           <h4
             data-aos="fade-up"
             className="text-center card_title_black mb-6 xl:mb-10"
           >
-            Why Choose Esteves Aesthetics for Sculptra?
+            {data?.sub_service_details?.choose_title}
           </h4>
           <p
             data-aos="fade-up"
             className="text-center card_description xl:w-[80%] mx-auto"
           >
-            At Esteves Aesthetics, we take pride in delivering personalized,
-            natural-looking results. Our experienced injectors understand the
-            artistry behind facial balance and work with you to create a
-            treatment plan that enhances your beauty without compromising your
-            unique features.
-          </p>
-          <p
-            data-aos="fade-up"
-            className="text-center card_description xl:w-[80%] mx-auto mt-7 "
-          >
-            At Estevez Aesthetics, we know that lip enhancement is personal.
-            Whether you desire a subtle lift or a more noticeable pout, our
-            specialists use precise techniques to ensure your lips feel soft,
-            natural, and beautifully proportioned. Our goal is to enhance your
-            natural beauty while allowing your lips to reflect your individual
-            style and personality.
+            {data?.sub_service_details?.choose_description}
           </p>
         </div>
       </Container>
 
       <Container>
-        <div className="my-35 px-20 py-30 bg-[#FBE0DA]">
+        <div className="my-20 sm:my-28 xl:my-35 px-4 sm:px-8 xl:px-20 py-10 sm:py-16 xl:py-30 bg-[#FBE0DA]">
           <h4
             data-aos="fade-up"
-            className="text-center font-['Gloock'] text-[62px] font-[400] [font-style:normal] leading-[132%] capitalize text-primary-black mb-10"
+            className="
+        text-center font-['Gloock']
+        text-2xl sm:text-3xl md:text-4xl xl:text-[62px]
+        font-[400] leading-[132%] capitalize
+        text-primary-black mb-6 sm:mb-8 xl:mb-10
+      "
           >
-            Schedule Your Lubbock Botox Consultation at Esteves Aesthetics Today
+            {data?.sub_service_details?.consultation_title}
           </h4>
+
           <p
             data-aos="fade-up"
-            className="section_description w-[70%] mx-auto text-center"
+            className="
+        section_description
+        w-[95%] sm:w-[80%] xl:w-[70%]
+        mx-auto text-center
+        text-sm sm:text-base
+      "
           >
-            Experience the art of timeless beauty with a personalized Botox
-            treatment plan designed just for you. Our expert team at Esteves
-            Aesthetics is here to help you refresh your look, smooth fine lines,
-            and restore youthful confidence because you deserve to feel as
-            vibrant as you look.
+            {data?.sub_service_details?.consultation_description}
           </p>
 
           <div className="flex justify-center items-center">
-            <Button Txt="Book Now" className="card_button_black  mt-10" />
+            <Button
+              Txt="Book Now"
+              className="card_button_black mt-6 sm:mt-8 xl:mt-10"
+            />
           </div>
         </div>
       </Container>
 
-      <div className="py-30">
-        <FAQ />
+      {/* FAQ */}
+      <div id="faq" className="py-10 sm:py-20">
+        <FAQ data={data?.service_faqs} />
       </div>
-      <DynamicContactUs image={image} />
+
+      {/* Contact */}
+      <div id="contact">
+        <DynamicContactUs image={image} />
+      </div>
     </>
   );
 }
