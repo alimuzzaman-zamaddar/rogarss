@@ -80,7 +80,7 @@ export type DynamicCardSectionAboutProps = {
 export type DynamicImageProps = {
   img: string | StaticImageData;
   isBox?: boolean;
-  cardData?: Record<string, any>; // safer than `object`
+  cardData?: Record<string, any>; 
 };
 
 export type TreatmentTechnologySectionProps = {
