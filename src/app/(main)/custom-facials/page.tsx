@@ -1,18 +1,12 @@
 import Link from "next/link";
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
-// import bgImg from "@/assets/service/imagesecion.png";
 import bgImg1 from "@/assets/products/Facial-Balancing.png";
 import image from "@/assets/contact/contact.png";
-import IMG from "@/assets/service/imagesecion.png";
 import DynamicImageSection from "@/Components/commonComponents/DynamicImageSecion";
-import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
-import FaqSection from "@/Components/PageComponents/home/FaqSection";
-import TreatmentTechnologySection from "@/Components/commonComponents/TreatmentTechnologySection";
 import { IoArrowForward } from "react-icons/io5";
 import Container from "@/Components/commonComponents/Container";
 import {
-  dynamicCardData,
   facialBalancingInfo,
   infoTextSections,
   sectionBars,
