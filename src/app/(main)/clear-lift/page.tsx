@@ -3,23 +3,17 @@
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import Container from "@/Components/commonComponents/Container";
 import React from "react";
-import bgImg from "@/assets/cards/leserhero.png";
 import DynamicLaserBox from "@/Components/commonComponents/DynamicLaserBox";
 import DynamicHairRemoval from "@/Components/commonComponents/DynamicHairRemoval";
-import RemovalCard from "@/Components/commonComponents/RemovalCard";
 import Link from "next/link";
-import { IoArrowForward } from "react-icons/io5";
 import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
-import img11 from "@/assets/cards/image6.png";
-import img22 from "@/assets/cards/botox1.png";
 import DynamicImageSection from "@/Components/commonComponents/DynamicImageSecion";
 import FAQ from "@/Components/ServicesPage/FAQ";
-import Results from "@/Components/ServicesPage/Results";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import image from "@/assets/contact/contact.png";
 import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 import Image from "next/image";
-import { BoltSvg } from "@/Components/SvgContainer/SvgContainer";
+import { BoltSvg, LineSvg } from "@/Components/SvgContainer/SvgContainer";
 
 const sectionBars = [
   { id: 1, path: "botox-treatment", label: "What is Tetra C02 Laser" },
@@ -30,7 +24,6 @@ const sectionBars = [
 
 const page = () => {
   const { data, isLoading } = useSubServiceDetailsQuery("clear-lift");
-  // console.log(data, "laser-hair-removal");
 
   return (
     <>
@@ -51,10 +44,10 @@ const page = () => {
         />
       </Container>
 
-      <div className="bg-bg-pink py-4">
+      <div className="bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
         <Container>
           <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
-            {sectionBars?.map((bar) => (
+            {sectionBars?.map((bar, index) => (
               <Link
                 key={bar?.id}
                 href={`#${bar?.path}`}
@@ -62,7 +55,8 @@ const page = () => {
                 className="link_text"
               >
                 {bar?.label}
-                <IoArrowForward />
+                {index === 0 && <LineSvg />}
+                {/* Only show LineSvg for the first child */}
               </Link>
             ))}
           </div>
@@ -89,6 +83,7 @@ const page = () => {
         buttonLink="#"
         index={1}
       />
+
       <div id="morpheus8">
         <section className="py-10 sm:py-14 xl:py-20 bg-[#F8F8F8]">
           <Container>

@@ -1,39 +1,41 @@
 "use client";
 
 import { useParams, notFound } from "next/navigation";
-import { blogPosts } from "@/Components/Data/data";
 import Image from "next/image";
 import Container from "@/Components/commonComponents/Container";
 import { IoArrowForward } from "react-icons/io5";
 import Link from "next/link";
+import { useGetBlogDetailsQuery, useGetBlogsQuery } from "@/redux/slices/blogSlice";
 
 const Page = () => {
   const params = useParams();
-  const id = params?.id as string; 
+  const id = params?.id as string;
 
   console.log(id);
+
+  const { data: blogs } = useGetBlogsQuery();
+  const { data, isLoading, error } = useGetBlogDetailsQuery(id);
+  console.log(data?.data, "from details");
   
+  if (isLoading) {
+    <p>loading...</p>
+  }
 
-  // if (!id || isNaN(Number(id))) {
-  //   notFound();
-  // }
-
-  const blogId = Number(id);
-  const blog = blogPosts.find(post => post.id === blogId);
-console.log(blog)
-  const blogs = blogPosts;
-
-  if (!blog) {
+  if (!isLoading && (!data || (error && (error as any).status === 404))) {
     notFound();
   }
+
+
+
+
 
   return (
     <section className="pb-20">
       <Container>
         <div>
           <Image
-            src={blog.image}
-            alt={blog.title}
+            src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.image}`}
+            alt={data?.data?.title}
             className="w-full h-[700px] object-cover"
             width={1000}
             height={400}
@@ -41,28 +43,36 @@ console.log(blog)
           <div className="flex flex-col xl:flex-row mt-20">
             <div className="w-full xl:w-[25%]">
               <h4 className="text-xl xl:text-2xl font-family-gloock leading-[164%] text-black">
-                {blog.category}
+                {data?.data?.category.name}
               </h4>
               <p className="text-xl xl:text-2xl font-family-gilmer leading-[164%] text-sub-text">
-                {blog.date}
+                {data?.data?.created_at
+                  ? new Date(
+                      data?.data?.category.created_at
+                    ).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })
+                  : "N/A"}
               </p>
             </div>
             <div className="gap-5 w-full xl:w-[75%]">
-              {blog.details.map((section, index) => (
-                <div key={index} className="mt-6">
-                  <h3 className="text-2xl xl:text-[32px] font-family-gloock leading-[164%] text-primary-black mb-2">
-                    {section.title}
-                  </h3>
-                  <p className="text-sub-light">{section.description}</p>
-                </div>
-              ))}
+              {data?.data?.long_description && (
+                <article
+                  className="[&_h1]:text-xl [&_h2]:text-xl [&_h3]:text-xl [&_h1]:font-bold [&_h2]:font-bold [&_h3]:font-bold [&_ul]:list-disc [&_ul]:list-inside [&_ol]:list-decimal [&_ol]:list-inside"
+                  dangerouslySetInnerHTML={{
+                    __html: data.data.long_description,
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>
 
         <div className="py-40">
           <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6 ">
-            {blogs.slice(0, 3).map((blog, index) => (
+            {blogs?.data.slice(0, 3).map((blog: any, index: number) => (
               <div
                 data-aos="fade-up"
                 className="p-6 bg-white shadow-[-1px_5px_30px_0px_rgba(0,0,0,0.08)]"
@@ -70,7 +80,7 @@ console.log(blog)
               >
                 <Image
                   data-aos="fade-up"
-                  src={blog.image}
+                  src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${blog.image}`}
                   alt={blog.title || `blog-${index}`}
                   className="w-full h-[300px] object-cover"
                   width={800}
@@ -84,7 +94,18 @@ console.log(blog)
                     </p>
                   </div>
                   <div className="flex justify-between items-center">
-                    <p className="text-gray-600">{blog.date}</p>
+                    <p className="text-gray-600">
+                      {blog.created_at
+                        ? new Date(blog.created_at).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          )
+                        : "N/A"}
+                    </p>
                     <Link href={`/blog/${blog.id}`}>
                       <button className="w-13 h-13 text-2xl rounded-full flex items-center text-pink-border justify-center duration-500 hover:bg-bg-pink bg-white border border-pink-border hover:border-bg-pink hover:text-black transition cursor-pointer">
                         <IoArrowForward />

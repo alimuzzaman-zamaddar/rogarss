@@ -22,8 +22,6 @@ import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
     { id: 7, path: "faq", label: "FAQ" },
     { id: 8, path: "consultation", label: "Consultation" },
   ];
-
-
 export default function page() {
 
     const { data, isLoading } = useSubServiceDetailsQuery("sculptra");
@@ -146,8 +144,6 @@ export default function page() {
                 />
               </div>
             </div>
-
-            {/* Right */}
             <div className="w-full xl:w-[65%]">
               <h5 className="section_sub-title">
                 {data?.sub_service_details?.benefits_sub_title}

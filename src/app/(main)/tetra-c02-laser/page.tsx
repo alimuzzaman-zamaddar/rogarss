@@ -5,7 +5,6 @@ import React from "react";
 import Container from "@/Components/commonComponents/Container";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import contact from "@/assets/contact/contact.png";
-import { IoArrowForward } from "react-icons/io5";
 import Link from "next/link";
 import DynamicTextSection from "@/Components/commonComponents/DynamicTextSection";
 import poster from "@/assets/cards/videoThumnail.png";
@@ -14,6 +13,7 @@ import DynamicCardSection from "@/Components/commonComponents/DynamicCardSection
 import KeyBenefit from "@/Components/ServicesPage/KeyBenefit";
 import WhatPeopleSaying from "@/Components/ServicesPage/WhatPeopleSaying";
 import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
+import { LineSvg } from "@/Components/SvgContainer/SvgContainer";
 
 const page = () => {
   const sectionBars = [
@@ -53,18 +53,19 @@ const page = () => {
         </div>
       </Container>
 
-      <div className="bg-bg-pink py-4 3xl:mt-20">
+      <div className="bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
         <Container>
           <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
-            {sectionBars?.map((bar) => (
+            {sectionBars?.map((bar, index) => (
               <Link
                 key={bar?.id}
                 href={`#${bar?.path}`}
                 scroll={true}
-                className="flex justify-center items-center gap-1.5 xl:gap-3 font-family-gloock"
+                className="link_text"
               >
                 {bar?.label}
-                <IoArrowForward />
+                {index === 0 && <LineSvg />}
+                {/* Only show LineSvg for the first child */}
               </Link>
             ))}
           </div>

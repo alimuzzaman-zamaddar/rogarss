@@ -4,7 +4,6 @@ import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import bgImg1 from "@/assets/products/Facial-Balancing.png";
 import image from "@/assets/contact/contact.png";
 import DynamicImageSection from "@/Components/commonComponents/DynamicImageSecion";
-import { IoArrowForward } from "react-icons/io5";
 import Container from "@/Components/commonComponents/Container";
 import {
   facialBalancingInfo,
@@ -23,6 +22,7 @@ import imgDynamic from "@/assets/products/product2.png";
 import WhatPeopleSaying from "@/Components/commonComponents/DynamicHairRemoval";
 import ReusableInfoCard from "@/Components/commonComponents/ReusableInfoCard";
 import FAQ from "@/Components/ServicesPage/FAQ";
+import { LineSvg } from "@/Components/SvgContainer/SvgContainer";
 
 export default function ContactPage() {
   return (
@@ -57,13 +57,10 @@ export default function ContactPage() {
         </div>
       </Container>
 
-      <div className="bg-bg-pink py-4 mt-10 3xl:mt-20">
+      <div className="bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
         <Container>
-          <div
-            data-aos="fade-up"
-            className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base"
-          >
-            {sectionBars?.map((bar) => (
+          <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
+            {sectionBars?.map((bar, index) => (
               <Link
                 key={bar?.id}
                 href={`#${bar?.path}`}
@@ -71,7 +68,7 @@ export default function ContactPage() {
                 className="link_text"
               >
                 {bar?.label}
-                <IoArrowForward />
+                {index === 0 && <LineSvg />}
               </Link>
             ))}
           </div>

@@ -5,7 +5,6 @@ import Container from "@/Components/commonComponents/Container";
 import React from "react";
 import DynamicHairRemoval from "@/Components/commonComponents/DynamicHairRemoval";
 import Link from "next/link";
-import { IoArrowForward } from "react-icons/io5";
 import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
 import DynamicImageSection from "@/Components/commonComponents/DynamicImageSecion";
 import FAQ from "@/Components/ServicesPage/FAQ";
@@ -13,7 +12,7 @@ import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import image from "@/assets/contact/contact.png";
 import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 import Image from "next/image";
-import { BoltSvg } from "@/Components/SvgContainer/SvgContainer";
+import { BoltSvg, LineSvg } from "@/Components/SvgContainer/SvgContainer";
 import DynamicLaserBox from "@/Components/commonComponents/DynamicLaserBox";
 
 const sectionBars = [
@@ -45,10 +44,10 @@ const page = () => {
         />
       </Container>
 
-      <div className="bg-bg-pink py-4">
+      <div className="bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
         <Container>
           <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
-            {sectionBars?.map((bar) => (
+            {sectionBars?.map((bar, index) => (
               <Link
                 key={bar?.id}
                 href={`#${bar?.path}`}
@@ -56,7 +55,7 @@ const page = () => {
                 className="link_text"
               >
                 {bar?.label}
-                <IoArrowForward />
+                {index === 0 && <LineSvg />}
               </Link>
             ))}
           </div>

@@ -3,34 +3,28 @@
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import Container from "@/Components/commonComponents/Container";
 import React from "react";
-import bgImg from "@/assets/cards/leserhero.png";
 import DynamicLaserBox from "@/Components/commonComponents/DynamicLaserBox";
 import DynamicHairRemoval from "@/Components/commonComponents/DynamicHairRemoval";
-import RemovalCard from "@/Components/commonComponents/RemovalCard";
 import Link from "next/link";
-import { IoArrowForward } from "react-icons/io5";
 import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
-import img11 from "@/assets/cards/image6.png";
-import img22 from "@/assets/cards/botox1.png";
 import DynamicImageSection from "@/Components/commonComponents/DynamicImageSecion";
 import FAQ from "@/Components/ServicesPage/FAQ";
-import Results from "@/Components/ServicesPage/Results";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import image from "@/assets/contact/contact.png";
 import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 import Image from "next/image";
-import { BoltSvg } from "@/Components/SvgContainer/SvgContainer";
+import { BoltSvg, LineSvg } from "@/Components/SvgContainer/SvgContainer";
 
 const sectionBars = [
-  { id: 1, path: "botox-treatment", label: "What is Tetra C02 Laser" },
-  { id: 2, path: "botox-benefits", label: "Benefits" },
-  { id: 3, path: "botox-faq", label: "Tastimonial" },
-  { id: 4, path: "botox-faq", label: "Contact us" },
+  { id: 1, path: "what", label: "What is Laser Hair Removal" },
+  { id: 2, path: "benefits", label: "Benefits" },
+  { id: 3, path: "botox-benefits", label: "Treatment Areas" },
+  { id: 4, path: "botox-faq", label: "Tastimonial" },
+  { id: 5, path: "botox-faq", label: "Contact us" },
 ];
 
 const page = () => {
   const { data, isLoading } = useSubServiceDetailsQuery("laser-hair-removal");
-  // console.log(data, "laser-hair-removal");
 
   return (
     <>
@@ -51,10 +45,10 @@ const page = () => {
         />
       </Container>
 
-      <div className="bg-bg-pink py-4">
+      <div className="bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
         <Container>
           <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
-            {sectionBars?.map((bar) => (
+            {sectionBars?.map((bar, index) => (
               <Link
                 key={bar?.id}
                 href={`#${bar?.path}`}
@@ -62,20 +56,22 @@ const page = () => {
                 className="link_text"
               >
                 {bar?.label}
-                <IoArrowForward />
+                {index === 0 && <LineSvg />}
               </Link>
             ))}
           </div>
         </Container>
       </div>
 
-      <Container>
-        <DynamicHairRemoval
-          title={data?.sub_service_details?.definition_title}
-          sub_title={data?.sub_service_details?.definition_sub_title}
-          description={` ${data?.sub_service_details?.definition_description}`}
-        />
-      </Container>
+      <div id="what" className="">
+        <Container>
+          <DynamicHairRemoval
+            title={data?.sub_service_details?.definition_title}
+            sub_title={data?.sub_service_details?.definition_sub_title}
+            description={` ${data?.sub_service_details?.definition_description}`}
+          />
+        </Container>
+      </div>
 
       <DynamicCardSection
         image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.definition_image}`}

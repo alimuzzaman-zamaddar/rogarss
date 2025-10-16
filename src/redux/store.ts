@@ -11,10 +11,9 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-
 import authReducer from "./slices/authSlice";
 import { homeApi } from "./slices/cms/homeSlice";
-
+import { blogSlice } from "./slices/blogSlice";
 
 const authPersistConfig = {
   key: "auth",
@@ -22,19 +21,23 @@ const authPersistConfig = {
   whitelist: ["token", "user", "isLoggedIn"],
 };
 
-
-// Combine persisted and non-persisted reducers
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
+
+
   [homeApi.reducerPath]: homeApi.reducer,
+  [blogSlice.reducerPath]: blogSlice.reducer,
 });
 
 
 const persistedReducer = persistReducer(
-  { key: "root", storage, blacklist: [] },
+  {
+    key: "root",
+    storage,
+    blacklist: [homeApi.reducerPath, blogSlice.reducerPath], 
+  },
   rootReducer
 );
-
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -43,9 +46,10 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(homeApi.middleware),
+    })
+      .concat(homeApi.middleware)
+      .concat(blogSlice.middleware),
 });
-
 
 export const persistor = persistStore(store);
 
