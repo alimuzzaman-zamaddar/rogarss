@@ -41,32 +41,6 @@ const DynamicCardSection = ({
               height={700}
               width={500}
             />
-            {/* <div
-              data-aos="fade-up"
-              className={`absolute top-0 ${
-                index % 2 !== 0 ? "right-0" : "left-0"
-              }`}
-            >
-              <div className="hidden xl:block">
-                <Image
-                  className="h-[500px] 2xl:h-[650px] w-[260px] object-cover"
-                  src={image1}
-                  alt="contact image 1"
-                />
-              </div>
-            </div>
-            <div
-              data-aos="fade-up"
-              className={`xl:pt-25 z-20 w-full ${
-                index % 2 == 0 ? "xl:pl-14" : "xl:pr-14"
-              }`}
-            >
-              <Image
-                className="h-[300px] md:h-[400px] lg:h-[500px] 2xl:h-[650px] w-full object-cover"
-                src={image2}
-                alt="contact image 2"
-              />
-            </div> */}
           </div>
 
           {/* Right */}

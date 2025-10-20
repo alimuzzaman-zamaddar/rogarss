@@ -3,6 +3,7 @@
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import Container from "@/Components/commonComponents/Container";
 import React from "react";
+import DynamicLaserBox from "@/Components/commonComponents/DynamicLaserBox";
 import DynamicHairRemoval from "@/Components/commonComponents/DynamicHairRemoval";
 import Link from "next/link";
 import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
@@ -13,13 +14,13 @@ import image from "@/assets/contact/contact.png";
 import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 import Image from "next/image";
 import { BoltSvg, LineSvg } from "@/Components/SvgContainer/SvgContainer";
-import DynamicLaserBox from "@/Components/commonComponents/DynamicLaserBox";
 
 const sectionBars = [
-  { id: 1, path: "botox-treatment", label: "What is Tetra C02 Laser" },
-  { id: 2, path: "botox-benefits", label: "Benefits" },
-  { id: 3, path: "botox-faq", label: "Tastimonial" },
-  { id: 4, path: "botox-faq", label: "Contact us" },
+  { id: 1, path: "what", label: "What is Laser Hair Removal" },
+  { id: 2, path: "benefits", label: "Benefits" },
+  { id: 3, path: "Treatment", label: "Treatment Areas" },
+  { id: 4, path: "faq", label: "FAQ" },
+  { id: 5, path: "contact", label: "Contact us" },
 ];
 
 const page = () => {
@@ -62,27 +63,31 @@ const page = () => {
         </Container>
       </div>
 
-      <Container>
-        <DynamicHairRemoval
-          title={data?.sub_service_details?.definition_title}
-          sub_title={data?.sub_service_details?.definition_sub_title}
-          description={` ${data?.sub_service_details?.definition_description}`}
-        />
-      </Container>
+      <div id="what" className="">
+        <Container>
+          <DynamicHairRemoval
+            title={data?.sub_service_details?.definition_title}
+            sub_title={data?.sub_service_details?.definition_sub_title}
+            description={` ${data?.sub_service_details?.definition_description}`}
+          />
+        </Container>
+      </div>
 
-      <DynamicCardSection
-        image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.definition_image}`}
-        title={data?.sub_service_details?.definition_title}
-        description={data?.sub_service_details?.definition_description}
-        sectionSubTitle={data?.sub_service_details?.definition_sub_title}
-        buttonText="Book Now"
-        buttonClassName="card_button_black"
-        titleClassName="card_title_black"
-        descriptionClassName="card_description"
-        buttonLink="#"
-        index={1}
-      />
-      <div id="morpheus8">
+      <div id="benefits" className="">
+        <DynamicCardSection
+          image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.definition_image}`}
+          title={data?.sub_service_details?.definition_title}
+          description={data?.sub_service_details?.definition_description}
+          sectionSubTitle={data?.sub_service_details?.definition_sub_title}
+          buttonText="Book Now"
+          buttonClassName="card_button_black"
+          titleClassName="card_title_black"
+          descriptionClassName="card_description"
+          buttonLink="#"
+          index={1}
+        />
+      </div>
+      <div id="Treatment">
         <section className="py-10 sm:py-14 xl:py-20 bg-[#F8F8F8]">
           <Container>
             <div className="flex flex-col xl:flex-row justify-center items-center gap-6 sm:gap-10 xl:gap-20">
@@ -184,7 +189,9 @@ const page = () => {
         />
       </div>
 
-      <DynamicContactUs image={image} />
+      <div id="contact" className="">
+        <DynamicContactUs image={image} />
+      </div>
     </>
   );
 };
