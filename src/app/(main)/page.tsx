@@ -15,8 +15,6 @@ import TestimonialSection from "@/Components/PageComponents/home/TestimonialSect
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import img from "../../assets/contact/contact.png";
 import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
-
-import image2 from "../../assets/home/Image (3).png"
 import image1 from "../../assets/home/why.png"
 import { useHomeContentsQuery } from "@/redux/slices/cms/homeSlice";
 import Loader from "@/Components/Tags/Loader/loader";
@@ -60,14 +58,12 @@ export default function LandingPage() {
       <div className="my-0 xl:my-50 ">
         <ClarityCareSectrion />
       </div>
-      {/* <RecentBlogs /> */}
       <div className="my-0 xl:my-50 ">
         <TestimonialSection />
       </div>
       <div className="mb-0 xl:mb-50">
         <SocialMediaSection />
       </div>
-      {/* <FAQSection /> */}
       <DynamicContactUs image={img} />;
     </>)
     }

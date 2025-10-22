@@ -219,8 +219,6 @@ export default function ContactPage() {
           buttonClassName="card_button_black"
         />
       </Container>
-      {/* Dynamic Cards */}
-
       <DynamicContactUs image={image} />
     </>
   );

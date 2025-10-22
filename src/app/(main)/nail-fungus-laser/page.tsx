@@ -111,7 +111,7 @@ const page = () => {
                   {data?.sub_service_details?.treatment_title}
                 </h2>
                 <div className="grid grid-cols-1 gap-3">
-                  {data?.sub_service_treatments.map(
+                  {data?.sub_service_benefits.map(
                     (benefit: any, index: number) => (
                       <div
                         key={index}
@@ -121,7 +121,7 @@ const page = () => {
                           <BoltSvg />
                         </span>
                         <span className="section_description">
-                          {benefit?.treatment_name}
+                          {benefit?.benefit_title}
                         </span>
                       </div>
                     )
