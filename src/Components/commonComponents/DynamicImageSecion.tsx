@@ -21,19 +21,19 @@ const DynamicImageSection = ({ img, isBox, cardData }: DynamicImageProps) => {
           <div className="3xl:absolute 3xl:-bottom-96 3xl:left-0 3xl:right-0 mx-auto w-fit">
             <DynamicHairRemoval
               title={
-                cardData?.sub_service_details?.others_title ||
+                cardData?.sub_service_details?.how_works_title ||
                 "Experience the Beauty of Smooth Skin"
               }
               sub_title={
-                cardData?.sub_service_details?.others_sub_title ||
+                cardData?.sub_service_details?.how_works_sub_title ||
                 "Consultation & Preparation at Esteves Aesthetics"
               }
               description={
-                cardData?.sub_service_details?.others_description ||
+                cardData?.sub_service_details?.how_works_description ||
                 `Every journey begins with a thorough consultation. During your visit, our team will assess your tattoo's size, color, age, and depth, as well as your skin type and medical history. We’ll also outline a treatment plan tailored to your needs and discuss what to expect before, during, and after the procedure—so you feel confident every step of the way.`
               }
               buttonText="Book Now"
-              buttonClassName={ "card_button_pink"}
+              buttonClassName={"card_button_pink"}
             />
           </div>
         </Container>

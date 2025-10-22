@@ -1,37 +1,82 @@
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
-import bgImg1 from "@/assets/products/Facial-Balancing.png";
 import image from "@/assets/contact/contact.png";
 import DynamicImageSection from "@/Components/commonComponents/DynamicImageSecion";
 import Container from "@/Components/commonComponents/Container";
-import {
-  facialBalancingInfo,
-  infoTextSections,
-  sectionBars,
-} from "@/Components/Data/data";
-import InfoTextSection from "@/Components/common/InfoTextSection";
-import InfoGridSection from "@/Components/common/InfoGridSection";
-import InjectableServicesCardPink from "@/Components/commonComponents/InjectableServicesCardPink";
-import img11 from "@/assets/cards/image6.png";
-import img23 from "@/assets/products/product.png";
-import img24 from "@/assets/products/Ideal-Candidates.png";
-import img25 from "@/assets/products/product1.png";
-import img26 from "@/assets/products/product3.png";
-import imgDynamic from "@/assets/products/product2.png";
-import WhatPeopleSaying from "@/Components/commonComponents/DynamicHairRemoval";
-import ReusableInfoCard from "@/Components/commonComponents/ReusableInfoCard";
+import DynamicHairRemoval from "@/Components/commonComponents/DynamicHairRemoval";
 import FAQ from "@/Components/ServicesPage/FAQ";
-import { LineSvg } from "@/Components/SvgContainer/SvgContainer";
+import { BoltSvg, LineSvg } from "@/Components/SvgContainer/SvgContainer";
+
+import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
+import DynamicLaserBox from "@/Components/commonComponents/DynamicLaserBox";
 
 export default function ContactPage() {
+  const { data, isLoading, error } =
+    useSubServiceDetailsQuery("custom-facials");
+
+  const s = data?.sub_service_details;
+
+  const sectionBars = [
+    {
+      id: 1,
+      path: "definition",
+      label: s?.definition_sub_title || "What is Facial Balancing?",
+    },
+    { id: 2, path: "benefits", label: s?.benefits_sub_title || "Benefits" },
+    { id: 3, path: "candidacy", label: s?.candidate_sub_title || "Candidacy" },
+    { id: 4, path: "process", label: s?.process_sub_title || "The Process" },
+    {
+      id: 5,
+      path: "results",
+      label: s?.result_sub_title || "Aftercare & Results",
+    },
+    { id: 6, path: "why-us", label: s?.choose_sub_title || "Why Choose Us?" },
+    ...(Array.isArray(data?.service_faqs) && data.service_faqs.length
+      ? [{ id: 7, path: "faq", label: "FAQ" }]
+      : []),
+    { id: 8, path: "contact", label: "Contact" },
+  ];
+
+  const ASSET = process.env.NEXT_PUBLIC_ASSET_URL ?? "";
+
+  if (isLoading) {
+    return (
+      <>
+        <Container>
+          <div className="py-20 text-center">
+            <p>Loading…</p>
+          </div>
+        </Container>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container>
+        <div className="py-20 text-center">
+          <p>Failed to load content.</p>
+        </div>
+      </Container>
+    );
+  }
+
   return (
     <>
-      {/* Banner  */}
+      {/* Banner */}
       <Container>
         <BannerSection
-          bgImages={[bgImg1.src, bgImg1.src, bgImg1.src]}
-          heading="Custom Facials"
+          bgImages={[1, 2, 3].map(() =>
+            `${ASSET}/${data?.banner_image ?? ""}`
+              .replace(/\/+$/, "")
+              .replace(/([^:]\/)\/+/g, "$1")
+          )}
+          heading={data?.name}
           description={
             <>
               <span className="xl:block hidden section_description !text-white">
@@ -49,25 +94,23 @@ export default function ContactPage() {
         />
       </Container>
 
-      <Container>
-        <div>
-          {infoTextSections.map((service, idx) => (
-            <InfoTextSection key={idx} {...service} buttonVariant="pink" />
-          ))}
-        </div>
-      </Container>
+      <DynamicLaserBox
+        title={data?.title}
+        sub_title={data?.sub_title}
+        description={data?.description}
+      />
 
       <div className="bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
         <Container>
           <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
-            {sectionBars?.map((bar, index) => (
+            {sectionBars.map((bar, index) => (
               <Link
-                key={bar?.id}
-                href={`#${bar?.path}`}
+                key={`${bar.id}-${bar.path}`}
+                href={`#${bar.path}`}
                 scroll={true}
                 className="link_text"
               >
-                {bar?.label}
+                {bar.label}
                 {index === 0 && <LineSvg />}
               </Link>
             ))}
@@ -75,154 +118,231 @@ export default function ContactPage() {
         </Container>
       </div>
 
-      <Container>
-        <InfoGridSection {...facialBalancingInfo} />
-      </Container>
-
-      <InjectableServicesCardPink
-        id="botox-benefits"
-        image1={img11}
-        image2={img23}
-        buttonClassName="card_button_black"
-        subTitle="Benefits of Our Custom Facials"
-        title="What Makes Custom Facials Worth It"
-        description="Removing a tattoo doesn’t just change your skin—it can change how you feel. Laser tattoo removal at Esteves Aesthetics offers:"
-        containerBg="bg-white"
-        list={[
-          "Deep Cleansing of the Skin",
-          "Improved Skin Hydration",
-          "Enhanced Skin Tone and Texture",
-          "Reduction in Acne and Breakouts",
-          "Minimized Pores",
-          "Anti-Aging Benefits",
-          "Improved Blood Circulation",
-          "Stress Reduction",
-          "Detoxification",
-        ]}
-        titleClassName="card_title_black"
-        descriptionClassName="card_description"
-        index={0}
-      />
-      <InjectableServicesCardPink
-        id="botox-benefits"
-        image1={img11}
-        image2={img24}
-        subTitle="Ideal Candidates"
-        buttonText="Book Now"
-        buttonClassName="card_button_black"
-        buttonLink="#"
-        CardClassName="xl:flex-row-reverse"
-        title="Is This Facial Right for You?"
-        containerBg="bg-white"
-        list={[
-          "Wish to enhance the effects of other aesthetic treatments like peels or laser therapy",
-          "Want a tailored, non-invasive solution to improve your skin's appearance",
-          "Are experiencing skin concerns such as dryness, acne, congestion, dullness, or sensitivity",
-          "Need a skin-safe treatment for pregnancy, post-surgery, or reactive skin",
-        ]}
-        titleClassName="card_title_black"
-        descriptionClassName="card_description"
-        index={0}
-      />
-      <InjectableServicesCardPink
-        id="botox-benefits"
-        image1={img11}
-        image2={img25}
-        buttonLink="#"
-        subTitle="Are You a Good Candidate?"
-        title="Who’s a Fit for Laser Tattoo Removal at Esteves Aesthetics?"
-        description="If you're generally healthy and ready to part ways with your tattoo, you're likely a candidate. Ideal individuals include those who"
-        containerBg="bg-white"
-        list={[
-          "Wish to enhance the effects of other aesthetic treatments like peels or laser therapy",
-          "Are experiencing skin concerns such as dryness, acne, congestion, dullness, or sensitivity",
-          "Need a skin-safe treatment for pregnancy, post-surgery, or reactive skin",
-          "Are looking for ongoing skin maintenance and nourishment",
-        ]}
-        titleClassName="card_title_black"
-        descriptionClassName="card_description"
-        index={0}
-      />
-      <DynamicImageSection
-        img={imgDynamic}
-        isBox={true}
-        cardData={{
-          title: "Your Personalized Experience Begins Here",
-          subTitle: "Consultation & Preparation at Esteves Aesthetics",
-          description:
-            "Every journey begins with a thorough consultation. During your visit, our team will assess your tattoo's size, color, age, and depth, as well as your skin type and medical history. We’ll also outline a treatment plan tailored to your needs and discuss what to expect before, during, and after the procedure—so you feel confident every step of the way.",
-          buttonText: "Book Now",
-          buttonClassName: "card_button_black",
-        }}
-      />
-
-      <ReusableInfoCard
-        subTitle="Recovery, Aftercare, and Long-Term Results"
-        title="Gentle Healing, Bold Results"
-        list={[
-          {
-            title: "Keeping the Area Clean and Dry",
-            description: "Prevents infection and promotes healing",
-          },
-          {
-            title: "Applying Sunscreen",
-            description:
-              "Shields sensitive skin from UV exposure and pigment changes.",
-          },
-          {
-            title: "Moisturizing",
-            description:
-              "Keeps skin hydrated and aids recovery without irritation.",
-          },
-        ]}
-        buttonText="Book Now"
-        buttonLink="#"
-        buttonClassName="card_button_black"
-        image1={img11}
-        image2={img26}
-        containerBg="bg-[#FCE8E8]"
-      />
 
       <Container>
-        <div className="flex gap-10 mt-8 xl:mt-10">
-          <div className=" p-6 w-full md:w-[47.5%] bg-bg-pink">
-            <h3 className="font-semibold md:text-xl text-lg  lg:text-2xl xl:text-[32px] mb-5 ">
-              Seeing Results
-            </h3>
-            <p className="section_description">
-              Most clients notice lightening after just a few sessions, with
-              complete fading over time. Factors like ink color, depth, and age
-              will influence results.
-            </p>
+        <section id="definition" className="bg-white text-center">
+          <div className="bg-white shadow-[0_2px_47px_11px_rgba(0,0,0,0.15)] p-5 xl:p-20 mb-20">
+            {s?.definition_sub_title && (
+              <h5
+                data-aos="fade-up"
+                className="section_sub-title tracking-widest"
+              >
+                {s.definition_sub_title}
+              </h5>
+            )}
+
+            {s?.definition_title && (
+              <h2 data-aos="fade-up" className="card_title_black">
+                {s.definition_title}
+              </h2>
+            )}
+
+            {s?.definition_description && (
+              <p data-aos="fade-up" className="card_description mx-auto mb-12">
+                {s.definition_description}
+              </p>
+            )}
           </div>
-          <div className=" p-6 w-full md:w-[47.5%] bg-bg-pink ">
-            <h3 className="font-semibold md:text-xl text-lg  lg:text-2xl xl:text-[32px] mb-5">
-              Maintaining Results
-            </h3>
-            <p className="section_description">
-              Follow-up care and spacing sessions correctly ensures your skin
-              heals safely and beautifully. Avoid sun exposure, follow product
-              recommendations, and stay patient true transformation takes time.
-            </p>
+
+          <div className="flex flex-wrap justify-center gap-5 xl:gap-20">
+            {data?.sub_service_treatments?.map((item: any, idx: number) => (
+              <div
+                key={idx}
+                className="p5 xl:p-10 w-full md:w-[47.5%] bg-white shadow-[0_2px_47px_-12px_rgba(0,0,0,0.15)]"
+              >
+                <h3
+                  data-aos="fade-up"
+                  className="font-normal md:text-xl text-lg font-family-gloock lg:text-2xl xl:text-[32px] mb-5 text-center"
+                >
+                  {item.treatment_name}
+                </h3>
+                <p
+                  data-aos="fade-up"
+                  className="section_description text-center"
+                >
+                  {item.treatment_description}
+                </p>
+              </div>
+            ))}
           </div>
-        </div>
+        </section>
       </Container>
 
-      <div className="py-10 xl:py-40">
-        <FAQ />
+
+      <section
+        id="benefits"
+        className="py-10 md:py-14 xl:py-20 2xl:py-24 bg-[#F8F8F8]"
+      >
+        <Container>
+          <div className="flex flex-col justify-center items-center gap-5 xl:gap-10 3xl:gap-20 xl:flex-row">
+            <div className="flex-1 w-full xl:w-[35%] flex relative">
+              <div className="xl:pt-25 z-20 w-full xl:pl-14">
+                <Image
+                  className="h-[300px] md:h-[400px] lg:h-[500px] 2xl:h-[650px] w-full object-cover"
+                  src={`${ASSET}/${s?.benefits_image ?? ""}`}
+                  alt="Benefits"
+                  height={700}
+                  width={700}
+                />
+              </div>
+            </div>
+
+            <div className="w-full xl:w-[65%]">
+              {s?.benefits_sub_title && (
+                <h5 className="section_sub-title">{s.benefits_sub_title}</h5>
+              )}
+              {s?.benefits_title && (
+                <h2 className="card_title_black mb-10">{s.benefits_title}</h2>
+              )}
+
+              {data?.sub_service_benefits?.map((benefit: any, i: number) => (
+                <div key={i} className="mb-4">
+                  <h4 className="text-lg sm:text-xl font-normal text-secondary-black mb-2">
+                    {benefit.benefit_title}
+                  </h4>
+                  <p className="section_description">
+                    {benefit.benefit_description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+
+      <section
+        id="candidacy"
+        className="py-10 md:py-14 xl:py-20 2xl:py-24 bg-[#F8F8F8]"
+      >
+        <Container>
+          <div className="flex flex-col justify-center items-center gap-5 xl:gap-10 3xl:gap-20 xl:flex-row">
+            <div className="w-full xl:w-[60%]">
+              {s?.candidate_sub_title && (
+                <h5 className="section_sub-title">{s.candidate_sub_title}</h5>
+              )}
+              {s?.candidate_title && (
+                <h2 className="card_title_black mb-10">{s.candidate_title}</h2>
+              )}
+              {s?.candidate_description && (
+                <p
+                  data-aos="fade-up"
+                  className="section_description !font-semibold !text-secondary-black mb-8"
+                >
+                  {s.candidate_description}
+                </p>
+              )}
+
+              <div className="grid grid-cols-1 gap-3">
+                {data?.sub_service_candidates?.map(
+                  (cand: any, index: number) => (
+                    <div
+                      key={index}
+                      className="flex items-start space-x-2 text-gray-700"
+                    >
+                      <span className="text-base">
+                        <BoltSvg />
+                      </span>
+                      <span className="section_description">
+                        {cand.candidate_name}
+                      </span>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+
+            <div className="flex-1 w-full xl:w-[40%] flex relative">
+              <div className="xl:pt-25 xl:pb-20 z-20 w-full xl:pr-14">
+                <Image
+                  className="h-[300px] md:h-[400px] lg:h-[500px] 2xl:h-[650px] w-full object-cover"
+                  src={`${ASSET}/${s?.candidate_image ?? ""}`}
+                  alt="Candidacy"
+                  height={700}
+                  width={700}
+                />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+
+      <div id="process">
+        <Container>
+          <DynamicHairRemoval
+            title={s?.process_title}
+            sub_title={s?.process_sub_title}
+            description={`${s?.process_description ?? ""}`}
+          />
+        </Container>
       </div>
-      <Container>
-        <WhatPeopleSaying
-          sub_title="Say Goodbye to the Past — Start Fresh Today"
-          title="Take the First Step Toward Clearer Skin"
-          description="Ready to remove the ink and rediscover your skin? At Esteves Aesthetics, we’re here to help you feel more confident in your appearance with results you can see and feel. Schedule your consultation today and begin the journey toward a tattoo-free future—on your terms."
-          buttonText="Book Now"
-          buttonClassName="card_button_black"
-        />
-      </Container>
-      {/* Dynamic Cards */}
 
-      <DynamicContactUs image={image} />
+
+      <DynamicImageSection
+        img={`${ASSET}/${s?.how_works_image ?? ""}`}
+        isBox={true}
+        cardData={data}
+      />
+
+
+      <section
+        id="results"
+        className="py-10 md:py-14 xl:py-20 2xl:py-24 bg-[#F8F8F8]"
+      >
+        <Container>
+          {(s?.result_title ||
+            s?.result_description ||
+            s?.result_sub_title) && (
+            <div className="max-w-4xl mx-auto text-center">
+              {s?.result_sub_title && (
+                <h5 className="section_sub-title">{s.result_sub_title}</h5>
+              )}
+              <h2 className="card_title_black">
+                {s?.result_title || "Results & Recovery"}
+              </h2>
+              {s?.result_description && (
+                <p className="card_description mt-4">{s.result_description}</p>
+              )}
+            </div>
+          )}
+        </Container>
+      </section>
+
+
+      <Container>
+        <section id="why-us" className="bg-white text-center">
+          <div className="shadow-[0_2px_47px_11px_rgba(0,0,0,0.15)] p-5 xl:p-20 mb-20">
+            {s?.choose_sub_title && (
+              <h5
+                data-aos="fade-up"
+                className="section_sub-title tracking-widest"
+              >
+                {s.choose_sub_title}
+              </h5>
+            )}
+            {s?.choose_title && (
+              <h2 data-aos="fade-up" className="card_title_black">
+                {s.choose_title}
+              </h2>
+            )}
+            {s?.choose_description && (
+              <p data-aos="fade-up" className="card_description mx-auto mb-12">
+                {s.choose_description}
+              </p>
+            )}
+          </div>
+        </section>
+      </Container>
+
+      <div id="faq" className="py-10 sm:py-30">
+        <FAQ data={data?.service_faqs} />
+      </div>
+
+
+      <div id="contact">
+        <DynamicContactUs image={image} />
+      </div>
     </>
   );
 }

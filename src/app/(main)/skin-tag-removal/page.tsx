@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import image from "@/assets/contact/contact.png";
@@ -11,13 +10,14 @@ import Container from "@/Components/commonComponents/Container";
 import DynamicHairRemoval from "@/Components/commonComponents/DynamicHairRemoval";
 import FAQ from "@/Components/ServicesPage/FAQ";
 import { BoltSvg, LineSvg } from "@/Components/SvgContainer/SvgContainer";
-
 import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 import DynamicLaserBox from "@/Components/commonComponents/DynamicLaserBox";
 
+
+
 export default function ContactPage() {
   const { data, isLoading, error } =
-    useSubServiceDetailsQuery("chemical-peels");
+    useSubServiceDetailsQuery("skin-tag-removal");
 
   const s = data?.sub_service_details;
 

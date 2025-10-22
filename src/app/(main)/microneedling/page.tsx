@@ -16,8 +16,7 @@ import { useSubServiceDetailsQuery } from "@/redux/slices/cms/homeSlice";
 import DynamicLaserBox from "@/Components/commonComponents/DynamicLaserBox";
 
 export default function ContactPage() {
-  const { data, isLoading, error } =
-    useSubServiceDetailsQuery("chemical-peels");
+  const { data, isLoading, error } = useSubServiceDetailsQuery("microneedling");
 
   const s = data?.sub_service_details;
 

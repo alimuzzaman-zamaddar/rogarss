@@ -17,7 +17,6 @@ export default function InfoGridSection({
   return (
     <section className="section_padding bg-white text-center">
       <div className="bg-white shadow-[0_2px_47px_11px_rgba(0,0,0,0.15)]p-5 xl:p-20 mb-20">
-        {/* Intro */}
         {subtitle && (
           <h5 data-aos="fade-up" className="section_sub-title tracking-widest">
             {subtitle}
@@ -32,7 +31,6 @@ export default function InfoGridSection({
           </p>
         )}
       </div>
-      {/* Grid */}
       <div className="flex flex-wrap justify-center gap-5 xl:gap-20 ">
         {items.map((item, idx) => (
           <div
