@@ -1,5 +1,6 @@
 "use client";
 
+
 import Link from "next/link";
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
@@ -15,21 +16,23 @@ import DynamicCardSectionPink from "@/Components/commonComponents/DynamicCardSec
 import FaqSection from "@/Components/PageComponents/home/FaqSection";
 
 export default function page() {
-  const { data, isLoading } = useConditionTreatedDetailsQuery("sun-damage");
+
+  const { data, isLoading } = useConditionTreatedDetailsQuery("wrinkles-and-fine-lines");
 
   const sectionBars = [
-    { id: 1, path: "Tetra-CO2", label: "Tetra CO2" },
-    { id: 1, path: "ClearLift", label: "ClearLift" },
-    { id: 2, path: "Dye-VL", label: "Dye-VL" },
-    { id: 3, path: "CustomFacials", label: "Custom Facials" },
-    { id: 4, path: "ChemicalPeels", label: "Chemical Peels" },
-    { id: 6, path: "faq", label: "FAQ" },
-    { id: 7, path: "contact", label: "Contact" },
+    { id: 1, path: "botox", label: "Botox" },
+    { id: 2, path: "dysport", label: "Dysport" },
+    { id: 3, path: "dermal-fillers", label: "Dermal Fillers" },
+    { id: 4, path: "morpheus8", label: "Morpheus8" },
+    { id: 5, path: "opus-plasma", label: "Opus Plasma" },
+    { id: 6, path: "tetra-co2", label: "Tetra CO2" },
+    { id: 7, path: "clear-lift", label: "ClearLift" },
   ];
   return (
     <>
       {!isLoading && data && (
         <>
+          {/* Banner  */}
           <Container>
             <BannerSection
               bgImages={[1, 2, 3].map(
@@ -70,9 +73,74 @@ export default function page() {
               </Container>
             </div>
           </div>
-
-          <div id="Tetra-CO2">
+          <div id="botox">
             <DynamicCardSection
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.botox_image}`}
+              title={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.botox_title
+              }
+              description={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.botox_description
+              }
+            />
+          </div>
+          <DynamicImageSection img={IMG} />
+          <div id="dysport">
+            <DynamicCardSectionPink
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.dysport_image}`}
+              title={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.dysport_title
+              }
+              description={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.dysport_description
+              }
+            />
+          </div>
+          <div id="darmal-fillers">
+            <DynamicCardSection
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.dermal_fillers_image}`}
+              title={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.dermal_fillers_title
+              }
+              description={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.dermal_fillers_description
+              }
+            />
+          </div>
+          <div id="morpheus8">
+            <DynamicCardSectionPink
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.morpheus_image}`}
+              title={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.morpheus_title
+              }
+              description={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.morpheus_description
+              }
+            />
+          </div>
+          <div id="clear-lift">
+            <DynamicCardSection
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.opus_plasma_image}`}
+              title={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.opus_plasma_title
+              }
+              description={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.opus_plasma_description
+              }
+            />
+          </div>
+          <div id="tetra-co2">
+            <DynamicCardSectionPink
               image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.tetra_co2_image}`}
               title={
                 data?.data?.subConditionTreats?.sub_condition_treat_details
@@ -84,61 +152,6 @@ export default function page() {
               }
             />
           </div>
-          <DynamicImageSection img={IMG} />
-          <div id="ClearLift">
-            <DynamicCardSectionPink
-              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.clear_lift_image}`}
-              title={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.clear_lift_title
-              }
-              description={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.clear_lift_description
-              }
-            />
-          </div>
-
-          <div id="Dye-VL">
-            <DynamicCardSection
-              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.dyevl_image}`}
-              title={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.dyevl_title
-              }
-              description={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.dyevl_description
-              }
-            />
-          </div>
-          <div id="CustomFacials">
-            <DynamicCardSectionPink
-              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.custom_facials_image}`}
-              title={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.custom_facials_title
-              }
-              description={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.custom_facials_description
-              }
-            />
-          </div>
-          <div id="ChemicalPeels">
-            <DynamicCardSectionPink
-              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.chemical_peels_image}`}
-              title={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.chemical_peels_title
-              }
-              description={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.chemical_peels_description
-              }
-            />
-          </div>
-
           <TreatmentTechnologySection
             title={
               data?.data?.subConditionTreats?.sub_condition_treat_details
@@ -151,12 +164,8 @@ export default function page() {
             buttonText="Learn More"
             buttonLink="/treatment-technology"
           />
-          <div className="" id="faq">
-            <FaqSection faq={data?.data?.faqs} />
-          </div>
-          <div className="" id="contact">
-            <DynamicContactUs image={image} />
-          </div>
+          <FaqSection faq={data?.data?.faqs} />
+          <DynamicContactUs image={image} />
         </>
       )}
     </>

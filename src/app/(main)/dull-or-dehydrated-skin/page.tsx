@@ -15,20 +15,27 @@ import DynamicCardSectionPink from "@/Components/commonComponents/DynamicCardSec
 import FaqSection from "@/Components/PageComponents/home/FaqSection";
 
 export default function page() {
-  const { data, isLoading } = useConditionTreatedDetailsQuery("sun-damage");
+  const { data, error, isLoading, isUninitialized, status } =
+    useConditionTreatedDetailsQuery("dull-or-dehydrated-skin");
+  console.log(
+    data,
+    error,
+    isLoading,
+    isUninitialized,
+    status,
+    "from dull-or-dehydrated-skin"
+  );
 
   const sectionBars = [
-    { id: 1, path: "Tetra-CO2", label: "Tetra CO2" },
-    { id: 1, path: "ClearLift", label: "ClearLift" },
-    { id: 2, path: "Dye-VL", label: "Dye-VL" },
-    { id: 3, path: "CustomFacials", label: "Custom Facials" },
+    { id: 1, path: "CustomFacials", label: "Custom Facials" },
     { id: 4, path: "ChemicalPeels", label: "Chemical Peels" },
+    { id: 4, path: "IVDripTherapy", label: "IV Drip Therapy" },
     { id: 6, path: "faq", label: "FAQ" },
     { id: 7, path: "contact", label: "Contact" },
   ];
   return (
     <>
-      {!isLoading && data && (
+      { !isLoading && data &&(
         <>
           <Container>
             <BannerSection
@@ -71,49 +78,8 @@ export default function page() {
             </div>
           </div>
 
-          <div id="Tetra-CO2">
-            <DynamicCardSection
-              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.tetra_co2_image}`}
-              title={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.tetra_co2_title
-              }
-              description={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.tetra_co2_description
-              }
-            />
-          </div>
-          <DynamicImageSection img={IMG} />
-          <div id="ClearLift">
-            <DynamicCardSectionPink
-              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.clear_lift_image}`}
-              title={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.clear_lift_title
-              }
-              description={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.clear_lift_description
-              }
-            />
-          </div>
-
-          <div id="Dye-VL">
-            <DynamicCardSection
-              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.dyevl_image}`}
-              title={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.dyevl_title
-              }
-              description={
-                data?.data?.subConditionTreats?.sub_condition_treat_details
-                  ?.dyevl_description
-              }
-            />
-          </div>
           <div id="CustomFacials">
-            <DynamicCardSectionPink
+            <DynamicCardSection
               image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.custom_facials_image}`}
               title={
                 data?.data?.subConditionTreats?.sub_condition_treat_details
@@ -125,6 +91,7 @@ export default function page() {
               }
             />
           </div>
+          <DynamicImageSection img={IMG} />
           <div id="ChemicalPeels">
             <DynamicCardSectionPink
               image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.chemical_peels_image}`}
@@ -138,7 +105,19 @@ export default function page() {
               }
             />
           </div>
-
+          <div id="IVDripTherapy">
+            <DynamicCardSection
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.dyevl_image}`}
+              title={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.dyevl_title
+              }
+              description={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.dyevl_description
+              }
+            />
+          </div>
           <TreatmentTechnologySection
             title={
               data?.data?.subConditionTreats?.sub_condition_treat_details

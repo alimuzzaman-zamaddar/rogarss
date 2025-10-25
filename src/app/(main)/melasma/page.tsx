@@ -1,88 +1,135 @@
+"use client";
+
 import Link from "next/link";
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
-import bgImg from "@/assets/service/imagesecion.png";
 import image from "@/assets/contact/contact.png";
 import IMG from "@/assets/service/imagesecion.png";
 import DynamicImageSection from "@/Components/commonComponents/DynamicImageSecion";
 import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
-import FaqSection from "@/Components/PageComponents/home/FaqSection";
 import TreatmentTechnologySection from "@/Components/commonComponents/TreatmentTechnologySection";
-import { IoArrowForward } from "react-icons/io5";
 import Container from "@/Components/commonComponents/Container";
-import { dynamicCardData, sectionBars } from "@/Components/Data/data";
+import { useConditionTreatedDetailsQuery } from "@/redux/slices/cms/conditionSlice";
+import { LineSvg } from "@/Components/SvgContainer/SvgContainer";
+import DynamicCardSectionPink from "@/Components/commonComponents/DynamicCardSectionPink";
+import FaqSection from "@/Components/PageComponents/home/FaqSection";
 
 export default function page() {
+  const { data, isLoading } = useConditionTreatedDetailsQuery("melasma");
+
+  const sectionBars = [
+    { id: 1, path: "condition_treat", label: "Condition Treat" },
+    { id: 2, path: "dyevl_title", label: "Dyevl" },
+    { id: 3, path: "tetra_co2", label: "Tetra Co2" },
+    { id: 6, path: "faq", label: "FAQ" },
+    { id: 7, path: "contact", label: "Contact" },
+  ];
   return (
     <>
-      {/* Banner  */}
-      <Container>
-        {" "}
-        <BannerSection
-          bgImages={[bgImg.src, bgImg.src, bgImg.src]}
-          heading="Melasma"
-          description="Smooth, Firm, and Restore Your Skin’s Youthful Glow"
-        />
-      </Container>
-
-      {/* Tabs */}
-      <div className="pt-10 lg:pt-14 2xl:pt-20 3xl:pt-30 pb-5 xl:pb-8 2xl:pb-10">
-        <h4
-          data-aos="fade-up"
-          className="section_title !mb-2 2xl:!mb-5 text-center"
-        >
-          Melasma
-        </h4>
-        <p data-aos="fade-up" className="card_description text-center">
-          Smooth, Firm, and Restore Your Skin’s Youthful Glow
-        </p>
-
-        <div className="bg-bg-pink py-4 mt-10 3xl:mt-20">
+      {!isLoading && data && (
+        <>
+          {/* Banner  */}
           <Container>
-            <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
-              {sectionBars?.map((bar) => (
-                <Link
-                  key={bar?.id}
-                  href={`#${bar?.path}`}
-                  scroll={true}
-                  className="link_text"
-                >
-                  {bar?.label}
-                  <IoArrowForward />
-                </Link>
-              ))}
-            </div>
+            <BannerSection
+              bgImages={[1, 2, 3].map(
+                () =>
+                  `${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.banner_image}`
+              )}
+              heading={data?.data?.subConditionTreats?.name}
+              description={data?.data?.subConditionTreats?.banner_text}
+            />
           </Container>
-        </div>
-      </div>
+          {/* Tabs */}
+          <div className="pt-10 lg:pt-14 2xl:pt-20 3xl:pt-30 pb-5 xl:pb-8 2xl:pb-10">
+            <h4
+              data-aos="fade-up"
+              className="section_title !mb-2 2xl:!mb-5 text-center"
+            >
+              {data?.data?.subConditionTreats?.title}
+            </h4>
+            <p data-aos="fade-up" className="card_description text-center">
+              {data?.data?.subConditionTreats?.description}
+            </p>
 
-      {/* Dynamic Cards */}
-      {dynamicCardData?.map((item, index) => (
-        <div key={index}>
-          <DynamicCardSection
-            id={item?.id}
-            image={item?.image2}
-            title={item?.title}
-            description={item?.description}
-            buttonText={item?.buttonText}
-            buttonClassName={item?.buttonClassName}
-            titleClassName={item?.titleClassName}
-            descriptionClassName={item?.descriptionClassName}
-            buttonLink={item?.buttonLink}
-            index={index}
+            <div className="bg-[#FBFBFB] hidden lg:block py-3 sm:py-4 mt-6 sm:mt-10 3xl:mt-20">
+              <Container>
+                <div className="flex flex-wrap gap-3 sm:gap-4 items-center justify-center xl:justify-between text-xs sm:text-sm xl:text-base">
+                  {sectionBars?.map((bar, index) => (
+                    <Link
+                      key={bar.id}
+                      href={`#${bar.path}`}
+                      scroll={true}
+                      className="link_text"
+                    >
+                      {bar.label}
+                      {index === 0 && <LineSvg />}
+                    </Link>
+                  ))}
+                </div>
+              </Container>
+            </div>
+          </div>
+          <div id="condition_treat">
+            <DynamicCardSection
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.chemical_peels_image}`}
+              title={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.chemical_peels_title
+              }
+              description={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.chemical_peels_description
+              }
+            />
+          </div>
+          <DynamicImageSection img={IMG} />
+          <div id="dyevl">
+            <DynamicCardSectionPink
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.dyevl_image}`}
+              title={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.dyevl_title
+              }
+              description={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.dyevl_description
+              }
+            />
+          </div>
+          <div id="tetra_co2">
+            <DynamicCardSectionPink
+              image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.subConditionTreats?.sub_condition_treat_details?.tetra_co2_image}`}
+              title={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.tetra_co2_title
+              }
+              description={
+                data?.data?.subConditionTreats?.sub_condition_treat_details
+                  ?.tetra_co2_description
+              }
+            />
+          </div>
+          <TreatmentTechnologySection
+            title={
+              data?.data?.subConditionTreats?.sub_condition_treat_details
+                ?.co2_treatment_title
+            }
+            title_des={
+              data?.data?.subConditionTreats?.sub_condition_treat_details
+                ?.co2_treatment_description
+            }
+            buttonText="Learn More"
+            buttonLink="/treatment-technology"
           />
-          {index === 0 && <DynamicImageSection img={IMG} />}
-        </div>
-      ))}
-
-      <TreatmentTechnologySection
-        title="CO2 Treatment & Technology at Estevez Aesthetics"
-        title_des="At Estevez Aesthetics, we understand that today’s patients want transformative skin rejuvenation without the extended downtime. That’s why we offer the Tetra PRO CO2 laser, an advanced device delivering powerful 40W fractional resurfacing with precision and versatility. Featuring the award-winning CoolPeel® treatment and the innovative Moveo technology for smooth, in-motion application,"
-        buttonText="Learn More"
-        buttonLink="/treatment-technology"
-      />
-      <FaqSection />
-      <DynamicContactUs image={image} />
+          <div className="" id="faq">
+            {" "}
+            <FaqSection faq={data?.data?.faqs} />
+          </div>
+          <div className="" id="contact">
+            <DynamicContactUs image={image} />
+          </div>
+        </>
+      )}
     </>
   );
 }

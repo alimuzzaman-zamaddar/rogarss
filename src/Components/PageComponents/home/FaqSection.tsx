@@ -8,8 +8,8 @@ import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import imageUrl from "../../../assets/testimonial/faq.png";
 
-const FaqSection: React.FC = () => {
-  const accordionDatas = accordionData;
+const FaqSection = (faqs: any) => {
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const handleToggle = (index: number) => {
     setActiveIndex(activeIndex === index ? -1 : index);
@@ -31,7 +31,6 @@ const FaqSection: React.FC = () => {
             />
           </div>
 
-          {/* Right Accordion */}
           <div data-aos="fade-up" className="grow">
             <div>
               <Paragraph Txt="Faq" className="section_sub-title" />
@@ -42,9 +41,8 @@ const FaqSection: React.FC = () => {
             </div>
 
             <div className="space-y-2 2xl:space-y-4">
-              {accordionDatas.map((item, index) => (
+              {faqs?.faq.map((item: any, index: number) => (
                 <div key={index} className="border-b border-gray-200 ">
-                  {/* Accordion Header */}
                   <div
                     className={`flex justify-between items-center cursor-pointer transition-all duration-1000 p-3 2xl:p-5 ${
                       activeIndex === index
@@ -64,7 +62,6 @@ const FaqSection: React.FC = () => {
                       <IoIosArrowDown />
                     </span>
                   </div>
-                  {/* Accordion Content */}
                   <div
                     className={`transition-all duration-500 ease-in-out overflow-hidden ${
                       activeIndex === index

@@ -42,11 +42,7 @@ const authSlice = createSlice({
       state.token = null;
       state.user = null;
       state.isLoggedIn = false;
-
-      // Remove manually set localStorage item
       removeItem("token");
-
-      // Clear redux-persist stored state
       if (typeof window !== "undefined") {
         localStorage.removeItem("persist:auth");
       }

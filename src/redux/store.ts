@@ -14,6 +14,7 @@ import storage from "redux-persist/lib/storage";
 import authReducer from "./slices/authSlice";
 import { homeApi } from "./slices/cms/homeSlice";
 import { blogSlice } from "./slices/blogSlice";
+import { conditionSlice } from "./slices/cms/conditionSlice";
 
 const authPersistConfig = {
   key: "auth",
@@ -24,17 +25,19 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
 
-
   [homeApi.reducerPath]: homeApi.reducer,
   [blogSlice.reducerPath]: blogSlice.reducer,
+  [conditionSlice.reducerPath]: conditionSlice.reducer, 
 });
-
 
 const persistedReducer = persistReducer(
   {
     key: "root",
     storage,
-    blacklist: [homeApi.reducerPath, blogSlice.reducerPath], 
+    blacklist: [
+      homeApi.reducerPath,
+      blogSlice.reducerPath,
+    ],
   },
   rootReducer
 );
@@ -48,7 +51,8 @@ export const store = configureStore({
       },
     })
       .concat(homeApi.middleware)
-      .concat(blogSlice.middleware),
+      .concat(blogSlice.middleware)
+      .concat(conditionSlice.middleware),
 });
 
 export const persistor = persistStore(store);

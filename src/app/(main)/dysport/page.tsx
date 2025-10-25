@@ -31,7 +31,6 @@ export default function Page() {
         <Loader />
       ) : (
         <>
-          {/* Banner */}
           <Container>
             <BannerSection
               bgImages={[1, 2, 3].map(
@@ -43,7 +42,6 @@ export default function Page() {
             />
           </Container>
 
-          {/* Tabs Section */}
           <div className="pt-6 sm:pt-8 lg:pt-14 2xl:pt-20 3xl:pt-30 pb-5 xl:pb-8 2xl:pb-10">
             <Container>
               <h4
@@ -61,7 +59,6 @@ export default function Page() {
               </p>
             </Container>
 
-            {/* Navigation Tabs */}
             <div className="bg-[#FBFBFB] py-3 sm:py-4 mt-6 sm:mt-10 3xl:mt-20">
               <Container>
                 <div className="flex flex-wrap gap-3 sm:gap-4 items-center justify-center xl:justify-between text-xs sm:text-sm xl:text-base">
@@ -81,7 +78,6 @@ export default function Page() {
             </div>
           </div>
 
-          {/* Definition Section */}
           <div id="dysport">
             <DynamicCardSection
               image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.definition_image}`}
@@ -95,7 +91,6 @@ export default function Page() {
             />
           </div>
 
-          {/* Difference Section */}
           <Container>
             <h4
               data-aos="fade-up"
@@ -119,7 +114,6 @@ export default function Page() {
             </p>
           </Container>
 
-          {/* Benefits Section */}
           <Container>
             <section
               id="becefits"
@@ -157,7 +151,6 @@ export default function Page() {
             </section>
           </Container>
 
-          {/* Candidates Section */}
           <Container>
             <div id="candidate" className="my-10 sm:my-20">
               <h4
@@ -210,7 +203,6 @@ export default function Page() {
             </div>
           </Container>
 
-          {/* Result Section */}
           <div id="result" className="">
             <DynamicCardSection
               image={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.sub_service_details?.result_image}`}
@@ -245,7 +237,6 @@ export default function Page() {
             </div>
           </Container>
 
-          {/* CTA Section */}
           <Container>
             <div className="my-10 sm:my-20 px-4 sm:px-10 py-10 sm:py-20 bg-[#FBE0DA]">
               <h4
@@ -268,7 +259,6 @@ export default function Page() {
             </div>
           </Container>
 
-          {/* FAQ Section */}
           <div id="faq" className="py-10 sm:py-30">
             <FAQ data={data?.service_faqs} />
           </div>
