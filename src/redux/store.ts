@@ -15,6 +15,8 @@ import authReducer from "./slices/authSlice";
 import { homeApi } from "./slices/cms/homeSlice";
 import { blogSlice } from "./slices/blogSlice";
 import { conditionSlice } from "./slices/cms/conditionSlice";
+import { contactSlice } from "./slices/contactSlice";
+import { authApi } from "./auth/authApi";
 
 const authPersistConfig = {
   key: "auth",
@@ -27,7 +29,9 @@ const rootReducer = combineReducers({
 
   [homeApi.reducerPath]: homeApi.reducer,
   [blogSlice.reducerPath]: blogSlice.reducer,
-  [conditionSlice.reducerPath]: conditionSlice.reducer, 
+  [conditionSlice.reducerPath]: conditionSlice.reducer,
+  [contactSlice.reducerPath]: contactSlice.reducer,
+  [authApi.reducerPath]: authApi.reducer,
 });
 
 const persistedReducer = persistReducer(
@@ -52,7 +56,9 @@ export const store = configureStore({
     })
       .concat(homeApi.middleware)
       .concat(blogSlice.middleware)
-      .concat(conditionSlice.middleware),
+      .concat(conditionSlice.middleware)
+      .concat(contactSlice.middleware)
+      .concat(authApi.middleware),
 });
 
 export const persistor = persistStore(store);

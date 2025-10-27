@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getItem, setItem, removeItem } from "@/lib/localStroage";
-import { persistStore } from "redux-persist";
-import { store } from "../store"; 
 
 export interface User {
   id: number;
@@ -21,7 +19,7 @@ interface AuthState {
 const initialState: AuthState = {
   token: typeof window !== "undefined" ? getItem("token") || null : null,
   user: null,
-  isLoggedIn: false,
+  isLoggedIn: !!(typeof window !== "undefined" && getItem("token")),
 };
 
 const authSlice = createSlice({
@@ -38,7 +36,7 @@ const authSlice = createSlice({
       setItem("token", action.payload.token);
     },
 
-    logout: state => {
+    logout: (state) => {
       state.token = null;
       state.user = null;
       state.isLoggedIn = false;

@@ -21,8 +21,7 @@ import Loader from "@/Components/Tags/Loader/loader";
 
 export default function LandingPage() {
 
-  const { data, error, isLoading } = useHomeContentsQuery();
-  console.log(data?.data?.banner ,"from home");
+  const { data, isLoading } = useHomeContentsQuery();
   
 
   return (

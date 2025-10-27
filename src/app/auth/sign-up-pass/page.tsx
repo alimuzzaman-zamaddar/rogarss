@@ -1,22 +1,38 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import bgImage from "../../../assets/auth/Createanaccountpage.png";
 import { useForm } from "react-hook-form";
-import { signupPassBody } from "@/types/api";
+import type { signupPassBody } from "@/types/api";
 import Image from "next/image";
 import image from "../../../assets/auth/beauty-natural-woman-studio 1.png";
 import Container from "@/Components/commonComponents/Container";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
-export default function page() {
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useRegisterMutation } from "@/redux/auth/authApi";
+
+export default function Page() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
+    setError,
   } = useForm<signupPassBody>();
 
-  const [signupInfo, setSignupInfo] = useState({ fullname: "", email: "" });
+  // pull name+email saved from step 1
+  const [signupInfo, setSignupInfo] = useState<{
+    fullname: string;
+    email: string;
+  }>({
+    fullname: "",
+    email: "",
+  });
 
   useEffect(() => {
     const stored = localStorage.getItem("signup-info");
@@ -25,19 +41,48 @@ export default function page() {
     }
   }, []);
 
-  const onSubmit = (data: signupPassBody) => {
-    const combinedData = {
-      ...signupInfo,
-      ...data,
-    };
-    console.log("Final Submitted:", combinedData);
-    localStorage.removeItem("signup-info");
+  // RTK Query mutation
+  const [registerUser, { isLoading }] = useRegisterMutation();
+
+  const onSubmit = async (data: signupPassBody) => {
+    // basic client-side confirm check
+    if (data.password !== data.conformpassword) {
+      setError("conformpassword", {
+        type: "validate",
+        message: "Passwords do not match",
+      });
+      return;
+    }
+
+    try {
+      // API expects: name, email, password, password_confirmation, agree_to_terms
+      await registerUser({
+        name: signupInfo.fullname,
+        email: signupInfo.email,
+        password: data.password,
+        password_confirmation: data.conformpassword,
+        agree_to_terms: 1,
+      }).unwrap();
+
+      toast.success("Account created!");
+      localStorage.removeItem("signup-info");
+      router.replace("/dashboard"); // token+user stored via setCredentials in onQueryStarted
+    } catch (e: any) {
+      // Try to surface a useful error message
+      const apiMsg =
+        e?.data?.message ||
+        e?.data?.errors?.[Object.keys(e?.data?.errors || {})[0]]?.[0] ||
+        "Registration failed. Please try again.";
+      toast.error(apiMsg);
+    }
   };
 
   const [showPass, setShowPass] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const togglePassword = () => setShowPass(!showPass);
-  const toggleConfirmPassword = () => setShowConfirm(!showConfirm);
+  const togglePassword = () => setShowPass((s) => !s);
+  const toggleConfirmPassword = () => setShowConfirm((s) => !s);
+
+  const password = watch("password");
 
   return (
     <section
@@ -57,6 +102,7 @@ export default function page() {
                 className="w-full object-cover h-[530px]"
                 src={image}
                 alt="contact image"
+                priority
               />
             </div>
 
@@ -67,7 +113,16 @@ export default function page() {
                 <p className="auth_sub_title">
                   Please create an account to continue using our service
                 </p>
+                {/* Show who we’re registering, if present */}
+                {(signupInfo.fullname || signupInfo.email) && (
+                  <p className="text-sm text-sub-text mt-2">
+                    Signing up as{" "}
+                    <span className="font-medium">{signupInfo.fullname}</span> (
+                    {signupInfo.email})
+                  </p>
+                )}
               </div>
+
               <div className="w-full">
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                   {/* Password Field */}
@@ -75,16 +130,24 @@ export default function page() {
                     <label className="block text-base font-family-gloock text-black mb-2">
                       Password
                     </label>
-                    <div className="flex items-center px-4 py-3.5 bg-white ">
+                    <div className="flex items-center px-4 py-3.5 bg-white">
                       <input
                         type={showPass ? "text" : "password"}
                         {...register("password", {
                           required: "Password is required",
+                          minLength: {
+                            value: 8,
+                            message: "Minimum 8 characters",
+                          },
                         })}
                         placeholder="Enter your password"
                         className="flex-1 outline-none text-sm text-sub-text bg-transparent"
                       />
-                      <button type="button" onClick={togglePassword}>
+                      <button
+                        type="button"
+                        onClick={togglePassword}
+                        aria-label="toggle password"
+                      >
                         {showPass ? (
                           <EyeOff className="w-5 h-5 text-gray-500" />
                         ) : (
@@ -104,16 +167,22 @@ export default function page() {
                     <label className="block text-base font-family-gloock text-black mb-2">
                       Confirm Password
                     </label>
-                    <div className="flex items-center px-4 py-3.5 bg-white ">
+                    <div className="flex items-center px-4 py-3.5 bg-white">
                       <input
                         type={showConfirm ? "text" : "password"}
                         {...register("conformpassword", {
-                          required: "Password is required",
+                          required: "Confirm password is required",
+                          validate: (v) =>
+                            v === password || "Passwords do not match",
                         })}
-                        placeholder="Enter your password"
+                        placeholder="Re-enter your password"
                         className="flex-1 outline-none text-sm text-sub-text bg-transparent"
                       />
-                      <button type="button" onClick={toggleConfirmPassword}>
+                      <button
+                        type="button"
+                        onClick={toggleConfirmPassword}
+                        aria-label="toggle confirm password"
+                      >
                         {showConfirm ? (
                           <EyeOff className="w-5 h-5 text-gray-500" />
                         ) : (
@@ -129,13 +198,23 @@ export default function page() {
                   </div>
 
                   {/* Submit Button */}
-                  <button className="w-full bg-bg-pink py-3 hover:bg-white text-base xl:text-xl font-family-gloock text-black border border-bg-pink duration-500 hover:border-alt-border transition-all mb-5 cursor-pointer">
-                    Sign Up
+                  <button
+                    disabled={isLoading}
+                    className={`w-full bg-bg-pink py-3 text-base xl:text-xl font-family-gloock text-black border border-bg-pink duration-500 transition-all mb-5 cursor-pointer ${
+                      isLoading
+                        ? "opacity-60 pointer-events-none"
+                        : "hover:bg-white hover:border-alt-border"
+                    }`}
+                  >
+                    {isLoading ? "Creating account..." : "Sign Up"}
                   </button>
 
                   <div>
                     <Link href="login">
-                      <button className="w-full border border-alt-border text-base xl:text-xlfont-family-gloock hover:border-bg-pink text-black py-3 hover:bg-bg-pink duration-500 transition-all cursor-pointer">
+                      <button
+                        type="button"
+                        className="w-full border border-alt-border text-base xl:text-xl font-family-gloock hover:border-bg-pink text-black py-3 hover:bg-bg-pink duration-500 transition-all cursor-pointer"
+                      >
                         Already have an account?
                       </button>
                     </Link>
