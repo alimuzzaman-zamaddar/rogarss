@@ -3,27 +3,28 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "@/redux/store";
 import { setCredentials } from "../slices/authSlice";
 
-// ---- Types
 export type RegisterPayload = {
-  name: string; // from "fullname"
+  name: string;
   email: string;
   password: string;
   password_confirmation: string;
-  agree_to_terms: 1 | 0; // API expects 1/0
+  agree_to_terms: 1 | 0;
 };
 
-export type LoginPayload = {
+export type LoginPayload = { email: string; password: string };
+
+export type SendOtpPayload = { email: string }; // /users/login/email-verify
+export type ResendOtpPayload = { email: string }; // /users/login/otp-resend
+export type ResetPasswordPayload = {
+  // /users/login/reset-password
   email: string;
   password: string;
+  password_confirmation: string;
 };
 
-export type MeResponse = any; // shape depends on your API
-export type AuthResponse =
-  | { token: string; user: any }
-  | { data?: { token?: string; user?: any } }
-  | any;
+export type AuthResponse = any;
+export type ApiResponse = any;
 
-// ---- API
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
@@ -36,7 +37,7 @@ export const authApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    // POST /users/register (form-data)
+    // REGISTER (kept from your previous code)
     register: builder.mutation<AuthResponse, RegisterPayload>({
       query: (payload) => {
         const fd = new FormData();
@@ -57,7 +58,6 @@ export const authApi = createApi({
       },
     }),
 
-    // (Optional) POST /users/login (json or form-data – adjust to your backend)
     login: builder.mutation<AuthResponse, LoginPayload>({
       query: (payload) => {
         const fd = new FormData();
@@ -68,18 +68,85 @@ export const authApi = createApi({
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          const token = data?.token ?? data?.data?.token ?? null;
-          const user = data?.user ?? data?.data?.user ?? null;
-          if (token && user) dispatch(setCredentials({ token, user }));
-        } catch {}
+
+          // Your response shape:
+          // { success, message, data: { id, name, email, role, avatar, token }, code }
+          const payload = data?.data;
+          const token = payload?.token ?? null;
+
+          // Build a user object that matches your AuthState.User
+          const user = payload
+            ? {
+                id: payload.id,
+                name: payload.name,
+                email: payload.email,
+                is_premium: false, // not provided by API; keep default
+                avatar: payload.avatar ?? null,
+                agree_to_terms: true, // not provided by API; adjust if needed
+                // (optional) role is not in your User interface—store separately in localStorage
+              }
+            : null;
+
+          if (token && user) {
+            // put into Redux
+            dispatch(setCredentials({ token, user }));
+
+            // persist to localStorage for your requirement:
+            // token, email, role, and a full user snapshot
+            if (typeof window !== "undefined") {
+              localStorage.setItem("token", token);
+              localStorage.setItem("email", payload.email ?? "");
+              localStorage.setItem("role", payload.role ?? "");
+              localStorage.setItem("user", JSON.stringify(payload)); // full object with role & id etc.
+            }
+          }
+        } catch {
+          // swallow; component will handle errors via unwrap()
+        }
       },
     }),
 
-    // GET /me (or your profile endpoint) – used by AuthChecker
-    me: builder.query<MeResponse, void>({
+    // --- NEW: SEND OTP ---
+    sendOtp: builder.mutation<ApiResponse, SendOtpPayload>({
+      query: ({ email }) => {
+        const fd = new FormData();
+        fd.append("email", email);
+        return { url: "/users/login/email-verify", method: "POST", body: fd };
+      },
+    }),
+
+    // --- NEW: RESEND OTP ---
+    resendOtp: builder.mutation<ApiResponse, ResendOtpPayload>({
+      query: ({ email }) => {
+        const fd = new FormData();
+        fd.append("email", email);
+        return { url: "/users/login/otp-resend", method: "POST", body: fd };
+      },
+    }),
+
+    // --- NEW: RESET PASSWORD ---
+    resetPassword: builder.mutation<ApiResponse, ResetPasswordPayload>({
+      query: ({ email, password, password_confirmation }) => {
+        const fd = new FormData();
+        fd.append("email", email);
+        fd.append("password", password);
+        fd.append("password_confirmation", password_confirmation);
+        return { url: "/users/login/reset-password", method: "POST", body: fd };
+      },
+    }),
+
+    // ME (optional)
+    me: builder.query<any, void>({
       query: () => ({ url: "/me", method: "GET" }),
     }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useMeQuery } = authApi;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useSendOtpMutation,
+  useResendOtpMutation,
+  useResetPasswordMutation,
+  useMeQuery,
+} = authApi;

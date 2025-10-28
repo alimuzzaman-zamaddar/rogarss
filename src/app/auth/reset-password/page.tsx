@@ -6,22 +6,31 @@ import { EmailSvg } from "@/Components/SvgContainer/SvgContainer";
 import Image from "next/image";
 import image from "../../../assets/auth/resetpass.png";
 import Container from "@/Components/commonComponents/Container";
+import toast from "react-hot-toast";
+import { useSendOtpMutation } from "@/redux/auth/authApi";
 
 interface ResetPass {
   email: string;
 }
 
-export default function page() {
+export default function Page() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ResetPass>();
-
   const router = useRouter();
+  const [sendOtp, { isLoading }] = useSendOtpMutation();
 
-  const onSubmit = (data: ResetPass) => {
-    console.log("Submitted:", data);
+  const onSubmit = async (data: ResetPass) => {
+    try {
+      await sendOtp({ email: data.email }).unwrap();
+      localStorage.setItem("reset-email", data.email);
+      toast.success("Verification code sent to your email");
+      router.push("/auth/verifyotp"); 
+    } catch (e: any) {
+      toast.error(e?.data?.message || "Failed to send verification code");
+    }
   };
 
   return (
@@ -55,7 +64,6 @@ export default function page() {
               </div>
               <div className="w-full ">
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-                  {/* Email Field */}
                   <div className="mb-6">
                     <label className="block text-base font-family-gloock text-gray-800 mb-2">
                       Email Address
@@ -78,12 +86,16 @@ export default function page() {
                     )}
                   </div>
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full bg-bg-pink  py-3 hover:bg-white text-base xl:text-xl font-family-gloock text-black border border-bg-pink duration-500 hover:border-alt-border transition-all mb-5 cursor-pointer"
+                    disabled={isLoading}
+                    className={`w-full bg-bg-pink  py-3 text-base xl:text-xl font-family-gloock text-black border border-bg-pink duration-500 transition-all mb-5 cursor-pointer ${
+                      isLoading
+                        ? "opacity-60 pointer-events-none"
+                        : "hover:bg-white hover:border-alt-border"
+                    }`}
                   >
-                    Next
+                    {isLoading ? "Sending..." : "Next"}
                   </button>
                 </form>
               </div>

@@ -105,17 +105,15 @@ export const Navbar = () => {
       <Container>
         <div className="w-full relative">
           <div className="flex justify-between items-center">
-            {/* Left side - "Book an appointment" */}
 
             <Link
-              href="/book-appointment"
+              href="/dashboard"
               className="footer_text hidden xl:flex items-center space-x-5 flex-1"
             >
               <span>Book an appointment</span>
               <IoArrowForward />
             </Link>
 
-            {/* Center - Logo */}
             <div className="flex-1 flex xl:justify-center xl:items-center">
               <Link
                 href="/"
@@ -125,7 +123,6 @@ export const Navbar = () => {
               </Link>
             </div>
 
-            {/* Right side - Contact, Language, Store, Menu */}
             <div className="hidden xl:flex justify-end items-center gap-10 3xl:gap-14 3xl:text-lg flex-1">
               <div>
                 <p className="font-family-gilmer font-normal leading-[164%]">

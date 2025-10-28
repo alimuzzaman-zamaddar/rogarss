@@ -25,19 +25,32 @@ export default function Page() {
   const router = useRouter();
   const [login, { isLoading }] = useLoginMutation();
 
-  const onSubmit = async (data: LoginBody) => {
-    try {
-      await login({ email: data.email, password: data.password }).unwrap();
-      toast.success("Logged in successfully");
-      router.replace("/"); // user + token are set in onQueryStarted
-    } catch (e: any) {
-      const msg =
-        e?.data?.message ||
-        e?.data?.errors?.[Object.keys(e?.data?.errors || {})[0]]?.[0] ||
-        "Login failed. Please check your credentials.";
-      toast.error(msg);
+const onSubmit = async (form: LoginBody) => {
+  try {
+    const res = await login({
+      email: form.email,
+      password: form.password,
+    }).unwrap();
+
+    const payload = res?.data; 
+    if (payload?.token) {
+      localStorage.setItem("token", payload.token);
+      localStorage.setItem("email", payload.email ?? "");
+      localStorage.setItem("role", payload.role ?? "");
+      localStorage.setItem("user", JSON.stringify(payload));
     }
-  };
+
+    toast.success("Logged in successfully");
+    router.replace("/");
+  } catch (e: any) {
+    const msg =
+      e?.data?.message ||
+      e?.data?.errors?.[Object.keys(e?.data?.errors || {})[0]]?.[0] ||
+      "Login failed. Please check your credentials.";
+    toast.error(msg);
+  }
+};
+
 
   return (
     <section
@@ -51,7 +64,6 @@ export default function Page() {
       <Container>
         <div className="my-10">
           <div className="bg-white flex justify-center items-center gap-10 md:p-8 relative">
-            {/* Left */}
             <div className="flex-1 hidden xl:block bg-bg-pink">
               <Image
                 className="w-full object-cover h-[530px]"
@@ -60,8 +72,6 @@ export default function Page() {
                 priority
               />
             </div>
-
-            {/* Right */}
             <div className="flex-1 bg-[#F9FAFB] p-5 md:p-8">
               <div className="mb-10">
                 <h3 className="auth_title">Log in</h3>
@@ -72,7 +82,6 @@ export default function Page() {
 
               <div className="w-full ">
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-                  {/* Email */}
                   <div className="mb-6 w-full">
                     <label className="block text-base font-family-gloock text-gray-800 mb-2 ">
                       Email Address
@@ -94,8 +103,6 @@ export default function Page() {
                       </p>
                     )}
                   </div>
-
-                  {/* Password */}
                   <div className="mb-6 w-full">
                     <label className="block text-base font-family-gloock text-black mb-2">
                       Password
@@ -117,18 +124,14 @@ export default function Page() {
                       </p>
                     )}
                   </div>
-
-                  {/* Forget Password */}
                   <div className="text-right mb-6">
                     <Link
-                      href="#"
+                      href="/auth/reset-password"
                       className="text-xs font-semibold text-black transition-all cursor-pointer"
                     >
                       Forget Password?
                     </Link>
                   </div>
-
-                  {/* Submit */}
                   <button
                     type="submit"
                     disabled={isLoading}
@@ -151,7 +154,6 @@ export default function Page() {
                 </div>
               </div>
             </div>
-            {/* Right end */}
           </div>
         </div>
       </Container>

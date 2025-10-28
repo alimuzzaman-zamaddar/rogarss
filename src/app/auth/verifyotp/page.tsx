@@ -6,16 +6,22 @@ import Image from "next/image";
 import image from "../../../assets/auth/beauty-natural-woman-studio 1.png";
 import Container from "@/Components/commonComponents/Container";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useResendOtpMutation } from "@/redux/auth/authApi";
 
 export default function Page() {
   const router = useRouter();
   const { handleSubmit, control } = useForm<{ verificationCode: string[] }>();
   const [secondsLeft, setSecondsLeft] = useState(25);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
+  const [resendOtp, { isLoading: resendLoading }] = useResendOtpMutation();
 
-  const onSubmit = (data: { verificationCode: string[] }) => {
-    console.log("Verification Code Submitted: ", data);
-    router.push("/reset-password");
+  const email =
+    typeof window !== "undefined" ? localStorage.getItem("reset-email") : null;
+
+  const onSubmit = (_data: { verificationCode: string[] }) => {
+
+    router.push("/auth/set-new-password");
   };
 
   useEffect(() => {
@@ -23,15 +29,23 @@ export default function Page() {
       setIsResendDisabled(false);
       return;
     }
-    const timer = setInterval(() => {
-      setSecondsLeft(prev => prev - 1);
-    }, 1000);
+    const timer = setInterval(() => setSecondsLeft((p) => p - 1), 1000);
     return () => clearInterval(timer);
   }, [secondsLeft]);
 
-  const resendCode = () => {
-    setSecondsLeft(25);
-    setIsResendDisabled(true);
+  const resendCode = async () => {
+    if (!email) {
+      toast.error("Missing email — please restart reset flow.");
+      return;
+    }
+    try {
+      await resendOtp({ email }).unwrap();
+      setSecondsLeft(25);
+      setIsResendDisabled(true);
+      toast.success("Code resent to your email");
+    } catch (e: any) {
+      toast.error(e?.data?.message || "Failed to resend code");
+    }
   };
 
   return (
@@ -57,7 +71,7 @@ export default function Page() {
               <div className="mb-10">
                 <h1 className="auth_title">Enter the verification code</h1>
                 <p className="auth_sub_title">
-                  We sent a verification code to your email, check your email
+                  We sent a verification code to your email
                 </p>
               </div>
               <form onSubmit={handleSubmit(onSubmit)} className="mb-6">
@@ -89,12 +103,20 @@ export default function Page() {
                   </button>
                 </div>
               </form>
-              <div className="w-full flex justify-center mt-4">
-                <p>
-                  Don’t receive the code?{" "}
-                  <span onClick={resendCode}>Resend </span>
-                  in {secondsLeft} second
-                </p>
+              <div className="w-full flex justify-center mt-4 text-sm">
+                Don’t receive the code?{" "}
+                <button
+                  onClick={resendCode}
+                  disabled={isResendDisabled || resendLoading}
+                  className={`ml-1 underline ${
+                    isResendDisabled ? "opacity-60 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {resendLoading ? "Resending..." : "Resend"}
+                </button>{" "}
+                {isResendDisabled && (
+                  <span className="ml-1">in {secondsLeft}s</span>
+                )}
               </div>
             </div>
           </div>

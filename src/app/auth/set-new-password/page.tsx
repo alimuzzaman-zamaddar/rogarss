@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import bgImage from "../../../assets/auth/Createanaccountpage.png";
 import { useForm } from "react-hook-form";
 import { signupPassBody } from "@/types/api";
@@ -7,6 +7,9 @@ import Image from "next/image";
 import image from "../../../assets/auth/beauty-natural-woman-studio 1.png";
 import Container from "@/Components/commonComponents/Container";
 import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useResetPasswordMutation } from "@/redux/auth/authApi";
 
 export default function Page() {
   const {
@@ -14,17 +17,36 @@ export default function Page() {
     handleSubmit,
     formState: { errors },
   } = useForm<signupPassBody>();
-
-  const onSubmit = (data: signupPassBody) => {
-    console.log("Form Data Submitted: ", data);
-    return data;
-  };
-
   const [showPass, setShowPass] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [email, setEmail] = useState<string | null>(null);
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+  const router = useRouter();
 
-  const togglePassword = () => setShowPass(!showPass);
-  const toggleConfirmPassword = () => setShowConfirm(!showConfirm);
+  useEffect(() => {
+    const e = localStorage.getItem("reset-email");
+    setEmail(e);
+  }, []);
+
+  const onSubmit = async (data: signupPassBody) => {
+    if (!email) {
+      toast.error("Missing email — please restart reset flow.");
+      return;
+    }
+    try {
+      await resetPassword({
+        email,
+        password: data.password,
+        password_confirmation: data.conformpassword,
+      }).unwrap();
+
+      toast.success("Password reset successful. Please log in.");
+      localStorage.removeItem("reset-email");
+      router.replace("/auth/login");
+    } catch (e: any) {
+      toast.error(e?.data?.message || "Failed to reset password");
+    }
+  };
 
   return (
     <section
@@ -55,7 +77,7 @@ export default function Page() {
               </div>
               <div className="w-full">
                 <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-                  {/* Password Field */}
+                  {/* Password */}
                   <div className="mb-6">
                     <label className="block text-base font-family-gloock text-black mb-2">
                       Create new password
@@ -69,7 +91,10 @@ export default function Page() {
                         placeholder="Enter your new password"
                         className="flex-1 outline-none text-sm text-sub-text bg-transparent"
                       />
-                      <button type="button" onClick={togglePassword}>
+                      <button
+                        type="button"
+                        onClick={() => setShowPass((s) => !s)}
+                      >
                         {showPass ? (
                           <EyeOff className="w-5 h-5 text-gray-500" />
                         ) : (
@@ -84,7 +109,7 @@ export default function Page() {
                     )}
                   </div>
 
-                  {/* Confirm Password Field */}
+                  {/* Confirm */}
                   <div className="mb-6">
                     <label className="block text-base font-family-gloock text-black mb-2">
                       Confirm Password
@@ -98,7 +123,10 @@ export default function Page() {
                         placeholder="Enter your confirm password"
                         className="flex-1 outline-none text-sm text-sub-text bg-transparent"
                       />
-                      <button type="button" onClick={toggleConfirmPassword}>
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirm((s) => !s)}
+                      >
                         {showConfirm ? (
                           <EyeOff className="w-5 h-5 text-gray-500" />
                         ) : (
@@ -113,12 +141,16 @@ export default function Page() {
                     )}
                   </div>
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full bg-bg-pink py-3 hover:bg-white text-base xl:text-xl font-family-gloock text-black border border-bg-pink duration-500 hover:border-alt-border transition-all mb-5 cursor-pointer"
+                    disabled={isLoading}
+                    className={`w-full bg-bg-pink py-3 text-base xl:text-xl font-family-gloock text-black border border-bg-pink duration-500 transition-all mb-5 cursor-pointer ${
+                      isLoading
+                        ? "opacity-60 pointer-events-none"
+                        : "hover:bg-white hover:border-alt-border"
+                    }`}
                   >
-                    Continue
+                    {isLoading ? "Updating..." : "Continue"}
                   </button>
                 </form>
               </div>
@@ -126,7 +158,6 @@ export default function Page() {
           </div>
         </Container>
       </div>
-      {/* Overlay using Tailwind CSS */}
     </section>
   );
 }

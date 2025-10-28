@@ -1,15 +1,17 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
-import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
+import { useState, useMemo } from "react";
+import type { RootState } from "@/redux/store";
 import { logout } from "@/redux/slices/authSlice";
+import Container from "@/Components/commonComponents/Container";
 
-const menuItems = [
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Projects", href: "/dashboard/projects" },
-  { label: "Settings", href: "/dashboard/settings" },
+const MENU = [
+  { label: "Services", href: "/dashboard" },
+  { label: "Packges", href: "#" },
+  { label: "Gift Card", href: "#" },
 ];
 
 export default function DashboardLayout({
@@ -20,67 +22,105 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
 
-  const userData = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((s: RootState) => s.auth.user);
+
+  const current = useMemo(
+    () => MENU.find((m) => m.href === pathname)?.label ?? "Dashboard",
+    [pathname]
+  );
 
   const handleLogout = () => {
     dispatch(logout());
     router.replace("/auth/login");
   };
 
+  const initials = (user?.name || "")
+    .split(" ")
+    .slice(0, 2)
+    .map((s) => s[0])
+    .join("")
+    .toUpperCase();
+
   return (
-    <section className="min-h-screen w-full flex bg-gray-100 text-gray-900">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md hidden md:block">
-        <div className="h-16 px-6 flex items-center text-xl font-bold border-b">
-          My Dashboard
+    <section className="min-h-screen w-full bg-[#F8F8F8] text-primary-black">
+      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-alt-border">
+        <div>
+          <Container>
+            <div className="h-16 flex items-center justify-between gap-4">
+              <div className=" flex items-center gap-3">
+                <span className="hidden md:inline-block h-5 w-[1px] bg-alt-border" />
+
+                <nav className="p-3 space-y-2 flex">
+                  {MENU.map((item, index) => {
+                    console.log(item);
+                    const active = pathname === item.href;
+                    return (
+                      <Link
+                        key={index}
+                        href={item.href}
+                        className={[
+                          "group flex items-center justify-between",
+                          "px-4 py-3 ",
+                          active ? "text-bg-pink " : " hover:text-bg-pink ",
+                        ].join(" ")}
+                        onClick={() => setOpen(false)}
+                      >
+                        <span
+                          className={[
+                            "font-family-gilmer text-sm",
+                            active
+                              ? "text-primary-black"
+                              : "text-secondary-black",
+                          ].join(" ")}
+                        >
+                          {item.label}
+                        </span>
+                        <span className="opacity-0 group-hover:opacity-100 transition">
+                          <svg width="16" height="16" viewBox="0 0 24 24">
+                            <path
+                              d="M9 18l6-6-6-6"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </nav>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleLogout}
+                  className="hidden sm:inline-flex px-3 py-1.5 rounded-[4px] border border-[#E3B7AE] text-primary-black hover:bg-bg-pink/60 transition font-family-gilmer text-sm"
+                >
+                  Logout
+                </button>
+                <div className="w-9 h-9 rounded-full bg-bg-pink grid place-items-center font-family-gloock text-sm">
+                  {initials || "U"}
+                </div>
+              </div>
+            </div>
+          </Container>
         </div>
-        <nav className="flex flex-col gap-1 p-4">
-          {menuItems.map(item => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`px-4 py-2 rounded-md ${
-                  isActive
-                    ? "bg-blue-600 text-white"
-                    : "hover:bg-gray-100 text-gray-700"
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-      </aside>
+      </header>
 
-      {/* Main Content */}
-      <main className="flex-grow flex flex-col">
-        {/* Top Navbar */}
-        <header className="h-16 w-full bg-white shadow px-6 flex items-center justify-between">
-          <h2 className="text-lg font-semibold capitalize">
-            {pathname.split("/").pop() || "Dashboard"}
-          </h2>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-500">
-              Hello, {userData?.name}
-            </span>
-            <button
-              onClick={handleLogout}
-              className="text-sm text-red-500 border border-red-500 px-3 py-1 rounded hover:bg-red-50 transition"
-            >
-              Logout
-            </button>
-            <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+      <div className="flex">
+        <main className="flex-1 bg-white">
+          <div>
+            <section className="p-4">
+
+              <div className=" p-4">{children}</div>
+            </section>
           </div>
-        </header>
-
-        {/* Page Content */}
-        <section className="h-auto w-full container py-5">
-          <div>{children}</div>
-        </section>
-      </main>
+        </main>
+      </div>
     </section>
   );
 }
