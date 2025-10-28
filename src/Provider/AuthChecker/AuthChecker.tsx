@@ -8,7 +8,7 @@ import { logout, setCredentials } from "@/redux/slices/authSlice";
 
 const authPaths = ["/auth/login", "/auth/register"];
 const publicPaths = ["/", "/about", "/contact", "/pricing"];
-const protectedPaths = ["/dashboard", "/profile", "/settings"];
+const protectedPaths = ["/booking", "/profile", "/settings"];
 
 export default function AuthChecker({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -20,7 +20,7 @@ export default function AuthChecker({ children }: { children: ReactNode }) {
 
   const isAuthPage = authPaths.includes(pathname);
   const isPublicPage = publicPaths.includes(pathname);
-  const isProtectedPage = protectedPaths.some(p => pathname.startsWith(p));
+  const isProtectedPage = protectedPaths.some((p) => pathname.startsWith(p));
 
   const { data, error, isLoading } = useGetMeQuery(undefined, {
     skip: !token || !!user,
@@ -37,12 +37,11 @@ export default function AuthChecker({ children }: { children: ReactNode }) {
 
     if (isPublicPage) return;
 
-
     if (token && isAuthPage) {
-      router.replace("/dashboard");
+      router.replace("/booking");
       return;
     }
-    
+
     if (!token && isProtectedPage) {
       router.replace("/auth/login");
       return;
@@ -104,4 +103,3 @@ export default function AuthChecker({ children }: { children: ReactNode }) {
 
   return <>{children}</>;
 }
-

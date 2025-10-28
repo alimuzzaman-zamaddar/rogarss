@@ -105,9 +105,8 @@ export const Navbar = () => {
       <Container>
         <div className="w-full relative">
           <div className="flex justify-between items-center">
-
             <Link
-              href="/dashboard"
+              href="/booking"
               className="footer_text hidden xl:flex items-center space-x-5 flex-1"
             >
               <span>Book an appointment</span>

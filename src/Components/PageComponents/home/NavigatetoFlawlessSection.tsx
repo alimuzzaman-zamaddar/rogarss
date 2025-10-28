@@ -44,7 +44,7 @@ export const NavigatetoFlawlessSection = () => {
         </p>
       </div>
 
-      <div className="xl:block hidden bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
+      <div className="xl:block hidden bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-20">
         <Container>
           <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
             {sectionBars?.map((bar, index) => (

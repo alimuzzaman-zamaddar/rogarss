@@ -9,12 +9,12 @@ import { logout } from "@/redux/slices/authSlice";
 import Container from "@/Components/commonComponents/Container";
 
 const MENU = [
-  { label: "Services", href: "/dashboard" },
+  { label: "Services", href: "/booking" },
   { label: "Packges", href: "#" },
   { label: "Gift Card", href: "#" },
 ];
 
-export default function DashboardLayout({
+export default function bookingLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -27,7 +27,7 @@ export default function DashboardLayout({
   const user = useSelector((s: RootState) => s.auth.user);
 
   const current = useMemo(
-    () => MENU.find((m) => m.href === pathname)?.label ?? "Dashboard",
+    () => MENU.find((m) => m.href === pathname)?.label ?? "booking",
     [pathname]
   );
 
@@ -115,7 +115,6 @@ export default function DashboardLayout({
         <main className="flex-1 bg-white">
           <div>
             <section className="p-4">
-
               <div className=" p-4">{children}</div>
             </section>
           </div>

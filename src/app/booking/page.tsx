@@ -336,11 +336,11 @@ export default function Page() {
         address2: billing.address2 || "",
         city: billing.city,
         state: billing.state,
-        country: billing.country, 
+        country: billing.country,
         phone: billing.phone || "0000000000",
         zip_code: billing.zip,
-        cancel_redirect_url: `${origin}/dashboard/cancel`,
-        success_redirect_url: `${origin}/dashboard/success`,
+        cancel_redirect_url: `${origin}/booking/cancel`,
+        success_redirect_url: `${origin}/booking/success`,
         services: [
           {
             treatment_id: selectedTreatment.id,
@@ -348,7 +348,7 @@ export default function Page() {
               selectedSlot?.pivot?.availability_id || availabilityId,
             time_slot_id: selectedSlot?.pivot?.time_slot_id || selectedSlot.id,
             duration: selectedTreatment.duration || 60,
-            details: time, 
+            details: time,
           },
         ],
       } as const;

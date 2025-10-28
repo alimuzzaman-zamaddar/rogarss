@@ -7,7 +7,6 @@ export default function SuccessPage() {
   const qp = useSearchParams();
   const router = useRouter();
 
-  // Stripe often appends session params like ?session_id=...
   const sessionId = qp.get("session_id") || qp.get("sid");
   const amount = qp.get("amount"); // optional if you pass it back
 
@@ -40,7 +39,7 @@ export default function SuccessPage() {
             Go Home
           </button>
           <Link
-            href="/dashboard"
+            href="/booking"
             className="px-5 py-2 border border-[#E0E0E0] bg-white hover:bg-[#F2DED9] transition"
           >
             View Bookings

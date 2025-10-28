@@ -66,7 +66,7 @@ export default function Page() {
 
       toast.success("Account created!");
       localStorage.removeItem("signup-info");
-      router.replace("/dashboard"); // token+user stored via setCredentials in onQueryStarted
+      router.replace("/booking"); // token+user stored via setCredentials in onQueryStarted
     } catch (e: any) {
       // Try to surface a useful error message
       const apiMsg =
