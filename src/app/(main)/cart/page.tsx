@@ -124,12 +124,10 @@ export default function CartPage() {
         address2: bill.address2 || "",
         city: bill.city,
         state: bill.state,
-        country: bill.country === "United States" ? "US" : bill.country, 
-        phone: "0000000000", 
-        success_redirect_url:
-          "https://cdn.dribbble.com/userupload/23085506/file/original-014f9d8aa5827452030d68688d3928cf.jpg?resize=752x564&vertical=center",
-        cancel_redirect_url:
-          "https://cdn.dribbble.com/userupload/44483901/file/0a0a6e4f2208286443f5b729ba258b39.mp4",
+        country: bill.country === "United States" ? "US" : bill.country,
+        phone: "0000000000",
+        cancel_redirect_url: `${origin}/cart/cancel`,
+        success_redirect_url: `${origin}/cart/success`,
         coupon_code: coupon || null,
         zip_code: bill.zip,
       };

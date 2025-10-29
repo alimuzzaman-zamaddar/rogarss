@@ -33,7 +33,6 @@ export const productApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    /** GET /product => list */
     getProducts: builder.query<ProductsResponse, void>({
       query: () => ({ url: "/product", method: "GET" }),
     }),
