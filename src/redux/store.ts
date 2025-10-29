@@ -18,6 +18,8 @@ import { conditionSlice } from "./slices/cms/conditionSlice";
 import { contactSlice } from "./slices/contactSlice";
 import { authApi } from "./auth/authApi";
 import { bookingApi } from "./slices/cms/bookingApi";
+import { cartApi } from "./slices/shop/cartApi";
+import { productApi } from "./slices/shop/productApi";
 
 const authPersistConfig = {
   key: "auth",
@@ -34,6 +36,8 @@ const rootReducer = combineReducers({
   [contactSlice.reducerPath]: contactSlice.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [bookingApi.reducerPath]: bookingApi.reducer,
+  [cartApi.reducerPath]: cartApi.reducer,
+  [productApi.reducerPath]: productApi.reducer,
 });
 
 const persistedReducer = persistReducer(
@@ -43,8 +47,12 @@ const persistedReducer = persistReducer(
     blacklist: [
       homeApi.reducerPath,
       blogSlice.reducerPath,
-      conditionSlice.reducerPath, 
+      conditionSlice.reducerPath,
       contactSlice.reducerPath,
+      authApi.reducerPath, 
+      bookingApi.reducerPath, 
+      cartApi.reducerPath, 
+      productApi.reducerPath, 
     ],
   },
   rootReducer
@@ -63,7 +71,9 @@ export const store = configureStore({
       .concat(conditionSlice.middleware)
       .concat(contactSlice.middleware)
       .concat(authApi.middleware)
-      .concat(bookingApi.middleware),
+      .concat(bookingApi.middleware)
+      .concat(cartApi.middleware)
+      .concat(productApi.middleware),
 });
 
 export const persistor = persistStore(store);

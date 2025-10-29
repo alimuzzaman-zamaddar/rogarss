@@ -1,7 +1,7 @@
 "use client";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Container from "@/Components/commonComponents/Container";
 import { IoArrowDown, IoArrowForward } from "react-icons/io5";
 import { FaBars } from "react-icons/fa6";
@@ -26,6 +26,7 @@ import { PopupResponse } from "@/types/api";
 import DynamicServiceContentProducts from "@/Components/commonComponents/DynamicServiceContentProducts";
 import { useServiceContentsQuery } from "@/redux/slices/cms/homeSlice";
 import DynamicServiceContentForService from "@/Components/commonComponents/DynamicServiceContentForService";
+import { useGetCartsQuery } from "@/redux/slices/shop/cartApi";
 const popupMenu: PopupResponse[] = [
   {
     id: 1,
@@ -66,6 +67,8 @@ export const Navbar = () => {
   const PatientResources = MenuPatientResources;
   const beforeAfter = MenuBeforeAfter;
   const isHome = pathname === "/";
+
+
   const { data, isLoading, error } = useServiceContentsQuery();
   console.log(data, "from data");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,7 +76,13 @@ export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
-
+  const { data: cartData } = useGetCartsQuery();
+  console.log(cartData, "cartData");
+  const cartRows = cartData?.data ?? [];
+  const cartCount = cartRows.reduce(
+    (sum, r) => sum + Number(r.quantity || 0),
+    0
+  );
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden";
@@ -94,6 +103,13 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const router = useRouter();
+    const handleCartClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (cartCount === 0) {
+        e.preventDefault();
+        router.push("/product");
+      }
+    };
   return (
     <nav
       className={`
@@ -132,14 +148,23 @@ export const Navbar = () => {
                 </p>
               </div>
 
-              <div>
+              <Link
+                href="/cart"
+                onClick={handleCartClick}
+                className="relative group"
+              >
                 <div className="flex items-center justify-center font-family-gilmer font-normal">
                   <CartSvg />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 h-5 min-w-5 px-1 rounded-full bg-[#0F1B2A] text-white text-xs grid place-items-center">
+                      {cartCount}
+                    </span>
+                  )}
                 </div>
-                <p className="flex items-center gap-3 font-family-gilmer font-normal leading-[164%]">
+                <p className="flex items-center gap-3 font-family-gilmer font-normal leading-[164%] group-hover:underline">
                   Visit Store
                 </p>
-              </div>
+              </Link>
 
               <div>
                 <p

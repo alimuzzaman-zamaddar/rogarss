@@ -10,8 +10,9 @@ import {
   type Treatment,
 } from "@/redux/slices/cms/bookingApi";
 import ClinicInfoSection from "@/Components/common/ClinicInfoSection";
+import image from "../../../public/Med Spa Louisville KY.png"
 
-/** Helpers */
+
 const currency = (v: string | number) => {
   const n = typeof v === "string" ? Number(v) : v;
   if (Number.isNaN(n)) return "$0.00";
@@ -33,7 +34,7 @@ function Calendar({
 
   const grid = useMemo(() => {
     const first = new Date(view.getFullYear(), view.getMonth(), 1);
-    const startDay = first.getDay(); // 0..6 (Sun..Sat)
+    const startDay = first.getDay(); 
     const daysInMonth = new Date(
       view.getFullYear(),
       view.getMonth() + 1,
@@ -42,14 +43,14 @@ function Calendar({
 
     const cells: { date: Date; currentMonth: boolean }[] = [];
 
-    // Leading days
+
     for (let i = 0; i < startDay; i++) {
       const d = new Date(first);
       d.setDate(first.getDate() - (startDay - i));
       cells.push({ date: d, currentMonth: false });
     }
 
-    // Current month days
+
     for (let i = 1; i <= daysInMonth; i++) {
       cells.push({
         date: new Date(view.getFullYear(), view.getMonth(), i),
@@ -57,7 +58,6 @@ function Calendar({
       });
     }
 
-    // Trailing days to fill 6 weeks
     while (cells.length < 42) {
       const last = cells[cells.length - 1].date;
       const d = new Date(last);
@@ -359,7 +359,7 @@ export default function Page() {
         typeof res?.data === "string" ? res.data : (res as any)?.data?.url;
 
       if (checkoutUrl) {
-        window.location.href = checkoutUrl; // Stripe checkout redirect
+        window.location.href = checkoutUrl;
       } else {
         console.error("Unexpected response shape:", res);
         alert("Could not open checkout. Please try again.");
@@ -377,7 +377,7 @@ export default function Page() {
   return (
     <section className="">
       <ClinicInfoSection
-        imageSrc="https://i.ibb.co.com/pjpHjmk8/Med-Spa-Louisville-KY.png"
+        imageSrc={image}
         openingLines={[
           { value: "Monday – Wednesday" },
           { label: "Friday", value: "9:00 AM – 5:00 PM" },
@@ -390,7 +390,6 @@ export default function Page() {
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* LEFT: Categories */}
         <aside className="lg:col-span-3 border border-[#E0E0E0] bg-white p-4 ">
           <div className="mb-3">
             <input
@@ -419,10 +418,7 @@ export default function Page() {
             ))}
           </div>
         </aside>
-
-        {/* MIDDLE: Treatments + Date/Time */}
         <main className="lg:col-span-6">
-          {/* Treatments list */}
           <div className="bg-white border border-[#E0E0E0] p-4">
             {(treatments as Treatment[]).map((t) => (
               <div
@@ -462,8 +458,6 @@ export default function Page() {
               </div>
             ))}
           </div>
-
-          {/* Date + time */}
           <div className="bg-white border border-[#E0E0E0] p-4 mt-6">
             <h3 className="text-lg font-family-gloock mb-3">
               Select date and time
@@ -526,7 +520,6 @@ export default function Page() {
           </div>
         </main>
 
-        {/* RIGHT: Summary + billing */}
         <aside className="lg:col-span-3">
           <SummaryAndBilling
             selectedTreatment={selectedTreatment}

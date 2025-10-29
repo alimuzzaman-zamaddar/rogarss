@@ -1,13 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Container from "@/Components/commonComponents/Container";
-// import AeshteticsSectionS from "../../../assets/service/Image+Shadow.png";
-import { IoArrowForward } from "react-icons/io5";
 import Link from "next/link";
 import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
 import image1 from "../../../assets/home/Image (2).png"
-
 import { LineSvg } from "@/Components/SvgContainer/SvgContainer";
 
  const sectionBars = [
