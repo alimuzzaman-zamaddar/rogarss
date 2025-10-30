@@ -83,7 +83,7 @@ export const packageApi = createApi({
         const { package_ids, ...rest } = body;
         const fd = toFormData({
           ...rest,
-          package_id: package_ids, // becomes package_id[]
+          package_id: package_ids, 
         });
         return { url: "/checkout-package", method: "POST", body: fd };
       },
