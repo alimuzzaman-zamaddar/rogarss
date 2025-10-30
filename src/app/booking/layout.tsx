@@ -10,7 +10,7 @@ import Container from "@/Components/commonComponents/Container";
 
 const MENU = [
   { label: "Services", href: "/booking" },
-  { label: "Packges", href: "#" },
+  { label: "Packges", href: "/booking/packages" },
   { label: "Gift Card", href: "#" },
 ];
 

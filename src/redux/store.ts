@@ -20,6 +20,7 @@ import { authApi } from "./auth/authApi";
 import { bookingApi } from "./slices/cms/bookingApi";
 import { cartApi } from "./slices/shop/cartApi";
 import { productApi } from "./slices/shop/productApi";
+import { packageApi } from "./slices/shop/packageApi";
 
 const authPersistConfig = {
   key: "auth",
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   [bookingApi.reducerPath]: bookingApi.reducer,
   [cartApi.reducerPath]: cartApi.reducer,
   [productApi.reducerPath]: productApi.reducer,
+  [packageApi.reducerPath]: packageApi.reducer,
 });
 
 const persistedReducer = persistReducer(
@@ -49,10 +51,11 @@ const persistedReducer = persistReducer(
       blogSlice.reducerPath,
       conditionSlice.reducerPath,
       contactSlice.reducerPath,
-      authApi.reducerPath, 
-      bookingApi.reducerPath, 
-      cartApi.reducerPath, 
-      productApi.reducerPath, 
+      authApi.reducerPath,
+      bookingApi.reducerPath,
+      cartApi.reducerPath,
+      productApi.reducerPath,
+      packageApi.reducerPath,
     ],
   },
   rootReducer
@@ -73,7 +76,8 @@ export const store = configureStore({
       .concat(authApi.middleware)
       .concat(bookingApi.middleware)
       .concat(cartApi.middleware)
-      .concat(productApi.middleware),
+      .concat(productApi.middleware)
+      .concat(packageApi.middleware),  
 });
 
 export const persistor = persistStore(store);

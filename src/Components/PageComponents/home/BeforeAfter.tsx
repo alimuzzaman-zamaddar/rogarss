@@ -6,9 +6,10 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import Container from "@/Components/commonComponents/Container";
 import Image from "next/image";
-import { data } from "@/Components/Data/data";
 
-export const BeforeAfter = () => {
+
+export const BeforeAfter = (before:any) => {
+  console.log(before?.before, "before after data");
   return (
     <section className="xl:pt-10 pb-10 lg:pb-20 2xl:pb-32">
       <Container>
@@ -22,13 +23,13 @@ export const BeforeAfter = () => {
               modules={[Pagination]}
               className="before-after-swiper"
             >
-              {data.map((d, key) => (
+              {before?.before?.afterBeforeItems.map((d: any, key: any) => (
                 <SwiperSlide key={key}>
                   <div className="flex flex-col sm:flex-row gap-5 mb-10">
                     {/* First image */}
                     <div className="relative w-full">
                       <Image
-                        src={d.imag1}
+                        src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${d.before_image}`}
                         alt={d.texts1}
                         width={600}
                         height={500}
@@ -44,7 +45,7 @@ export const BeforeAfter = () => {
                     {/* Second image */}
                     <div className="relative w-full">
                       <Image
-                        src={d.imag2}
+                        src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${d.after_image}`}
                         alt={d.texts2}
                         width={600}
                         height={500}
@@ -64,17 +65,14 @@ export const BeforeAfter = () => {
 
           {/* Right */}
           <div className="flex-1 w-full xl:w-1/2 flex flex-col justify-center">
-            <p className="section_sub-title">before & after</p>
+            <p className="section_sub-title">
+              {before?.before?.afterBefore?.sub_title}
+            </p>
             <h3 className="section_title !mb-5 2xl:!mb-7">
-              The Art of Transformation
+              {before?.before?.afterBefore?.title}
             </h3>
             <p className="section_description">
-              At Esteveza Aesthetics, transformation is more than just visual —
-              it's a journey toward renewed confidence and authentic beauty.
-              Every image you see below reflects the subtle artistry, precision,
-              and personalized care we pour into each treatment. Explore our
-              gallery of real clients and real results, and discover the quiet
-              power of expert refinement.
+              {before?.before?.afterBefore?.description}
             </p>
           </div>
         </div>

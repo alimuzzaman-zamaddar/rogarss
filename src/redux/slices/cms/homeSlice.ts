@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { use } from "react";
 
 export const homeApi = createApi({
   reducerPath: "homeApi",
@@ -17,6 +18,16 @@ export const homeApi = createApi({
     SubServiceDetails: builder.query<any, string>({
       query: (slug) => `/sub-service-details/${slug}`,
     }),
+
+    Testimonials: builder.query<any, void>({
+      query: () => "/testimonials",
+    }),
+    SocialMedia: builder.query<any, void>({
+      query: () => "/social-media",
+    }),
+    SystemSetting: builder.query<any, void>({
+      query: () => "/system-settings",
+    }),
   }),
 });
 
@@ -24,4 +35,7 @@ export const {
   useServiceContentsQuery,
   useHomeContentsQuery,
   useSubServiceDetailsQuery,
+  useTestimonialsQuery,
+  useSocialMediaQuery,
+  useSystemSettingQuery,
 } = homeApi;

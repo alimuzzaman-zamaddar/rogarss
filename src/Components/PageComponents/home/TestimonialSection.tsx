@@ -10,6 +10,7 @@ import { testimonials } from "@/Components/Data/data";
 import { IoArrowBack, IoArrowForward } from "react-icons/io5";
 import type { Swiper as SwiperType } from "swiper";
 import Container from "@/Components/commonComponents/Container";
+import { useTestimonialsQuery } from "@/redux/slices/cms/homeSlice";
 
 export default function TestimonialSection() {
   const prevRef = useRef<HTMLButtonElement | null>(null);
@@ -18,6 +19,17 @@ export default function TestimonialSection() {
   useEffect(() => {
     setNavigationReady(true);
   }, []);
+
+  const { data, isLoading } = useTestimonialsQuery();
+  console.log(data?.data);
+
+  const imgURL = (path?: string) =>
+    path
+      ? `${process.env.NEXT_PUBLIC_ASSET_URL || ""}/${path}`.replace(
+          /([^:]\/)\/+/g,
+          "$1"
+        )
+      : "";
 
   return (
     <section className="py-10 lg:py-16 xl:py-20 bg-secondary-bg">
@@ -78,7 +90,7 @@ export default function TestimonialSection() {
                 modules={[Autoplay, Navigation]}
                 className="mySwiper h-fit"
               >
-                {testimonials.map((t, index) => (
+                {data?.data?.map((t: any, index: any) => (
                   <SwiperSlide key={index}>
                     <div className="flex flex-col-reverse lg:flex-row gap-5 lg:gap-10 2xl:gap-20">
                       <div className="grow flex flex-col">
@@ -86,7 +98,7 @@ export default function TestimonialSection() {
                           data-aos="fade-up"
                           className="lg:text-lg xl:text-xl 2xl:text-2xl 3xl:text-3xl font-light text-sub-light mb-5 2xl:mb-10 3xl:mb-12"
                         >
-                          {t.message}
+                          {t.testimonial}
                         </p>
                         <h5
                           data-aos="fade-up"
@@ -98,7 +110,7 @@ export default function TestimonialSection() {
                           data-aos="fade-up"
                           className="text-sub-text section_description"
                         >
-                          {t.role}
+                          {t.designation}
                         </h5>
                       </div>
 
@@ -106,8 +118,10 @@ export default function TestimonialSection() {
                       <div className="relative shrink-0 w-full lg:w-[300px] xl:w-[350px] 2xl:w-[402px]">
                         <Image
                           data-aos="fade-up"
-                          src={t.imageUrl}
+                          src={imgURL(t.image)}
                           alt={t.name}
+                          height={800}
+                          width={880}
                           className="w-full h-[300px] md:h-[350px] xl:h-[400px] 2xl:h-[450px]"
                         />
                       </div>

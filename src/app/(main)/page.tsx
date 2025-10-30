@@ -25,47 +25,52 @@ export default function LandingPage() {
   
 
   return (
-  <>
-    { isLoading?<Loader    /> :
-  (<>
-      <BannerSection
-        bgImages={[
-          banner.src,
-          banner2.src,
-          banner3.src,
-          banner4.src,
-          banner5.src,
-        ]}
-        heading={data?.data?.banner?.title}
-        description={data?.data?.banner?.description}
-      />
-      <ServicesSection />
-      <AeshteticsSection />
-      <NavigatetoFlawlessSection />
-      <BeforeAfter />
-      <div className="mb-0 xl:mb-25">
-        <DynamicCardSection
-          sectionSubTitle="Nothing Basic About Esteves Aesthetics"
-          image={image1}
-          title="Why choose us?"
-          description="At Esteves Aesthetics, your beauty journey is our priority. We combine cutting-edge technology, proven techniques, and a personalized approach to deliver results that are both natural and transformative. Our commitment to safety, comfort, and excellence ensures every treatment is tailored to your unique needs. With a team of highly trained experts and a passion for helping you feel confident in your own skin, we’re not just enhancing your appearance we’re elevating your entire self-care experience. "
-          titleClassName="card_title_black"
-          descriptionClassName="card_description"
-          index={0}
-        />
-      </div>
-      <div className="my-0 xl:my-50 ">
-        <ClarityCareSectrion />
-      </div>
-      <div className="my-0 xl:my-50 ">
-        <TestimonialSection />
-      </div>
-      <div className="mb-0 xl:mb-50">
-        <SocialMediaSection />
-      </div>
-      <DynamicContactUs image={img} />;
-    </>)
-    }
-</>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <BannerSection
+            bgImages={[
+              banner.src,
+              banner2.src,
+              banner3.src,
+              banner4.src,
+              banner5.src,
+            ]}
+            heading={data?.data?.banner?.title}
+            description={data?.data?.banner?.description}
+          />
+          <ServicesSection />
+          <AeshteticsSection />
+          <NavigatetoFlawlessSection />
+          <BeforeAfter before={data?.data} />
+          <div className="mb-0 xl:mb-25">
+            <DynamicCardSection
+              sectionSubTitle={data?.data?.homeWhyChoose?.sub_title}
+              image={
+                `${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.homeWhyChoose?.image_url}` ||
+                image1.src
+              }
+              title={data?.data?.homeWhyChoose?.title}
+              description={data?.data?.homeWhyChoose?.description}
+              titleClassName="card_title_black"
+              descriptionClassName="card_description"
+              index={0}
+            />
+          </div>
+          <div className="my-0 xl:my-50 ">
+            <ClarityCareSectrion />
+          </div>
+          <div className="my-0 xl:my-50 ">
+            <TestimonialSection />
+          </div>
+          <div className="mb-0 xl:mb-50">
+            <SocialMediaSection />
+          </div>
+          <DynamicContactUs image={img} />;
+        </>
+      )}
+    </>
   );
 }
