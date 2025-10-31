@@ -9,9 +9,9 @@ import { logout } from "@/redux/slices/authSlice";
 import Container from "@/Components/commonComponents/Container";
 
 const MENU = [
+  { label: "Home", href: "/" },
   { label: "Services", href: "/booking" },
   { label: "Packges", href: "/booking/packages" },
-  { label: "Gift Card", href: "#" },
 ];
 
 export default function bookingLayout({
@@ -63,7 +63,7 @@ export default function bookingLayout({
                         className={[
                           "group flex items-center justify-between",
                           "px-4 py-3 ",
-                          active ? "text-bg-pink " : " hover:text-bg-pink ",
+                          active ? "text-bg-pink " : " hover:text-primary-black ",
                         ].join(" ")}
                         onClick={() => setOpen(false)}
                       >
@@ -71,7 +71,7 @@ export default function bookingLayout({
                           className={[
                             "font-family-gilmer text-sm",
                             active
-                              ? "text-primary-black"
+                              ? "text-primary-black font-semibold"
                               : "text-secondary-black",
                           ].join(" ")}
                         >

@@ -8,7 +8,15 @@ import Container from "@/Components/commonComponents/Container";
 import Image from "next/image";
 
 
-export const BeforeAfter = (before:any) => {
+export const BeforeAfter = (before: any) => {
+  
+  const asset = (p?: string) =>
+    p
+      ? `${process.env.NEXT_PUBLIC_ASSET_URL}/${p}`.replace(
+          /([^:]\/)\/+/g,
+          "$1"
+        )
+      : "";
   console.log(before?.before, "before after data");
   return (
     <section className="xl:pt-10 pb-10 lg:pb-20 2xl:pb-32">
@@ -29,8 +37,8 @@ export const BeforeAfter = (before:any) => {
                     {/* First image */}
                     <div className="relative w-full">
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${d.before_image}`}
-                        alt={d.texts1}
+                        src={asset(d.before_image)}
+                        alt="image"
                         width={600}
                         height={500}
                         className="w-full h-[350px] md:h-[400px] lg:h-[450px] 2xl:h-[500px] 3xl:h-[630px] object-cover"
