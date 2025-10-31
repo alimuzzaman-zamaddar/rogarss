@@ -20,7 +20,7 @@ const url = (p?: string | null) =>
 
 export default function Page() {
   const { data, isLoading, error } =
-    useConditionTreatedDetailsQuery("low-libido");
+    useConditionTreatedDetailsQuery("low-energy-fatigue");
 
   if (isLoading) {
     return (
@@ -37,34 +37,32 @@ export default function Page() {
     );
   }
 
-  // API shape: { success, message, data: { faqs:[], subConditionTreats:{...} } }
   const root = data?.data;
   const svc = root?.subConditionTreats;
   const det = svc?.sub_condition_treat_details;
 
-  const heading = safe(svc?.name) || safe(svc?.title) || "Low Libido";
+  const heading = safe(svc?.name) || safe(svc?.title) || "Low Energy & Fatigue";
   const bannerDesc = safe(svc?.banner_text) || safe(svc?.description) || "";
   const bannerImg = url(svc?.banner_image) || FallbackImg.src;
 
-  // Tabs (only include if data exists)
   const tabs = [
     {
       id: 1,
+      path: "IVDripTherapy",
+      label: "IV Drip Therapy",
+      enabled:
+        !!safe(det?.iv_drip_therapy_title) ||
+        !!safe(det?.iv_drip_therapy_description) ||
+        !!safe(det?.iv_drip_therapy_image),
+    },
+    {
+      id: 2,
       path: "HormoneTherapy",
       label: "Hormone Therapy",
       enabled:
         !!safe(det?.hormone_therapy_title) ||
         !!safe(det?.hormone_therapy_description) ||
         !!safe(det?.hormone_therapy_image),
-    },
-    {
-      id: 2,
-      path: "AlmaDuo",
-      label: "Alma Duo",
-      enabled:
-        !!safe(det?.alma_duo_title) ||
-        !!safe(det?.alma_duo_description) ||
-        !!safe(det?.alma_duo_image),
     },
     {
       id: 3,
@@ -83,8 +81,25 @@ export default function Page() {
     { id: 5, path: "contact", label: "Contact", enabled: true },
   ].filter((t) => t.enabled);
 
-  // Card blocks for alternating layout
+  // Dynamic Cards
   const cardBlocks = [
+    (safe(det?.iv_drip_therapy_title) ||
+      safe(det?.iv_drip_therapy_description) ||
+      safe(det?.iv_drip_therapy_image)) && {
+      id: "IVDripTherapy",
+      image: url(det?.iv_drip_therapy_image) || FallbackImg.src,
+      title:
+        safe(det?.iv_drip_therapy_title) ||
+        "Revitalize Your Health with IV Drip Therapy",
+      description:
+        safe(det?.iv_drip_therapy_description) ||
+        "IV Drip Therapy delivers hydration and nutrients directly into your bloodstream for instant rejuvenation.",
+      buttonText: "Learn More",
+      buttonClassName: "card_button_pink",
+      titleClassName: "card_title_black",
+      descriptionClassName: "card_description",
+      buttonLink: "#",
+    },
     (safe(det?.hormone_therapy_title) ||
       safe(det?.hormone_therapy_description) ||
       safe(det?.hormone_therapy_image)) && {
@@ -95,22 +110,7 @@ export default function Page() {
         "Revitalize Your Health with Hormone Therapy",
       description:
         safe(det?.hormone_therapy_description) ||
-        "Hormone Therapy restores hormonal balance to improve vitality, mood, and overall well-being.",
-      buttonText: "Learn More",
-      buttonClassName: "card_button_pink",
-      titleClassName: "card_title_black",
-      descriptionClassName: "card_description",
-      buttonLink: "#",
-    },
-    (safe(det?.alma_duo_title) ||
-      safe(det?.alma_duo_description) ||
-      safe(det?.alma_duo_image)) && {
-      id: "AlmaDuo",
-      image: url(det?.alma_duo_image) || FallbackImg.src,
-      title: safe(det?.alma_duo_title) || "Alma Duo",
-      description:
-        safe(det?.alma_duo_description) ||
-        "Alma Duo is a non-invasive option aimed at supporting wellness and hormonal balance.",
+        "Hormone therapy restores balance, helping you regain energy and vitality through advanced techniques.",
       buttonText: "Learn More",
       buttonClassName: "card_button_pink",
       titleClassName: "card_title_black",
@@ -121,7 +121,6 @@ export default function Page() {
 
   return (
     <>
-      {/* Banner */}
       <Container>
         <BannerSection
           bgImages={[bannerImg, bannerImg, bannerImg]}
@@ -130,7 +129,6 @@ export default function Page() {
         />
       </Container>
 
-      {/* Title + Tabs */}
       <div className="pt-10 lg:pt-14 2xl:pt-20 3xl:pt-30 pb-5 xl:pb-8 2xl:pb-10">
         <h4 className="section_title !mb-2 2xl:!mb-5 text-center">
           {safe(svc?.title) || heading}
@@ -161,18 +159,15 @@ export default function Page() {
         )}
       </div>
 
-      {/* Alternating Cards (Hormone Therapy / Alma Duo) */}
       {cardBlocks.length > 0 && (
-        <>
-          {/* Anchor divs so tabs scroll to the correct position */}
+        <div>
           {cardBlocks.map((b) => (
             <div key={b.id} id={b.id} />
           ))}
           <DynamicCards items={cardBlocks} />
-        </>
+        </div>
       )}
 
-      {/* CO2 Treatment block */}
       {(safe(det?.co2_treatment_title) ||
         safe(det?.co2_treatment_description)) && (
         <div id="CO2">
@@ -191,14 +186,12 @@ export default function Page() {
         </div>
       )}
 
-      {/* FAQ */}
       {(root?.faqs?.length ?? 0) > 0 && (
         <div id="faq" className="py-10">
           <FAQ data={root?.faqs} />
         </div>
       )}
 
-      {/* Contact */}
       <div id="contact">
         <DynamicContactUs image={contactImg} />
       </div>

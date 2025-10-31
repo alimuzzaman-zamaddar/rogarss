@@ -1,87 +1,207 @@
+"use client";
+
 import Link from "next/link";
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
-import bgImg from "@/assets/service/imagesecion.png";
-import image from "@/assets/contact/contact.png";
-import IMG from "@/assets/service/imagesecion.png";
-import DynamicImageSection from "@/Components/commonComponents/DynamicImageSecion";
-import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
-import FaqSection from "@/Components/PageComponents/home/FaqSection";
-import TreatmentTechnologySection from "@/Components/commonComponents/TreatmentTechnologySection";
-import { IoArrowForward } from "react-icons/io5";
 import Container from "@/Components/commonComponents/Container";
-import { dynamicCardData, sectionBars } from "@/Components/Data/data";
+import TreatmentTechnologySection from "@/Components/commonComponents/TreatmentTechnologySection";
+import { LineSvg } from "@/Components/SvgContainer/SvgContainer";
+import FAQ from "@/Components/ServicesPage/FAQ";
+import contactImg from "@/assets/contact/contact.png";
+import FallbackImg from "@/assets/service/imagesecion.png";
+import { useConditionTreatedDetailsQuery } from "@/redux/slices/cms/conditionSlice";
+import DynamicCards from "@/Components/commonComponents/DynamicCards.tsx/page";
 
-export default function page() {
+const ASSET = process.env.NEXT_PUBLIC_ASSET_URL ?? "";
+const safe = (v?: string | null) =>
+  v && v.toString().trim().toLowerCase() !== "null" ? v : "";
+const url = (p?: string | null) =>
+  safe(p) ? `${ASSET}/${p}`.replace(/([^:]\/)\/+/g, "$1") : "";
+
+export default function Page() {
+  const { data, isLoading, error } =
+    useConditionTreatedDetailsQuery("vaginal-laxity");
+
+  if (isLoading) {
+    return (
+      <Container>
+        <div className="py-20 text-center">Loading…</div>
+      </Container>
+    );
+  }
+  if (error) {
+    return (
+      <Container>
+        <div className="py-20 text-center">Failed to load content.</div>
+      </Container>
+    );
+  }
+
+  // API shape: { success, message, data: { faqs:[], subConditionTreats:{...} } }
+  const root = data?.data;
+  const svc = root?.subConditionTreats;
+  const det = svc?.sub_condition_treat_details;
+
+  const heading = safe(svc?.name) || safe(svc?.title) || "Low Libido";
+  const bannerDesc = safe(svc?.banner_text) || safe(svc?.description) || "";
+  const bannerImg = url(svc?.banner_image) || FallbackImg.src;
+
+  // Tabs (only include if data exists)
+  const tabs = [
+    {
+      id: 1,
+      path: "HormoneTherapy",
+      label: "Hormone Therapy",
+      enabled:
+        !!safe(det?.hormone_therapy_title) ||
+        !!safe(det?.hormone_therapy_description) ||
+        !!safe(det?.hormone_therapy_image),
+    },
+    {
+      id: 2,
+      path: "AlmaDuo",
+      label: "Alma Duo",
+      enabled:
+        !!safe(det?.alma_duo_title) ||
+        !!safe(det?.alma_duo_description) ||
+        !!safe(det?.alma_duo_image),
+    },
+    {
+      id: 3,
+      path: "CO2",
+      label: "CO2 Treatment",
+      enabled:
+        !!safe(det?.co2_treatment_title) ||
+        !!safe(det?.co2_treatment_description),
+    },
+    {
+      id: 4,
+      path: "faq",
+      label: "FAQ",
+      enabled: (root?.faqs?.length ?? 0) > 0,
+    },
+    { id: 5, path: "contact", label: "Contact", enabled: true },
+  ].filter((t) => t.enabled);
+
+  // Card blocks for alternating layout
+  const cardBlocks = [
+    (safe(det?.hormone_therapy_title) ||
+      safe(det?.hormone_therapy_description) ||
+      safe(det?.hormone_therapy_image)) && {
+      id: "HormoneTherapy",
+      image: url(det?.hormone_therapy_image) || FallbackImg.src,
+      title:
+        safe(det?.hormone_therapy_title) ||
+        "Revitalize Your Health with Hormone Therapy",
+      description:
+        safe(det?.hormone_therapy_description) ||
+        "Hormone Therapy restores hormonal balance to improve vitality, mood, and overall well-being.",
+      buttonText: "Learn More",
+      buttonClassName: "card_button_pink",
+      titleClassName: "card_title_black",
+      descriptionClassName: "card_description",
+      buttonLink: "#",
+    },
+    (safe(det?.alma_duo_title) ||
+      safe(det?.alma_duo_description) ||
+      safe(det?.alma_duo_image)) && {
+      id: "AlmaDuo",
+      image: url(det?.alma_duo_image) || FallbackImg.src,
+      title: safe(det?.alma_duo_title) || "Alma Duo",
+      description:
+        safe(det?.alma_duo_description) ||
+        "Alma Duo is a non-invasive option aimed at supporting wellness and hormonal balance.",
+      buttonText: "Learn More",
+      buttonClassName: "card_button_pink",
+      titleClassName: "card_title_black",
+      descriptionClassName: "card_description",
+      buttonLink: "#",
+    },
+  ].filter(Boolean) as any[];
+
   return (
     <>
-      {/* Banner  */}
+      {/* Banner */}
       <Container>
         <BannerSection
-          bgImages={[bgImg.src, bgImg.src, bgImg.src]}
-          heading="Acne"
-          description="Smooth, Firm, and Restore Your Skin’s Youthful Glow"
+          bgImages={[bannerImg, bannerImg, bannerImg]}
+          heading={heading}
+          description={bannerDesc}
         />
       </Container>
 
-      {/* Tabs */}
+      {/* Title + Tabs */}
       <div className="pt-10 lg:pt-14 2xl:pt-20 3xl:pt-30 pb-5 xl:pb-8 2xl:pb-10">
-        <h4
-          data-aos="fade-up"
-          className="section_title !mb-2 2xl:!mb-5 text-center"
-        >
-          Acne
+        <h4 className="section_title !mb-2 2xl:!mb-5 text-center">
+          {safe(svc?.title) || heading}
         </h4>
-        <p data-aos="fade-up" className="card_description text-center">
-          Smooth, Firm, and Restore Your Skin’s Youthful Glow
+        <p className="card_description text-center">
+          {safe(svc?.description) ||
+            "Smooth, Firm, and Restore Your Skin’s Youthful Glow"}
         </p>
 
-        <div className="bg-bg-pink py-4 mt-10 3xl:mt-20">
-          <Container>
-            <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
-              {sectionBars?.map((bar) => (
-                <Link
-                  key={bar?.id}
-                  href={`#${bar?.path}`}
-                  scroll={true}
-                  className="link_text"
-                >
-                  {bar?.label}
-                  <IoArrowForward />
-                </Link>
-              ))}
-            </div>
-          </Container>
-        </div>
+        {tabs.length > 0 && (
+          <div className="bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-50">
+            <Container>
+              <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
+                {tabs.map((bar, index) => (
+                  <Link
+                    key={`${bar.id}-${bar.path}`}
+                    href={`#${bar.path}`}
+                    scroll
+                    className="link_text"
+                  >
+                    {bar.label}
+                    {index === 0 && <LineSvg />}
+                  </Link>
+                ))}
+              </div>
+            </Container>
+          </div>
+        )}
       </div>
 
-      {/* Dynamic Cards */}
-      {dynamicCardData?.map((item, index) => (
-        <div key={index}>
-          <DynamicCardSection
-            id={item?.id}
-            image={item?.image2}
-            title={item?.title}
-            description={item?.description}
-            buttonText={item?.buttonText}
-            buttonClassName={item?.buttonClassName}
-            titleClassName={item?.titleClassName}
-            descriptionClassName={item?.descriptionClassName}
-            buttonLink={item?.buttonLink}
-            index={index}
-          />
-          {index === 0 && <DynamicImageSection img={IMG} />}
-        </div>
-      ))}
+      {/* Alternating Cards (Hormone Therapy / Alma Duo) */}
+      {cardBlocks.length > 0 && (
+        <>
+          {/* Anchor divs so tabs scroll to the correct position */}
+          {cardBlocks.map((b) => (
+            <div key={b.id} id={b.id} />
+          ))}
+          <DynamicCards items={cardBlocks} />
+        </>
+      )}
 
-      <TreatmentTechnologySection
-        title="CO2 Treatment & Technology at Estevez Aesthetics"
-        title_des="At Estevez Aesthetics, we understand that today’s patients want transformative skin rejuvenation without the extended downtime. That’s why we offer the Tetra PRO CO2 laser, an advanced device delivering powerful 40W fractional resurfacing with precision and versatility. Featuring the award-winning CoolPeel® treatment and the innovative Moveo technology for smooth, in-motion application,"
-        buttonText="Learn More"
-        buttonLink="/treatment-technology"
-      />
-      <FaqSection />
-      <DynamicContactUs image={image} />
+      {/* CO2 Treatment block */}
+      {(safe(det?.co2_treatment_title) ||
+        safe(det?.co2_treatment_description)) && (
+        <div id="CO2">
+          <TreatmentTechnologySection
+            title={
+              safe(det?.co2_treatment_title) ||
+              "CO2 Treatment & Technology at Estevez Aesthetics"
+            }
+            title_des={
+              safe(det?.co2_treatment_description) ||
+              "Advanced fractional resurfacing with precision and versatility."
+            }
+            buttonText="Learn More"
+            buttonLink="/treatment-technology"
+          />
+        </div>
+      )}
+
+      {/* FAQ */}
+      {(root?.faqs?.length ?? 0) > 0 && (
+        <div id="faq" className="py-10">
+          <FAQ data={root?.faqs} />
+        </div>
+      )}
+
+      {/* Contact */}
+      <div id="contact">
+        <DynamicContactUs image={contactImg} />
+      </div>
     </>
   );
 }

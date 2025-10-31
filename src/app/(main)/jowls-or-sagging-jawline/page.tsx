@@ -23,8 +23,9 @@ const url = (p?: string | null) =>
   safe(p) ? `${ASSET}/${p}`.replace(/([^:]\/)\/+/g, "$1") : "";
 
 export default function Page() {
-  const { data, isLoading } =
-    useConditionTreatedDetailsQuery("stubborn-body-fat");
+  const { data, isLoading } = useConditionTreatedDetailsQuery(
+    "jowls-or-sagging-jawline"
+  );
 
   if (isLoading) {
     return (
@@ -38,14 +39,11 @@ export default function Page() {
   const svc = root?.subConditionTreats;
   const det = svc?.sub_condition_treat_details;
 
-
   const heading = safe(svc?.name) || safe(svc?.title) || "Service";
   const bannerDesc = safe(svc?.banner_text) || safe(svc?.description) || "";
   const bannerImg = url(svc?.banner_image) || bgImg.src;
 
-
   const sectionBars = [
-
     {
       id: 1,
       path: "BodyTite",
@@ -92,14 +90,13 @@ export default function Page() {
     },
   ].filter((x) => x.enabled);
 
-
   const dynamicCardData = [
     safe(det?.bodytite_title) ||
     safe(det?.bodytite_description) ||
     safe(det?.bodytite_image)
       ? {
           id: "BodyTite",
-          image: url(det?.bodytite_image) || IMG, 
+          image: url(det?.bodytite_image) || IMG,
           title: safe(det?.bodytite_title) || "BodyTite",
           description:
             safe(det?.bodytite_description) ||

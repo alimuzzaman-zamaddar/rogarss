@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BannerSection } from "@/Components/commonComponents/bannerSection";
 import DynamicContactUs from "@/Components/commonComponents/DynamicContactUs";
 import Container from "@/Components/commonComponents/Container";
+
 import TreatmentTechnologySection from "@/Components/commonComponents/TreatmentTechnologySection";
 import { LineSvg } from "@/Components/SvgContainer/SvgContainer";
 import FAQ from "@/Components/ServicesPage/FAQ";
@@ -19,8 +20,9 @@ const url = (p?: string | null) =>
   safe(p) ? `${ASSET}/${p}`.replace(/([^:]\/)\/+/g, "$1") : "";
 
 export default function Page() {
-  const { data, isLoading, error } =
-    useConditionTreatedDetailsQuery("low-libido");
+  const { data, isLoading, error } = useConditionTreatedDetailsQuery(
+    "brown-spots-age-spots"
+  );
 
   if (isLoading) {
     return (
@@ -37,34 +39,32 @@ export default function Page() {
     );
   }
 
-  // API shape: { success, message, data: { faqs:[], subConditionTreats:{...} } }
   const root = data?.data;
   const svc = root?.subConditionTreats;
   const det = svc?.sub_condition_treat_details;
 
-  const heading = safe(svc?.name) || safe(svc?.title) || "Low Libido";
+  const heading = safe(svc?.name) || safe(svc?.title) || "Vascular Lesions";
   const bannerDesc = safe(svc?.banner_text) || safe(svc?.description) || "";
   const bannerImg = url(svc?.banner_image) || FallbackImg.src;
 
-  // Tabs (only include if data exists)
   const tabs = [
     {
       id: 1,
-      path: "HormoneTherapy",
-      label: "Hormone Therapy",
+      path: "ClearLift",
+      label: "ClearLift",
       enabled:
-        !!safe(det?.hormone_therapy_title) ||
-        !!safe(det?.hormone_therapy_description) ||
-        !!safe(det?.hormone_therapy_image),
+        !!safe(det?.clear_lift_title) ||
+        !!safe(det?.clear_lift_description) ||
+        !!safe(det?.clear_lift_image),
     },
     {
       id: 2,
-      path: "AlmaDuo",
-      label: "Alma Duo",
+      path: "DyeVL",
+      label: "Dye-VL",
       enabled:
-        !!safe(det?.alma_duo_title) ||
-        !!safe(det?.alma_duo_description) ||
-        !!safe(det?.alma_duo_image),
+        !!safe(det?.dyevl_title) ||
+        !!safe(det?.dyevl_description) ||
+        !!safe(det?.dyevl_image),
     },
     {
       id: 3,
@@ -83,45 +83,51 @@ export default function Page() {
     { id: 5, path: "contact", label: "Contact", enabled: true },
   ].filter((t) => t.enabled);
 
-  // Card blocks for alternating layout
   const cardBlocks = [
-    (safe(det?.hormone_therapy_title) ||
-      safe(det?.hormone_therapy_description) ||
-      safe(det?.hormone_therapy_image)) && {
-      id: "HormoneTherapy",
-      image: url(det?.hormone_therapy_image) || FallbackImg.src,
-      title:
-        safe(det?.hormone_therapy_title) ||
-        "Revitalize Your Health with Hormone Therapy",
+    (safe(det?.clear_lift_title) ||
+      safe(det?.clear_lift_description) ||
+      safe(det?.clear_lift_image)) && {
+      id: "ClearLift",
+      image: det?.clear_lift_image || FallbackImg.src,
+      title: safe(det?.clear_lift_title) || "ClearLift",
       description:
-        safe(det?.hormone_therapy_description) ||
-        "Hormone Therapy restores hormonal balance to improve vitality, mood, and overall well-being.",
+        safe(det?.clear_lift_description) ||
+        "ClearLift improves texture and reduces signs of aging with advanced laser rejuvenation.",
       buttonText: "Learn More",
       buttonClassName: "card_button_pink",
       titleClassName: "card_title_black",
       descriptionClassName: "card_description",
       buttonLink: "#",
     },
-    (safe(det?.alma_duo_title) ||
-      safe(det?.alma_duo_description) ||
-      safe(det?.alma_duo_image)) && {
-      id: "AlmaDuo",
-      image: url(det?.alma_duo_image) || FallbackImg.src,
-      title: safe(det?.alma_duo_title) || "Alma Duo",
+    (safe(det?.dyevl_title) ||
+      safe(det?.dyevl_description) ||
+      safe(det?.dyevl_image)) && {
+      id: "DyeVL",
+      image: det?.dyevl_image || FallbackImg.src,
+      title: safe(det?.dyevl_title) || "Dye-VL",
       description:
-        safe(det?.alma_duo_description) ||
-        "Alma Duo is a non-invasive option aimed at supporting wellness and hormonal balance.",
+        safe(det?.dyevl_description) ||
+        "Dye-VL targets redness and vascular concerns with tailored light-based therapy.",
       buttonText: "Learn More",
       buttonClassName: "card_button_pink",
       titleClassName: "card_title_black",
       descriptionClassName: "card_description",
       buttonLink: "#",
     },
-  ].filter(Boolean) as any[];
+  ].filter(Boolean) as Array<{
+    id: string;
+    image: string;
+    title: string;
+    description: string;
+    buttonText?: string;
+    buttonClassName?: string;
+    titleClassName?: string;
+    descriptionClassName?: string;
+    buttonLink?: string;
+  }>;
 
   return (
     <>
-      {/* Banner */}
       <Container>
         <BannerSection
           bgImages={[bannerImg, bannerImg, bannerImg]}
@@ -130,7 +136,6 @@ export default function Page() {
         />
       </Container>
 
-      {/* Title + Tabs */}
       <div className="pt-10 lg:pt-14 2xl:pt-20 3xl:pt-30 pb-5 xl:pb-8 2xl:pb-10">
         <h4 className="section_title !mb-2 2xl:!mb-5 text-center">
           {safe(svc?.title) || heading}
@@ -161,18 +166,15 @@ export default function Page() {
         )}
       </div>
 
-      {/* Alternating Cards (Hormone Therapy / Alma Duo) */}
       {cardBlocks.length > 0 && (
-        <>
-          {/* Anchor divs so tabs scroll to the correct position */}
+        <div>
           {cardBlocks.map((b) => (
-            <div key={b.id} id={b.id} />
+            <div key={`anchor-${b.id}`} id={b.id} />
           ))}
           <DynamicCards items={cardBlocks} />
-        </>
+        </div>
       )}
 
-      {/* CO2 Treatment block */}
       {(safe(det?.co2_treatment_title) ||
         safe(det?.co2_treatment_description)) && (
         <div id="CO2">
@@ -191,14 +193,11 @@ export default function Page() {
         </div>
       )}
 
-      {/* FAQ */}
       {(root?.faqs?.length ?? 0) > 0 && (
         <div id="faq" className="py-10">
           <FAQ data={root?.faqs} />
         </div>
       )}
-
-      {/* Contact */}
       <div id="contact">
         <DynamicContactUs image={contactImg} />
       </div>

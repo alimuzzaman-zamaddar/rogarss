@@ -80,7 +80,7 @@ export default function page() {
         buttonText="Learn More"
         buttonLink="/treatment-technology"
       />
-      <FaqSection />
+      {/* <FaqSection /> */}
       <DynamicContactUs image={image} />
     </>
   );
