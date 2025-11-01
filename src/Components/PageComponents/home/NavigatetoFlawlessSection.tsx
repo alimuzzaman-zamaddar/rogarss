@@ -2,9 +2,9 @@
 
 import Container from "@/Components/commonComponents/Container";
 import Link from "next/link";
-import DynamicCardSection from "@/Components/commonComponents/DynamicCardSectionBlack";
-import image1 from "../../../assets/home/Image (2).png"
+
 import { LineSvg } from "@/Components/SvgContainer/SvgContainer";
+import Image from "next/image";
 
  const sectionBars = [
   { id: 1, path: "/botox", label: "Botox" },
@@ -58,18 +58,39 @@ export const NavigatetoFlawlessSection = () => {
         </Container>
       </div>
 
-      <DynamicCardSection
-        image={image1}
-        title="Morpheus8"
-        description="Reveal smoother, firmer, and more youthful-looking skin with Morpheus8 at Estevez Aesthetics. Our skilled providers use this cutting-edge treatment to help you regain confidence in your skin without surgery. "
-        buttonText="Learn More"
-        sectionSubTitle="Pdo thread lifts in Lubbock"
-        buttonClassName="card_button_pink"
-        titleClassName="card_title_pink"
-        descriptionClassName="card_description"
-        buttonLink="#"
-        index={1}
-      />
+
+      <section className="relative h-screen w-full">
+        <div className="absolute inset-0">
+          <Image
+            src="https://i.ibb.co/MkV85mmq/woman-walks-streets-chicago.jpg"
+            alt="Background Image"
+            fill
+            className="object-cover object-center"
+            unoptimized
+            priority
+          />
+        </div>
+
+        <Container>
+          <div className="absolute left-0 top-0 h-full w-full md:w-2/6 bg-secondary-black/70 bg-blur-2xl flex items-center">
+            <div className="p-8 md:p-16">
+              <h5 className="section_sub-title !text-white">
+                Pdo thread lifts in Lubbock
+              </h5>
+
+              <h2 data-aos="fade-up" className="card_title_black !text-white">
+                Morpheus8
+              </h2>
+              <p data-aos="fade-up" className="card_description !text-white">
+                Reveal smoother, firmer, and more youthful-looking skin with
+                Morpheus8 at Estevez Aesthetics. Our skilled providers use this
+                cutting-edge treatment to help you regain confidence in your
+                skin without surgery.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
     </div>
   );
 };
