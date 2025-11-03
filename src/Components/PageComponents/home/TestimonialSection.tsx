@@ -115,7 +115,11 @@ export default function TestimonialSection() {
                       </div>
 
                       {/* Right */}
-                      <div className="relative shrink-0 w-full lg:w-[300px] xl:w-[350px] 2xl:w-[402px]">
+                      <div
+                        data-aos="flip-down"
+                        data-aos-duration="1000"
+                        className="relative shrink-0 w-full lg:w-[300px] xl:w-[350px] 2xl:w-[402px]"
+                      >
                         <Image
                           data-aos="fade-up"
                           src={imgURL(t.image)}

@@ -46,7 +46,11 @@ const VideoSection = ({
       {description && <p className={descriptionClassName}>{description}</p>}
 
       <div className="flex flex-col justify-between gap-5">
-        <div className="relative w-full h-[80%] overflow-hidden">
+        <div
+          data-aos="flip-left"
+          data-aos-duration="1500"
+          className="relative w-full h-[80%] overflow-hidden"
+        >
           {/* Thumbnail background image */}
           {!isPlaying && (
             <img

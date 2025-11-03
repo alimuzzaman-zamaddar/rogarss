@@ -33,7 +33,11 @@ const DynamicServiceContentForService: React.FC<ServiceProps> = ({
           console.log(service, "from service"),
           (
             <div key={index} className="service-category">
-              <div className="relative w-full object-cover h-[220px] 3xl:h-[400px] shadow-[4px_-3px_26px_3px_rgba(0,0,0,0.15)]">
+              <div
+                data-aos="flip-left"
+                data-aos-duration="1500"
+                className="relative w-full object-cover h-[220px] 3xl:h-[400px] shadow-[4px_-3px_26px_3px_rgba(0,0,0,0.15)]"
+              >
                 <Image
                   src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${service.image}`}
                   alt={service.title}

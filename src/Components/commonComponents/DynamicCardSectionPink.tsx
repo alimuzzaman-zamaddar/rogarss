@@ -26,7 +26,11 @@ const DynamicCardSectionPink = ({
               {description}
             </p>
           </div>
-          <div className="w-full 3xl:w-[35%] flex relative">
+          <div
+            data-aos="flip-left"
+            data-aos-duration="1500"
+            className="w-full 3xl:w-[35%] flex relative"
+          >
             <Image
               className="h-[300px] md:h-[400px] lg:h-[500px] 2xl:h-[650px] w-full object-cover"
               src={image}

@@ -10,9 +10,8 @@ export const AeshteticsSection = () => {
       <Container>
         <div className="flex flex-col lg:flex-row gap-7 xl:gap-10 3xl:gap-20">
           {/* Left */}
-          <div className="flex-1">
+          <div data-aos="flip-left" data-aos-duration="1000" className="flex-1">
             <Image
-              data-aos="fade-up"
               src={AeshteticsSectionS}
               alt="contact image"
               className="w-full h-fit md:h-[500px] xl:h-[550px] 2xl:h-[650px] 3xl:h-[800px] object-cover"

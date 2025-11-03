@@ -13,7 +13,11 @@ const DynamicCardSection = ({
         <div
           className={`flex flex-col justify-center items-center gap-5 xl:gap-10 3xl:gap-20 xl:flex-row `}
         >
-          <div className="w-full 3xl:w-[35%] flex relative">
+          <div
+            data-aos="flip-left"
+            data-aos-duration="1500"
+            className="w-full 3xl:w-[35%] flex relative"
+          >
             <Image
               className="h-[300px] md:h-[400px] lg:h-[500px] 2xl:h-[650px] w-full object-cover"
               src={image}

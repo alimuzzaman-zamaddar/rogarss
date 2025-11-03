@@ -23,7 +23,11 @@ export const BeforeAfter = (before: any) => {
       <Container>
         <div className="flex flex-col xl:flex-row gap-5 lg:gap-7 xl:gap-10 3xl:gap-20">
           {/* Left */}
-          <div className="flex-1 w-full xl:w-1/2">
+          <div
+            data-aos="flip-left"
+            data-aos-duration="1000"
+            className="flex-1 w-full xl:w-1/2"
+          >
             <Swiper
               spaceBetween={20}
               slidesPerView={1}
@@ -72,7 +76,10 @@ export const BeforeAfter = (before: any) => {
           </div>
 
           {/* Right */}
-          <div className="flex-1 w-full xl:w-1/2 flex flex-col justify-center">
+          <div
+            data-aos="flip-down"
+            className="flex-1 w-full xl:w-1/2 flex flex-col justify-center"
+          >
             <p className="section_sub-title">
               {before?.before?.afterBefore?.sub_title}
             </p>

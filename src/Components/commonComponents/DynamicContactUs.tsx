@@ -71,7 +71,9 @@ const DynamicContactUs = ({ image }: any) => {
                   />
                   {errors.name && (
                     <p className="text-red-500 text-xs mt-1">
-                      {typeof errors.name === "string" ? errors.name : (errors.name as any)?.message}
+                      {typeof errors.name === "string"
+                        ? errors.name
+                        : (errors.name as any)?.message}
                     </p>
                   )}
                 </div>
@@ -93,7 +95,9 @@ const DynamicContactUs = ({ image }: any) => {
                   />
                   {errors.email && (
                     <p className="text-red-500 text-xs mt-1">
-                      {typeof errors.email === "string" ? errors.email : (errors.email as any)?.message}
+                      {typeof errors.email === "string"
+                        ? errors.email
+                        : (errors.email as any)?.message}
                     </p>
                   )}
                 </div>
@@ -114,7 +118,9 @@ const DynamicContactUs = ({ image }: any) => {
                   />
                   {errors.number && (
                     <p className="text-red-500 text-xs mt-1">
-                      {typeof errors.number === "string" ? errors.number : (errors.number as any)?.message}
+                      {typeof errors.number === "string"
+                        ? errors.number
+                        : (errors.number as any)?.message}
                     </p>
                   )}
                 </div>
@@ -130,7 +136,9 @@ const DynamicContactUs = ({ image }: any) => {
                   />
                   {errors.comments && (
                     <p className="text-red-500 text-xs mt-1">
-                      {typeof errors.comments === "string" ? errors.comments : (errors.comments as any)?.message}
+                      {typeof errors.comments === "string"
+                        ? errors.comments
+                        : (errors.comments as any)?.message}
                     </p>
                   )}
                 </div>
@@ -154,7 +162,9 @@ const DynamicContactUs = ({ image }: any) => {
                 </div>
                 {errors.terms && (
                   <p className="text-red-500 text-xs mt-1">
-                    {typeof errors.terms === "string" ? errors.terms : (errors.terms as any)?.message}
+                    {typeof errors.terms === "string"
+                      ? errors.terms
+                      : (errors.terms as any)?.message}
                   </p>
                 )}
 
@@ -176,7 +186,7 @@ const DynamicContactUs = ({ image }: any) => {
           </div>
 
           {/* Right Side Image */}
-          <div data-aos="fade-up" className="flex-1">
+          <div data-aos="flip-left" data-aos-duration="1500" className="flex-1">
             <Image
               src={image}
               alt="contact image"

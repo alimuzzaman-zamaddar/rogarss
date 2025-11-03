@@ -7,13 +7,15 @@ const DynamicImageSection = ({ img, isBox, cardData }: DynamicImageProps) => {
   console.log(cardData,"from card data");
   return (
     <section className={`relative ${isBox ? "3xl:mb-80" : ""}`}>
-      <Image
-        className="w-full h-[400px] lg:h-[450px] 2xl:h-[90vh] object-cover"
-        src={img}
-        alt="section image"
-        width={1800}
-        height={700}
-      />
+      <div data-aos="flip-left" data-aos-duration="1500" className="">
+        <Image
+          className="w-full h-[400px] lg:h-[450px] 2xl:h-[90vh] object-cover"
+          src={img}
+          alt="section image"
+          width={1800}
+          height={700}
+        />
+      </div>
       <div className="h-12 bg-bg-pink w-full"></div>
 
       {isBox && (

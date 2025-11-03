@@ -47,9 +47,9 @@ export default function ServicesSection() {
           <Swiper
             spaceBetween={16}
             breakpoints={{
-              0: { slidesPerView: 1.2 },
-              480: { slidesPerView: 1.3 },
-              640: { slidesPerView: 1.5 },
+              0: { slidesPerView: 1 },
+              480: { slidesPerView: 1 },
+              640: { slidesPerView: 1 },
               768: { slidesPerView: 2 },
               1024: { slidesPerView: 3 },
             }}
@@ -117,8 +117,8 @@ export default function ServicesSection() {
             <div key={t.id ?? index}>
               <div
                 className="relative group overflow-hidden duration-300 transform transition-all"
-                data-aos="fade-up"
-                data-aos-duration="1200"
+                data-aos="flip-down"
+                data-aos-duration="2000"
                 data-aos-delay={`${index * 200}`}
                 data-aos-once="true"
               >

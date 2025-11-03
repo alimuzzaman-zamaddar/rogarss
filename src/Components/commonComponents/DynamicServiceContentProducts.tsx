@@ -18,7 +18,11 @@ const DynamicServiceContentProducts: React.FC<DynamicServiceContentProps> = ({
     <div className="service-container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-4 xl:gap-6 mt-10">
       {categories.map((category, index) => (
         <div key={index} className="service-category">
-          <div className="relative w-full object-cover h-[220px] 3xl:h-[400px] shadow-[4px_-3px_26px_3px_rgba(0,0,0,0.15)]">
+          <div
+            data-aos="flip-left"
+            data-aos-duration="1500"
+            className="relative w-full object-cover h-[220px] 3xl:h-[400px] shadow-[4px_-3px_26px_3px_rgba(0,0,0,0.15)]"
+          >
             <Image
               src={category.image}
               alt={category.name}

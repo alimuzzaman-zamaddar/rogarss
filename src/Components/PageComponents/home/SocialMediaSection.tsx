@@ -39,13 +39,15 @@ export const SocialMediaSection = () => {
       aria-label="Social media links"
     >
       <Container>
-        <div data-aos="fade-up">
+        <div data-aos="flip-up">
           <Heading
+            data-aos="flip-down"
             Variant="h3"
             Txt="Share your Success with Us!"
             className="section_title !text-white text-center !mb-3 lg:!mb-4"
           />
           <Paragraph
+            data-aos="flip-up"
             Txt="Follow us on these social channels to stay up-to-date with all of our Sparkle!"
             className="section_description !text-white text-center mb-10"
           />
@@ -62,13 +64,17 @@ export const SocialMediaSection = () => {
         )}
 
         {!isLoading && rows.length > 0 && (
-          <div className="flex justify-center gap-6">
+          <div
+            data-aos="flip-up"
+            data-aos-duration="1000"
+            className="flex justify-center gap-6"
+          >
             {rows
               .filter((r) => !!r.profile_link)
               .map((r) => {
                 const key = r.social_media?.toLowerCase().trim();
                 const Icon = iconMap[key];
-                if (!Icon) return null; 
+                if (!Icon) return null;
 
                 return (
                   <a

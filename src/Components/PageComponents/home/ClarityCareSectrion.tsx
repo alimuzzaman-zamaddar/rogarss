@@ -33,7 +33,7 @@ export const ClarityCareSectrion = () => {
               <IoArrowForward />
             </button>
           </div>
-          <div data-aos="fade-up" className="flex-1">
+          <div data-aos="flip-left" data-aos-duration="1000" className="flex-1">
             <Image
               src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${data?.data?.stuff?.image_url}`}
               height={800}

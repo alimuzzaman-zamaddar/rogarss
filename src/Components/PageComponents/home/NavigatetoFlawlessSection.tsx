@@ -7,14 +7,17 @@ import { LineSvg } from "@/Components/SvgContainer/SvgContainer";
 import Image from "next/image";
 
  const sectionBars = [
-  { id: 1, path: "/botox", label: "Botox" },
-  { id: 2, path: "/dsport", label: "Dysport" },
-  { id: 3, path: "dermal", label: "Dermal Fillers" },
-  { id: 4, path: "morpheus8", label: "Morpheus8" },
-  { id: 5, path: "plasma", label: "Opus Plasma" },
-  { id: 6, path: "tetra", label: "Tetra CO2" },
-  { id: 7, path: "botox", label: "ClearLift" },
-];
+   { id: 1, path: "/botox", label: "Botox" },
+   { id: 2, path: "/dysport", label: "Dysport" },
+   { id: 3, path: "/dermal-fillers", label: "Dermal Fillers" },
+   {
+     id: 4,
+     path: "/morpheus8-microneedling-skin-tightening",
+     label: "Morpheus8",
+   },
+   { id: 5, path: "/tetra-c02-laser", label: "Tetra CO2" },
+   { id: 7, path: "/clear-lift", label: "ClearLift" },
+ ];
 
 export const NavigatetoFlawlessSection = () => {
   return (
@@ -26,7 +29,6 @@ export const NavigatetoFlawlessSection = () => {
         >
           Navigate to Flawless Skin
         </h3>
-
         <p
           data-aos="fade-up"
           className="section_description mb-7 xl:mb-10 2xl:mb-12 3xl:mb-20 max-w-[1125px] text-center mx-auto"
@@ -42,11 +44,15 @@ export const NavigatetoFlawlessSection = () => {
 
       <div className="xl:block hidden bg-[#FBFBFB] py-4 mt-10 3xl:mt-20 my-20">
         <Container>
-          <div className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base">
+          <div
+            data-aos="flip-left"
+            data-aos-duration="3000"
+            className="flex flex-wrap gap-4 items-center justify-center xl:justify-between text-sm xl:text-base"
+          >
             {sectionBars?.map((bar, index) => (
               <Link
                 key={bar?.id}
-                href={`#${bar?.path}`}
+                href={`${bar?.path}`}
                 scroll={true}
                 className="link_text"
               >
@@ -57,10 +63,12 @@ export const NavigatetoFlawlessSection = () => {
           </div>
         </Container>
       </div>
-
-
       <section className="relative h-screen w-full">
-        <div className="absolute inset-0">
+        <div
+          data-aos="zoom-in"
+          data-aos-duration="2000"
+          className="absolute inset-0"
+        >
           <Image
             src="https://i.ibb.co/MkV85mmq/woman-walks-streets-chicago.jpg"
             alt="Background Image"
@@ -70,9 +78,12 @@ export const NavigatetoFlawlessSection = () => {
             priority
           />
         </div>
-
         <Container>
-          <div className="absolute left-0 top-0 h-full w-full md:w-2/6 bg-secondary-black/70 bg-blur-2xl flex items-center">
+          <div
+            data-aos="flip-left"
+            data-aos-duration="3000"
+            className="absolute left-0 top-0 h-full w-full md:w-2/6 bg-secondary-black/70 bg-blur-2xl flex items-center"
+          >
             <div className="p-8 md:p-16">
               <h5 className="section_sub-title !text-white">
                 Pdo thread lifts in Lubbock
