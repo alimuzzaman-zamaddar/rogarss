@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import React from "react";
 import { useForm } from "react-hook-form";
 import Container from "@/Components/commonComponents/Container";
 import { IoArrowForward } from "react-icons/io5";
